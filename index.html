@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学习助手 · 四门主课 公式速记 · 习题练习</title>
+<style>
+/* ============ 学习助手 · 基础样式（v3.11：全站深色——课程页与首页同款黑色机械风，首页白卡 3D 封面保留） ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  /* v3.11 全站暗色板（与首页 #0a1120 系列同族） */
+  --bg: #0b1220;
+  --card: #0f1b2e;
+  --ink: #e2e8f0;
+  --muted: #94a3b8;
+  --line: rgba(148, 163, 184, .16);
+  --primary: #2563eb;
+  --primary-soft: rgba(59, 130, 246, .22);
+  --accent: #f59e0b;
+  --ok: #16a34a;
+  --bad: #dc2626;
+  --link: #60a5fa;
+  --radius: 14px;
+  --shadow: 0 1px 3px rgba(2, 6, 16, .45), 0 6px 18px rgba(2, 6, 16, .35);
+}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ---------- 小程序外壳：顶部导航条（返回 + 居中标题 + 右侧胶囊装饰，v3.15） ---------- */
+.mp-bar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 48px; padding: 0 10px;
+  background: rgba(9, 15, 27, .78);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(148, 163, 184, .16);
+}
+.mp-title {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-size: 16px; font-weight: 700; letter-spacing: 1px; color: #e2e8f0;
+  white-space: nowrap; max-width: 52vw; overflow: hidden; text-overflow: ellipsis;
+}
+.mp-back {
+  border: 1.5px solid rgba(148, 163, 184, .3); background: rgba(148, 163, 184, .06);
+  color: #cbd5e1; font-size: 13px; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+  transition: all .15s;
+}
+.mp-back:hover { border-color: var(--link); color: var(--link); }
+.mp-capsule { display: flex; gap: 5px; }
+.mp-capsule i {
+  width: 26px; height: 15px; border-radius: 6px;
+  border: 1.5px solid rgba(148, 163, 184, .4); background: rgba(148, 163, 184, .08);
+}
+
+/* ---------- 布局 ---------- */
+main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
+.view { display: none; }
+.view.active { display: block; animation: fade .25s ease; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+.hidden { display: none !important; }
+.loading { color: var(--muted); text-align: center; padding: 40px 0; }
+
+/* ---------- 小程序外壳：底部 Tab 栏（v3.15） ---------- */
+.mp-tabbar {
+  position: fixed; left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 100%; max-width: 1040px; z-index: 30;
+  display: flex;
+  background: rgba(9, 15, 27, .92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(148, 163, 184, .16);
+  box-shadow: 0 -6px 18px rgba(2, 6, 16, .35);
+}
+.mp-tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px; padding: 7px 0 8px; text-decoration: none; color: #7c8ba1;
+  font-size: 10.5px; letter-spacing: .5px; user-select: none; text-align: center;
+}
+.mp-tab .ico { font-size: 17px; line-height: 1.2; }
+.mp-tab.active { color: #60a5fa; }
+.mp-tab.active::after {
+  content: ''; width: 15px; height: 3px; border-radius: 2px; margin-top: 3px;
+  background: linear-gradient(90deg, #2563eb, #0d9488);
+}
+.site-foot { padding-bottom: 96px; }
+
+/* ---------- 我的/关于页（v3.15） ---------- */
+#view-about { max-width: 640px; margin: 0 auto; }
+.about-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+  padding: 22px 20px 18px; box-shadow: var(--shadow);
+}
+.ab-head { font-size: 22px; font-weight: 800; display: flex; align-items: baseline; gap: 8px; }
+.ab-head .ab-emoji { font-size: 20px; }
+.ab-head small { font-size: 12px; color: var(--muted); font-weight: 400; }
+.ab-sub { font-size: 12.5px; color: var(--muted); margin: 4px 0 14px; }
+.ab-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 16px; }
+.ab-stat {
+  background: #0d1830; border: 1px solid var(--line); border-radius: 12px;
+  padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.ab-stat b { font-size: 18px; font-weight: 800; }
+.ab-stat i { font-style: normal; font-size: 11px; color: var(--muted); }
+.ab-list { margin: 14px 0 0; }
+.ab-list h4 { font-size: 13.5px; color: var(--link); margin-bottom: 5px; }
+.ab-list p, .ab-list li { font-size: 13px; color: #cbd5e1; }
+.ab-list a.ab-link { color: var(--link); text-decoration: underline; word-break: break-all; }
+.ab-list ul { padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.ab-per { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 4px; }
+.ab-per-item {
+  background: #0d1830; border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 10px; font-size: 13px; display: flex; flex-direction: column; gap: 2px;
+}
+.ab-per-item i { font-style: normal; font-size: 11.5px; color: var(--muted); }
+.ab-foot { margin-top: 16px; font-size: 11.5px; color: #7c8ba1; text-align: center; border-top: 1px dashed var(--line); padding-top: 12px; }
+
+/* ---------- 课程页背景：与首页同一蓝图网格（更淡），内容层盖在网格之上 ---------- */
+#view-course { position: relative; }
+#view-course::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .05) 1px, transparent 1px),
+    linear-gradient(rgba(148, 163, 184, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .08) 1px, transparent 1px);
+  background-size: 44px 44px, 44px 44px, 220px 220px, 220px 220px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 85%);
+  mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 85%);
+}
+#view-course > * { position: relative; z-index: 1; }
+
+/* ---------- 工具栏 / 筛选 ---------- */
+.toolbar { display: flex; gap: 8px; margin: 8px 0 10px; flex-wrap: wrap; }
+.search {
+  flex: 1 1 220px; min-width: 0; font-size: 14px;
+  padding: 9px 14px; border: 1.5px solid rgba(148, 163, 184, .22); border-radius: 999px;
+  outline: none; background: #0d1830; color: var(--ink); transition: border .15s;
+}
+.search::placeholder { color: rgba(148, 163, 184, .5); }
+.search:focus { border-color: var(--link); }
+.btn {
+  border: 1.5px solid var(--line); background: #0d1830; color: var(--ink);
+  padding: 7px 14px; border-radius: 999px; font-size: 13px; cursor: pointer;
+  transition: all .15s;
+}
+.btn:hover { border-color: var(--link); color: var(--link); }
+.btn.small { padding: 6px 12px; }
+.btn.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 14px; }
+.chips .chip {
+  border: 1.5px solid var(--line); background: #0d1830; color: #b6c2d4;
+  font-size: 13px; padding: 5px 13px; border-radius: 999px; cursor: pointer;
+  transition: all .15s;
+}
+.chips .chip:hover { border-color: var(--link); color: var(--link); }
+.chips .chip.on { background: var(--primary-soft); border-color: rgba(96, 165, 250, .55); color: #93c5fd; font-weight: 600; }
+.chips.small-chips .chip { font-size: 12px; padding: 4px 11px; }
+
+/* ---------- 首页：四张封面（2×2 大卡片 + 黑色机械风装饰背景） ---------- */
+#view-home {
+  position: relative;
+  min-height: calc(100vh - 128px);
+  /* 居中列布局只在激活态生效：ID 级 display 会压过 .view{display:none}，
+     若写在这里，点封面进课程后首页（报头+封面）仍会叠在课程内容上方，必须往下滚才能看到公式/习题 */
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 6px 0 40px;
+  background:
+    radial-gradient(900px 520px at 15% 6%, rgba(59, 130, 246, .16), transparent 62%),
+    radial-gradient(820px 480px at 86% 8%, rgba(139, 92, 246, .15), transparent 62%),
+    radial-gradient(1000px 560px at 82% 96%, rgba(217, 119, 6, .13), transparent 62%),
+    radial-gradient(760px 440px at 14% 94%, rgba(45, 212, 191, .13), transparent 62%),
+    linear-gradient(180deg, #0a1120 0%, #0d1524 56%, #0a101e 100%);
+}
+#view-home.active { display: flex; } /* 仅首页路由激活时启用 flex 布局 */
+.home-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+/* 蓝图网格：44px 细格 + 220px 粗格，中心清晰、四周渐隐 */
+.home-bg::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .075) 1px, transparent 1px),
+    linear-gradient(rgba(148, 163, 184, .12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .12) 1px, transparent 1px);
+  background-size: 44px 44px, 44px 44px, 220px 220px, 220px 220px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 38%, #000 28%, transparent 82%);
+  mask-image: radial-gradient(ellipse at 50% 38%, #000 28%, transparent 82%);
+}
+/* 暗角：把四周压暗，让中部封面「浮」出来 */
+.home-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(130% 95% at 50% 35%, transparent 52%, rgba(2, 6, 16, .5) 100%);
+}
+.home-bg i { position: absolute; display: block; user-select: none; pointer-events: none; }
+.home-bg i svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* 黑色机械风水印：按课程色淡着，大齿轮/小齿轮/轴承自转（啮合方向相反），其余轻微浮动 */
+.bg-gear    { width: 330px; top: 3%;    left: 2%;    color: #7dd3fc; opacity: .16; animation: bgspin 70s linear infinite; }
+.bg-cog2    { width: 110px; top: 16%;   left: 15%;   color: #38bdf8; opacity: .2;  animation: bgspin 40s linear reverse infinite; }
+.bg-bolt    { width: 170px; top: 40%;   right: 5.5%; color: #fcd34d; opacity: .16; animation: bgfloat 9s ease-in-out infinite; }
+.bg-drop    { width: 200px; bottom: 10%; left: 7%;   color: #5eead4; opacity: .18; animation: bgfloat 11s ease-in-out -3s infinite; }
+.bg-factory { width: 270px; bottom: 4%;  right: 4%;  color: #cbd5e1; opacity: .14; animation: bgfloat 10s ease-in-out -5s infinite; }
+.bg-caliper { width: 280px; top: 12%;   right: 4%;  color: #fbbf24; opacity: .15; animation: bgfloat 12s ease-in-out -2s infinite; }
+.bg-bearing { width: 150px; top: 56%;   right: 15%;  color: #94a3b8; opacity: .22; animation: bgspin 60s linear infinite; }
+.bg-piston  { width: 200px; left: 2.5%; bottom: 31%; color: #fda4af; opacity: .15; animation: bgfloat 11s ease-in-out -1s infinite; }
+@keyframes bgspin  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes bgfloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@media (prefers-reduced-motion: reduce) {
+  .home-bg i { animation: none; }
+  .c3d, .cover-card, .cover-card .cc-shine, .cover-card img.cc-cover,
+  .cc-plates, .cc-plates::before, .cc-plates::after { transition: none; }
+}
+
+/* v3.11：全站统一暗色——原首页专用的 :has 暗色规则已合并进顶栏/页脚/组件基座样式 */
+
+/* 首页报头（深色版） */
+.home-hero {
+  position: relative; z-index: 1; text-align: center; margin: 0 0 26px;
+  border-radius: 999px; padding: 10px 26px 14px;
+  background: radial-gradient(500px 130px at 50% 58%, rgba(30, 64, 175, .34), transparent 72%);
+}
+.hh-title {
+  font-size: 36px; font-weight: 800; letter-spacing: 2px; line-height: 1.2;
+  color: #e2e8f0;
+}
+.hh-title .hh-logo { margin-right: 4px; }
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .hh-title {
+    background: linear-gradient(92deg, #60a5fa 10%, #2dd4bf 52%, #fbbf24 94%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .hh-title .hh-logo { -webkit-text-fill-color: transparent; }
+}
+.hh-sub { font-size: 13.5px; color: #94a3b8; letter-spacing: 3px; margin-top: 8px; }
+.home-hero::after {
+  content: ''; display: block; width: 72px; height: 3px; margin: 14px auto 0;
+  border-radius: 2px; background: linear-gradient(90deg, #60a5fa, #2dd4bf, #fbbf24);
+  box-shadow: 0 0 12px rgba(56, 189, 248, .55);
+}
+
+.home-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;
+  width: 100%; align-items: stretch;
+  position: relative; z-index: 1;
+  /* 3D 透视起点：整张封面（含厚度层）在 hover 时朝鼠标方向微微倾斜 */
+  perspective: 1100px;
+}
+/* 3D 封面容器：网格单元。卡片 + 外部厚度层包在一起，倾斜时整体转动；
+   position:relative 且 z-index:auto → 不构成层叠上下文，
+   厚度层（z-index:-1）才会在网格层叠上下文里排在卡片白底之下 */
+.c3d { position: relative; }
+.c3d > .cover-card { height: 100%; }
+.cover-card {
+  position: relative; display: flex; flex-direction: column; text-decoration: none; color: inherit;
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+  box-shadow: 0 4px 8px -3px rgba(15, 23, 42, .14), 0 22px 40px -14px rgba(15, 23, 42, .22);
+  border-top: 4px solid var(--cc, var(--primary));
+  transition: box-shadow .22s, border-color .22s;
+  will-change: transform;
+}
+/* 3D 厚度：两层同色系「侧板」错位叠在卡片背后（向右/下伸出）。
+   必须是卡片的兄弟（不能作卡片子元素）：z-index:-1 只排在兄弟之下，
+   若作子元素会盖在不透明的卡片白底之上。用 2D translate 而非 translateZ：
+   网格透视会把远离消失点一侧的 Z 向侧板投影缩进卡片背后，靠右/靠下的
+   卡片静止时会看不出厚度；2D 叠层四张卡都稳定可见 */
+.cc-plates { position: absolute; inset: 0; z-index: -1; border-radius: 20px; }
+.cc-plates::before, .cc-plates::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+}
+.cc-plates::before { /* 第一层厚度（浅） */
+  background: var(--cc-plate, var(--cc));
+  border-radius: 5px; /* 圆角必须远小于外露量：20px 圆角会把 6-12px 的厚度条整个裁掉 */
+  transform: translate(7px, 9px);
+}
+.cc-plates::after {  /* 第二层厚度（深）+ 落地投影 */
+  background: var(--cc-deep, var(--cc));
+  border-radius: 10px;
+  transform: translate(14px, 18px);
+  box-shadow: 0 18px 34px -10px rgba(15, 23, 42, .38);
+}
+.c3d:hover { transform: translateY(-6px); } /* JS 倾斜接管时会被内联 transform 覆盖；无 JS 时保留上浮 */
+.cover-card:hover {
+  border-color: transparent;
+  box-shadow: 0 12px 22px -8px rgba(15, 23, 42, .16), 0 30px 52px -16px var(--cc, var(--primary));
+}
+.c3d:hover .cc-plates::after { box-shadow: 0 26px 40px -12px rgba(15, 23, 42, .45); }
+.cover-card img.cc-cover {
+  display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+  object-position: center; border-bottom: 1px solid var(--line);
+  /* overflow:hidden 移除后，顶角圆角改由图片自己带 */
+  border-radius: 19px 19px 0 0;
+  /* 封面图「悬浮在卡面之前」：自带 3D 投影放大一点点 + 投影，不需父级 preserve-3d */
+  transform: perspective(900px) translateZ(16px);
+  filter: drop-shadow(0 10px 12px rgba(15, 23, 42, .20));
+  transition: filter .2s;
+}
+.cover-card:hover img.cc-cover {
+  filter: brightness(1.05) saturate(1.08) drop-shadow(0 14px 18px rgba(15, 23, 42, .22));
+}
+/* 镜面高光：hover 时从封面右下方扫过一道光 */
+.cc-shine {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: 20px;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, .5) 50%, transparent 68%);
+  opacity: 0; transition: opacity .25s;
+}
+.cover-card:hover .cc-shine, .cover-card:focus-visible .cc-shine { opacity: 1; }
+.cover-card:focus-visible { outline: 2px solid var(--cc, var(--primary)); outline-offset: 3px; }
+.cc-body { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.cc-name {
+  font-size: 22px; font-weight: 800; color: var(--cc, var(--primary)); letter-spacing: .5px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.cc-name .cc-go { font-size: 13px; font-weight: 600; font-style: normal; color: var(--muted); white-space: nowrap; transition: transform .2s, color .2s; }
+.cover-card:hover .cc-name .cc-go { transform: translateX(4px); color: var(--cc, var(--primary)); }
+.cc-desc { font-size: 13px; color: var(--muted); }
+.cc-meta {
+  font-size: 12.5px; color: var(--muted); margin-top: auto;
+  border-top: 1px dashed var(--line); padding-top: 10px;
+}
+/* 全站暗色后回钉首页封面为白卡（深底白卡保持既有对比，
+   也保证 3D 厚度层 z-index:-1 排序与 plate3D 断言稳定） */
+.cover-card { background: #ffffff; border-color: #e2e8f0; color: #1e293b; }
+.cover-card .cc-desc, .cover-card .cc-meta, .cover-card .cc-name .cc-go { color: #64748b; }
+.cover-card .cc-meta { border-top-color: #e2e8f0; }
+
+/* ---------- 课程页：课程头 + 双标签 ---------- */
+.co-head {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden; margin: 6px 0 12px;
+  border-top: 4px solid var(--cc, var(--primary));
+}
+.co-banner { display: block; width: 100%; height: 148px; object-fit: cover; object-position: center; border-bottom: 1px solid var(--line); }
+.co-head-in { padding: 12px 16px 14px; }
+.co-crumb { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; display: block; }
+.co-crumb a { color: var(--link); text-decoration: none; }
+.co-crumb a:hover { text-decoration: underline; }
+.co-title-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.co-emoji { font-size: 20px; }
+/* 暗色下课程标题用每课浅色变体（app.js 注入 --cc-plate）保证对比 */
+.co-title { font-size: 18px; font-weight: 800; color: var(--cc-plate, var(--cc)); }
+.co-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.co-counts { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
+.co-counts .chip { cursor: default; }
+
+.ctabs { display: flex; gap: 6px; margin: 0 0 4px; }
+.ctab {
+  flex: 1; text-align: center; text-decoration: none; color: #b6c2d4;
+  background: #0d1830; border: 1.5px solid var(--line); padding: 9px 0;
+  border-radius: 999px; font-size: 14px; font-weight: 600; transition: all .15s;
+}
+.ctab:hover { border-color: var(--link); color: var(--link); }
+.ctab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* ---------- 课程页 · 公式分组 ---------- */
+.cat-block { margin-top: 18px; }
+.cat-block:first-child { margin-top: 6px; }
+.cat-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14.5px; font-weight: 700; margin-bottom: 4px; }
+.cat-head .chip { font-size: 11px; padding: 2px 8px; cursor: default; font-weight: 400; }
+.cat-intro { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+
+/* ---------- 卡片 ---------- */
+.cards-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 14px 15px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.chip.course-chip { font-size: 12px; padding: 3px 10px; background: var(--primary-soft); border-color: transparent; color: #93c5fd; cursor: default; }
+.favbtn {
+  border: none; background: none; font-size: 18px; cursor: pointer; line-height: 1;
+  color: #64748b; transition: transform .12s, color .12s; padding: 2px 4px;
+}
+.favbtn:hover { transform: scale(1.2); }
+.favbtn.on { color: var(--accent); }
+
+/* ---------- 习题卡（v3.12 考试风习题） ---------- */
+.case-card .cc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cc-name { font-size: 15px; font-weight: 700; }
+.cc-badge { font-size: 11px; background: rgba(245, 158, 11, .16); color: #fcd34d; border-radius: 6px; padding: 2px 8px; white-space: nowrap; }
+.case-card .cc-sub { font-size: 12px; color: var(--muted); }
+.cc-diff { color: #fbbf24; letter-spacing: 1px; }
+.case-card .highlight {
+  font-size: 13px; color: #cbd5e1; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.cc-fmlinks { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 11.5px; color: var(--muted); }
+.cc-fmlink {
+  font-size: 11.5px; line-height: 1.3; text-align: left; color: var(--link);
+  background: rgba(96, 165, 250, .08); border: 1px dashed rgba(96, 165, 250, .45);
+  border-radius: 999px; padding: 3px 10px; cursor: pointer; transition: all .15s;
+}
+.cc-fmlink:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+.cc-meta { font-size: 11.5px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+.cc-open { margin-top: 2px; text-align: right; }
+.cc-open button {
+  border: 1.5px solid rgba(96, 165, 250, .6); color: #93c5fd; background: rgba(96, 165, 250, .1);
+  font-size: 12.5px; border-radius: 999px; padding: 4px 14px; cursor: pointer; transition: all .15s;
+}
+.cc-open button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* ---------- 弹窗 ---------- */
+.modal {
+  position: fixed; inset: 0; background: rgba(2, 6, 16, .62);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 24px 12px; z-index: 50; overflow-y: auto;
+}
+.modal.hidden { display: none; }
+.modal-box {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; max-width: 620px; width: 100%;
+  padding: 20px 20px 22px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, .55);
+}
+.modal-close {
+  position: absolute; top: 10px; right: 12px; border: none; background: #1e293b;
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; color: var(--muted);
+}
+.modal-close:hover { background: #334155; }
+.modal h2 { font-size: 18px; padding-right: 30px; margin-bottom: 8px; }
+.modal .meta { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+.modal .m-field { margin: 10px 0; }
+.modal .m-field h4 { font-size: 13px; color: var(--link); margin-bottom: 3px; }
+.modal .m-field p { font-size: 13.5px; color: #cbd5e1; }
+.modal .m-points { background: rgba(148, 163, 184, .07); border: 1px solid rgba(148, 163, 184, .14); border-radius: 10px; padding: 10px 12px; margin: 6px 0; }
+.modal .m-points b { color: #93c5fd; font-size: 13px; }
+.modal .m-note { background: rgba(245, 158, 11, .1); border: 1px solid rgba(251, 191, 36, .4); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: #fde68a; white-space: pre-wrap; }
+.modal .m-link a { color: var(--link); font-size: 13px; word-break: break-all; }
+.modal .m-formula { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; margin: 8px 0; }
+.modal .m-formula .fml { width: 100%; box-sizing: border-box; margin: 0; }
+
+/* ---------- 公式卡 ---------- */
+.formula-card { scroll-margin-top: 92px; } /* 公式联动定位：避开固定顶栏 */
+.formula-card h3 { font-size: 15px; }
+.fc-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.fc-head .favbtn { margin-left: auto; }
+.chip.cat-chip { font-size: 11.5px; padding: 3px 9px; background: #0d1830; border-color: var(--line); color: var(--muted); cursor: pointer; }
+.chip.cat-chip:hover { border-color: var(--link); color: var(--link); }
+.fml {
+  font-family: "Cambria Math", "Times New Roman", Georgia, "Microsoft YaHei", serif;
+  font-size: 14px; line-height: 1.75; background: #0b1526; color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, .18); /* 与深色卡片区分边界 */
+  border-radius: 10px; padding: 11px 13px; margin: 2px 0 4px; overflow-x: auto;
+  white-space: pre-wrap; word-break: break-word; letter-spacing: .2px;
+}
+.formula-card .params { font-size: 12px; color: var(--muted); }
+.formula-card .tip { font-size: 12.5px; color: #fbbf24; background: rgba(245, 158, 11, .12); padding: 6px 10px; border-radius: 8px; }
+.formula-card .mnemonic {
+  font-size: 13px; font-weight: 600; color: #6ee7b7; background: rgba(16, 185, 129, .1);
+  border: 1px dashed rgba(52, 211, 153, .45); padding: 6px 10px; border-radius: 8px;
+}
+
+/* 公式联动高亮：脉冲光圈 2 次后自动消退 */
+@keyframes fmlPulse {
+  0% { box-shadow: 0 0 0 0 rgba(96, 165, 250, .55); }
+  100% { box-shadow: 0 0 0 18px rgba(96, 165, 250, 0); }
+}
+.formula-card.fml-hl { border-color: var(--link); animation: fmlPulse .9s ease-out 2; }
+
+/* ---------- 页脚 ---------- */
+.site-foot { text-align: center; color: #7c8ba1; font-size: 12px; padding: 18px 14px 26px; }
+.site-foot code { background: rgba(148, 163, 184, .14); color: #cbd5e1; padding: 1px 6px; border-radius: 5px; }
+
+/* ---------- 错误提示条 ---------- */
+.err-banner {
+  position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 999;
+  background: #7f1d1d; color: #fff; font-size: 12.5px; padding: 9px 12px;
+  border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.3); white-space: pre-wrap;
+}
+
+/* ---------- 小屏 ---------- */
+@media (max-width: 900px) {
+  .bg-gear    { width: 220px; }
+  .bg-cog2    { width: 80px; }
+  .bg-bolt    { width: 130px; }
+  .bg-drop    { width: 150px; }
+  .bg-factory { width: 200px; }
+  .bg-caliper { width: 200px; }
+  .bg-bearing { width: 110px; }
+  .bg-piston  { width: 150px; }
+}
+@media (max-width: 560px) {
+  main { padding: 10px 10px 96px; }
+  .mp-title { font-size: 15px; }
+  .mp-capsule i { width: 22px; height: 13px; }
+  .ab-stats { grid-template-columns: repeat(2, 1fr); }
+  .ab-per { grid-template-columns: 1fr; }
+  .tb-in { padding: 6px 10px; }
+  .brand-name { font-size: 15px; }
+  .cards-wrap { grid-template-columns: 1fr; }
+  .home-grid { grid-template-columns: 1fr; gap: 16px; }
+  .cc-name { font-size: 19px; }
+  .home-hero { margin-bottom: 18px; }
+  .hh-title { font-size: 26px; }
+  .hh-sub { font-size: 12px; letter-spacing: 2px; }
+  .bg-gear    { width: 170px; }
+  .bg-cog2    { width: 66px; }
+  .bg-bolt    { width: 100px; }
+  .bg-drop    { width: 120px; }
+  .bg-factory { width: 160px; }
+  .bg-caliper { width: 160px; }
+  .bg-bearing { width: 90px; }
+  .bg-piston  { width: 120px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 小程序外壳：顶部导航条（返回 + 居中标题 + 右侧胶囊装饰） -->
+<header class="mp-bar">
+  <button id="mp-back" class="mp-back hidden" aria-label="返回首页">‹ 返回</button>
+  <span class="mp-title" id="mp-title">学习助手</span>
+  <span class="mp-capsule" aria-hidden="true"><i></i><i></i></span>
+</header>
+
+<noscript><div style="background:#7f1d1d;color:#fff;padding:12px;text-align:center;font-size:14px">本网站需要启用 JavaScript 才能显示内容，请在浏览器设置中开启后刷新页面。</div></noscript>
+
+<main>
+  <!-- ============ 首页：只有四张课程封面 ============ -->
+  <section id="view-home" class="view active">
+    <div class="home-bg" aria-hidden="true">
+      <!-- 黑色机械风线稿水印：齿轮啮合组 / 六角螺栓 / 游标卡尺 / 液压油滴 / 深沟球轴承 / 液压缸 / 工厂剪影 -->
+      <i class="bg-gear"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><circle cx="100" cy="100" r="50" stroke-width="13" stroke-dasharray="22 17.5"/><circle cx="100" cy="100" r="38" stroke-width="4"/><circle cx="100" cy="100" r="14" stroke-width="4"/><path stroke-width="3.5" d="M100 66 V46 M100 134 V154 M66 100 H46 M134 100 H154 M76 76 L62 62 M124 76 L138 62 M76 124 L62 138 M124 124 L138 138"/></g></svg></i>
+      <i class="bg-cog2"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><circle cx="100" cy="100" r="52" stroke-width="14" stroke-dasharray="20 16.3"/><circle cx="100" cy="100" r="36" stroke-width="4"/><circle cx="100" cy="100" r="12" stroke-width="4"/><path stroke-width="3" d="M100 62 V48 M100 138 V152 M62 100 H48 M138 100 H152"/></g></svg></i>
+      <i class="bg-bolt"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><path stroke-width="6" d="M100 8 L121 19 L121 41 L100 52 L79 41 L79 19 Z"/><path stroke-width="6" d="M92 52 h16 v118 h-16 z"/><path stroke-width="5" opacity=".8" d="M92 70 h16 M92 84 h16 M92 98 h16 M92 112 h16 M92 126 h16 M92 140 h16 M92 154 h16"/></g></svg></i>
+      <i class="bg-drop"><svg viewBox="0 0 200 200"><path d="M100 18 C 62 82 30 122 30 150 A 70 70 0 0 0 170 150 C 170 122 138 82 100 18 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><path d="M100 74 C 75 112 54 138 54 154" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" opacity=".65"/></svg></i>
+      <i class="bg-factory"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><path stroke-width="6" d="M36 196 V132 L52 124 V150 H84 V104 L100 96 V150 H128 V118 L144 110 V150 H164 V196 Z"/><line x1="36" y1="196" x2="164" y2="196" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><rect x="42" y="56" width="14" height="34" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="52" cy="44" r="8" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="66" cy="30" r="6" fill="none" stroke="currentColor" stroke-width="5" opacity=".6"/><rect x="72" y="164" width="16" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="5"/><rect x="126" y="164" width="16" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="5"/></g></svg></i>
+      <i class="bg-caliper"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="6"><path d="M16 60 h168 M16 74 h168"/><path d="M16 60 v96 h40 v-82"/><path d="M56 60 v96 h144 v-96"/><path opacity=".75" d="M56 108 h144 M56 122 h144 M56 136 h144"/><path opacity=".6" d="M112 60 v96 M132 60 v96 M152 60 v96"/><circle cx="188" cy="44" r="6"/></g></svg></i>
+      <i class="bg-bearing"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><circle cx="100" cy="100" r="78" stroke-width="9"/><circle cx="100" cy="100" r="52" stroke-width="4" opacity=".7"/><circle cx="100" cy="100" r="26" stroke-width="7"/><circle cx="100" cy="38" r="11" stroke-width="4"/><circle cx="162" cy="100" r="11" stroke-width="4"/><circle cx="100" cy="162" r="11" stroke-width="4"/><circle cx="38" cy="100" r="11" stroke-width="4"/><circle cx="154" cy="69" r="11" stroke-width="4"/><circle cx="46" cy="131" r="11" stroke-width="4"/></g></svg></i>
+      <i class="bg-piston"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="6"><rect x="26" y="74" width="148" height="52" rx="6"/><rect x="26" y="62" width="22" height="76" rx="5"/><path d="M48 100 h28 M48 112 h28" opacity=".75"/><path d="M76 86 h26 M76 114 h26" opacity=".7"/><rect x="128" y="90" width="46" height="20" rx="3"/><path stroke-width="5" d="M26 92 v-18 M44 74 v-12"/><path stroke-width="5" d="M26 108 v18 M44 128 v8"/></g></svg></i>
+    </div>
+    <div class="home-hero">
+      <h1 class="hh-title"><span class="hh-logo">📚</span> 学习助手</h1>
+      <p class="hh-sub">机械设计 · 电子技术 · 液压气动 · 装备设计</p>
+    </div>
+    <div id="home-list" class="home-grid"><p class="loading">加载中…</p></div>
+  </section>
+
+  <!-- ============ 课程页 ============ -->
+  <section id="view-course" class="view">
+    <div id="course-head"></div>
+    <div id="course-tabs"></div>
+    <div id="co-formula-pane">
+      <div class="toolbar">
+        <input id="cof-search" class="search" type="search" placeholder="🔍 搜本课公式/知识点，如：欧拉、虚短、节流、自锁…">
+        <button id="cof-favtoggle" class="btn small">⭐ 只看收藏</button>
+      </div>
+      <div id="cof-cats" class="chips"></div>
+      <div id="cof-list"><p class="loading">加载中…</p></div>
+    </div>
+    <div id="co-cases-pane" class="hidden">
+      <div class="toolbar">
+        <input id="coc-search" class="search" type="search" placeholder="🔍 搜本课习题/考点，如：螺栓、差动、定位误差…">
+      </div>
+      <div id="coc-cates" class="chips"></div>
+      <div id="coc-scenes" class="chips small-chips"></div>
+      <div id="coc-list"><p class="loading">加载中…</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 我的/关于页（小程序外壳 4 Tab 之一） ============ -->
+  <section id="view-about" class="view">
+    <div class="about-card">
+      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.0</small></div>
+      <p class="ab-sub">四门主课 · 公式速记 + 考试风习题（学术科技创新实践——科技创新成果分享会作品）</p>
+      <div id="ab-stats" class="ab-stats"></div>
+      <div class="ab-list">
+        <h4>📁 课程内容</h4>
+        <div id="ab-per" class="ab-per"></div>
+      </div>
+      <div class="ab-list">
+        <h4>⭐ 我的收藏</h4>
+        <p id="ab-fav"></p>
+      </div>
+      <div class="ab-list">
+        <h4>💡 使用提示</h4>
+        <ul>
+          <li>首页点封面进入课程，切换「公式速记 / 习题练习」标签。</li>
+          <li>公式卡带分类与记忆口诀，可在搜索框按知识点快速定位。</li>
+          <li>习题卡点「查看答案与解析」看详解；「涉及公式」一键跳回公式速记并高亮。</li>
+          <li>收藏后用「⭐ 只看收藏」集中复习。</li>
+        </ul>
+      </div>
+      <div class="ab-list">
+        <h4>🌐 在线访问（手机 / 电脑通用）</h4>
+        <p><a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>：已发布到 GitHub Pages，手机电脑随时打开；每次更新后几分钟内线上即可见。</p>
+      </div>
+      <div class="ab-list">
+        <h4>📱 离线兜底</h4>
+        <p>单文件零依赖：电脑双击「学习助手.html」即可打开；发到手机可用浏览器离线查看。</p>
+      </div>
+      <p class="ab-foot">学习助手 v4.0 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>学习助手 v4.0（2026-11-16）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 4 Tab（首页/公式/习题/我的）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 全站深色机械风 · 首页 2×2 白色 3D 封面点击直达该课 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
+</footer>
+
+<!-- 小程序外壳：底部 Tab 栏 -->
+<nav class="mp-tabbar" id="mp-tabbar">
+  <a class="mp-tab active" data-tab="home" href="#/"><span class="ico">🏠</span>首页</a>
+  <a class="mp-tab" data-tab="formula"><span class="ico">🧮</span>公式</a>
+  <a class="mp-tab" data-tab="cases"><span class="ico">✏️</span>习题</a>
+  <a class="mp-tab" data-tab="about" href="#/about"><span class="ico">ℹ️</span>我的</a>
+</nav>
+
+<!-- 习题答案弹窗 -->
+<div id="case-modal" class="modal hidden">
+  <div class="modal-box">
+    <button id="modal-close" class="modal-close" aria-label="关闭">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+
+
+<script>
+/* ============ 学习助手 · 本学期四门主课数据（v3.13 公式扩充） ============
+   结构：课程 → 分类(categories) → 公式(formulas)
+   formula 字段：id / title / formula(公式本体) / params(变量说明，可空) /
+                 tip(记忆要点) / mnemonic(一句话口诀) / img(可选的速记图Key)
+*/
+window.KC_COURSES = [
+  {
+    "id": "jixiesheji",
+    "name": "机械设计",
+    "book": "机械设计（第十一版）· 濮良贵 等",
+    "emoji": "🔩",
+    "color": "#2563eb",
+    "cover": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzFlM2E4YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMyNTYzZWIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM2I4MmY2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0gMjggMCBMIDAgMCAwIDI4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIwLjEwIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDwvcGF0dGVybj4KICAgIDxtYXJrZXIgaWQ9ImFyciIgbWFya2VyV2lkdGg9IjEwIiBtYXJrZXJIZWlnaHQ9IjEwIiByZWZYPSI1IiByZWZZPSI1IiBvcmllbnQ9ImF1dG8iIG1hcmtlclVuaXRzPSJzdHJva2VXaWR0aCI+CiAgICAgIDxwYXRoIGQ9Ik0wLDAgTDEwLDUgTDAsMTAgeiIgZmlsbD0iI2JmZGJmZSIvPgogICAgPC9tYXJrZXI+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0ODAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDxyZWN0IHdpZHRoPSI0ODAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CgogIDwhLS0g5bC65a+45qCH5rOoIC0tPgogIDxsaW5lIHgxPSI5OCIgeTE9IjUyIiB4Mj0iMzgyIiB5Mj0iNTIiIHN0cm9rZT0iI2JmZGJmZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1zdGFydD0idXJsKCNhcnIpIiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KICA8dGV4dCB4PSIyNDAiIHk9IjQyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGJlYWZlIiBmb250LWZhbWlseT0iJ01pY3Jvc29mdCBZYUhlaScsJ1BpbmdGYW5nIFNDJyxzYW5zLXNlcmlmIj5kPC90ZXh0PgogIDxsaW5lIHgxPSIxNDAiIHkxPSIyNDgiIHgyPSIzNDAiIHkyPSIyNDgiIHN0cm9rZT0iI2JmZGJmZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1zdGFydD0idXJsKCNhcnIpIiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KICA8dGV4dCB4PSIyNDAiIHk9IjIzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RiZWFmZSIgZm9udC1mYW1pbHk9IidNaWNyb3NvZnQgWWFIZWknLCdQaW5nRmFuZyBTQycsc2Fucy1zZXJpZiI+YjwvdGV4dD4KCiAgPCEtLSDkuK3lpK7pvb/ova4gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQwLDE1MikiPgogICAgPGcgaWQ9InRlZXRoIj4KICAgICAgPHJlY3QgeD0iLTExIiB5PSItOTAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIxOCIgcng9IjMuNSIgZmlsbD0iI2ZmZmZmZiIvPgogICAgICA8cmVjdCB4PSItMTEiIHk9Ii05MCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE4IiByeD0iMy41IiBmaWxsPSIjZmZmZmZmIiB0cmFuc2Zvcm09InJvdGF0ZSgzMCkiLz4KICAgICAgPHJlY3QgeD0iLTExIiB5PSItOTAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIxOCIgcng9IjMuNSIgZmlsbD0iI2ZmZmZmZiIgdHJhbnNmb3JtPSJyb3RhdGUoNjApIi8+CiAgICAgIDxyZWN0IHg9Ii0xMSIgeT0iLTkwIiB3aWR0aD0iMjIiIGhlaWdodD0iMTgiIHJ4PSIzLjUiIGZpbGw9IiNmZmZmZmYiIHRyYW5zZm9ybT0icm90YXRlKDkwKSIvPgogICAgICA8cmVjdCB4PSItMTEiIHk9Ii05MCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE4IiByeD0iMy41IiBmaWxsPSIjZmZmZmZmIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgICAgIDxyZWN0IHg9Ii0xMSIgeT0iLTkwIiB3aWR0aD0iMjIiIGhlaWdodD0iMTgiIHJ4PSIzLjUiIGZpbGw9IiNmZmZmZmYiIHRyYW5zZm9ybT0icm90YXRlKDE1MCkiLz4KICAgICAgPHJlY3QgeD0iLTExIiB5PSItOTAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIxOCIgcng9IjMuNSIgZmlsbD0iI2ZmZmZmZiIgdHJhbnNmb3JtPSJyb3RhdGUoMTgwKSIvPgogICAgICA8cmVjdCB4PSItMTEiIHk9Ii05MCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE4IiByeD0iMy41IiBmaWxsPSIjZmZmZmZmIiB0cmFuc2Zvcm09InJvdGF0ZSgyMTApIi8+CiAgICAgIDxyZWN0IHg9Ii0xMSIgeT0iLTkwIiB3aWR0aD0iMjIiIGhlaWdodD0iMTgiIHJ4PSIzLjUiIGZpbGw9IiNmZmZmZmYiIHRyYW5zZm9ybT0icm90YXRlKDI0MCkiLz4KICAgICAgPHJlY3QgeD0iLTExIiB5PSItOTAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIxOCIgcng9IjMuNSIgZmlsbD0iI2ZmZmZmZiIgdHJhbnNmb3JtPSJyb3RhdGUoMjcwKSIvPgogICAgICA8cmVjdCB4PSItMTEiIHk9Ii05MCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE4IiByeD0iMy41IiBmaWxsPSIjZmZmZmZmIiB0cmFuc2Zvcm09InJvdGF0ZSgzMDApIi8+CiAgICAgIDxyZWN0IHg9Ii0xMSIgeT0iLTkwIiB3aWR0aD0iMjIiIGhlaWdodD0iMTgiIHJ4PSIzLjUiIGZpbGw9IiNmZmZmZmYiIHRyYW5zZm9ybT0icm90YXRlKDMzMCkiLz4KICAgIDwvZz4KICAgIDxjaXJjbGUgcj0iNzAiIGZpbGw9IiNmZmZmZmYiLz4KICAgIDxjaXJjbGUgcj0iNDUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFlM2E4YSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSIxMCA4IiBzdHJva2Utb3BhY2l0eT0iMC4zNSIvPgogICAgPGNpcmNsZSByPSIyOCIgZmlsbD0iIzFlM2E4YSIvPgogICAgPGNpcmNsZSByPSIxMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDwvZz4KCiAgPCEtLSDmoIfnrb4gLS0+CiAgPHRleHQgeD0iNDUyIiB5PSIyNzIiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiIGZvbnQtZmFtaWx5PSInTWljcm9zb2Z0IFlhSGVpJywnUGluZ0ZhbmcgU0MnLHNhbnMtc2VyaWYiPuacuuaisOiuvuiuoTwvdGV4dD4KICA8dGV4dCB4PSI0NTIiIHk9IjI5NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIxMyIgbGV0dGVyLXNwYWNpbmc9IjMiIGZpbGw9IiNkYmVhZmUiIGZvbnQtZmFtaWx5PSInTWljcm9zb2Z0IFlhSGVpJywnUGluZ0ZhbmcgU0MnLHNhbnMtc2VyaWYiPk1BQ0hJTkUgREVTSUdOPC90ZXh0Pgo8L3N2Zz4=",
+    "desc": "按零件类型复习：强度→连接→传动→轴系",
+    "categories": [
+      {
+        "id": "jiqiangdu",
+        "name": "零件的强度",
+        "emoji": "💪",
+        "intro": "疲劳强度计算与安全系数，全部零部件的'体检标准'",
+        "chapter": "第3章",
+        "formulas": [
+          { "id": "jxsj-qd-01", "title": "许用应力与安全系数", "formula": "[σ] = σ_lim / S\nσ_lim：极限应力（塑性取σ_s，脆性取σ_b）\nS：安全系数（S > 1）", "params": "[σ] 许用应力；σ_s 屈服极限；σ_b 强度极限", "tip": "先定'极限'再除以安全系数，安全系数越大越保守", "mnemonic": "极限除安全，应力放得宽" },
+          { "id": "jxsj-qd-02", "title": "应力循环特性 r", "formula": "r = σ_min / σ_max", "params": "r：循环特性；-1 ≤ r ≤ 1", "tip": "r = -1 对称循环（最危险），r = 0 脉动循环，r = 1 静应力", "mnemonic": "负一对称，零脉动，正一静止" },
+          { "id": "jxsj-qd-03", "title": "疲劳强度安全系数校核", "formula": "S_ca = σ_lim / (K_σ·σ_a + ψ_σ·σ_m) ≥ S", "params": "σ_a 应力幅；σ_m 平均应力；K_σ 综合影响系数；ψ_σ 材料常数", "tip": "对称循环时 σ_m = 0，公式会简化", "mnemonic": "幅值放大还要加系数，除完许用才安心" },
+          { "id": "jxsj-qd-04", "title": "接触应力（赫兹）", "formula": "σ_H = Z_E · √(F_n / (π·b·ρ))", "params": "Z_E 弹性系数；F_n 法向载荷；b 接触宽度；ρ 综合曲率半径", "tip": "齿轮、轴承都算接触强度，接触强度与载荷平方根成正比", "mnemonic": "压强根号里，载荷除面积" },
+          { "id": "jxsj-qd-05", "title": "寿命系数与有限寿命疲劳极限", "formula": "σ_rN = K_N · σ_r\nK_N = ⁹√(N₀ / N)（N < N₀）", "params": "σ_r 材料对称循环疲劳极限；K_N 寿命系数；N₀ 循环基数（钢材约 10⁷）；N 实际循环次数", "tip": "有限寿命区 N < N₀ 时 K_N > 1，疲劳极限提高；无限寿命区取 K_N = 1", "mnemonic": "循环次数少，极限能抬高" },
+          { "id": "jxsj-qd-06", "title": "最小安全系数选取", "formula": "S_min：一般机械取 1.3~1.5\n重要机械取 1.5~1.8，可靠性要求高取 1.8~2.5", "params": "按载荷准确度、材料均匀性、工艺与重要性选取", "tip": "安全系数越大越保守；动载荷、材料不均、重要场合取大值", "mnemonic": "载荷不准要加码，重要场合翻着档" }
+        ]
+      },
+      {
+        "id": "jiluowen",
+        "name": "螺纹连接与螺旋传动",
+        "emoji": "🔩",
+        "intro": "预紧、防松、强度校核一条龙",
+        "chapter": "第5章",
+        "formulas": [
+          { "id": "jxsj-lw-01", "title": "预紧力与拧紧力矩", "formula": "T ≈ 0.2 · F₀ · d", "params": "T 拧紧力矩；F₀ 预紧力；d 螺纹公称直径", "tip": "系数 0.2 是经验值，预紧力过大会拉断螺栓", "mnemonic": "两成直径乘预紧，拧紧力矩记心间" },
+          { "id": "jxsj-lw-02", "title": "受轴向载荷螺栓的总拉力", "formula": "F₂ = F₀ + [C_b / (C_b + C_m)] · F_e", "params": "F₂ 总拉力；F₀ 预紧力；C_b 螺栓刚度；C_m 被连接件刚度；F_e 外载荷", "tip": "括号里是被连接件的'分担比例'，螺栓刚度越小承受外载越少", "mnemonic": "外载按刚度分，柔的少担刚的多" },
+          { "id": "jxsj-lw-03", "title": "螺栓危险截面拉伸强度", "formula": "σ_ca = 1.3 F₂ / (π d₁² / 4) ≤ [σ]", "params": "F₂ 总拉力；d₁ 螺纹小径", "tip": "系数 1.3 是考虑扭转切应力的影响", "mnemonic": "1.3 倍力算截面，小径才是危险面" },
+          { "id": "jxsj-lw-04", "title": "螺旋传动的自锁条件", "formula": "ψ < ρ_v\nψ：螺旋升角；ρ_v：当量摩擦角", "params": "tan ψ = S / (π d₂)；S 导程；d₂ 中径", "tip": "自锁：不加力时螺母不自动下滑，起重螺旋必须自锁", "mnemonic": "升角小于当量摩擦角，千斤顶才不塌腰" },
+          { "id": "jxsj-lw-05", "title": "受剪螺栓剪切强度", "formula": "τ = 4F / (m · π · d₀²) ≤ [τ]", "params": "F 横向载荷；m 受剪面数；d₀ 铰制孔螺栓杆径", "tip": "铰制孔螺栓靠杆部受剪传力，不靠预紧摩擦，用于承受横向载荷", "mnemonic": "四倍载荷除面积，受剪螺栓看截面" },
+          { "id": "jxsj-lw-06", "title": "受剪螺栓挤压强度", "formula": "σ_p = F / (d₀ · L_min) ≤ [σ]_p", "params": "F 横向载荷；d₀ 杆径；L_min 杆与孔壁最小接触长度", "tip": "挤压是受剪螺栓的另一失效形式，取较薄被连接件厚度为 L_min", "mnemonic": "杆径乘厚度，挤压就住手" }
+        ]
+      },
+      {
+        "id": "jijian",
+        "name": "键、销与无键连接",
+        "emoji": "🗝️",
+        "intro": "轴毂连接的主力选手",
+        "chapter": "第6章",
+        "formulas": [
+          { "id": "jxsj-jian-01", "title": "平键联接挤压强度", "formula": "σ_p = 2T / (k · l · d) ≤ [σ]_p", "params": "T 传递转矩；k 键与毂接触高度（≈h/2）；l 键的工作长度；d 轴径", "tip": "平键靠'侧面'传力，主要失效是挤压", "mnemonic": "二倍转矩除高长径" },
+          { "id": "jxsj-jian-02", "title": "平键的剪切校核", "formula": "τ = 2T / (b · l · d) ≤ [τ]", "params": "b 键宽；其余同挤压公式", "tip": "一般情况下挤压先失效，剪切很少控制", "mnemonic": "高换宽就是剪切校核" },
+          { "id": "jxsj-jian-03", "title": "键的类型选用", "formula": "导向键→滑移；普通平键→静连接\n半圆键→载荷小；花键→对中性好、承载大", "params": "按工况选型，不套公式", "tip": "花键相当于多个键，承载和导向性都更好", "mnemonic": "花键人家兄弟多，力大对中都不错" },
+          { "id": "jxsj-jian-04", "title": "花键联接挤压强度", "formula": "σ_p = 2T / (ψ · z · h · l · d_m) ≤ [σ]_p", "params": "ψ 载荷分布不均系数（约 0.7~0.8）；z 花键齿数；h 齿工作高度；l 工作长度；d_m 平均直径", "tip": "花键多齿同时承载，承载大、对中性好，用于重载静/动连接", "mnemonic": "转矩除齿数乘高度，花键力气众人扛" },
+          { "id": "jxsj-jian-05", "title": "平键的尺寸选择", "formula": "按轴径 d 查标准取 键宽 b × 键高 h\n键长 L ≤ 轮毂宽度（取标准系列并圆整）", "params": "d 轴段直径；b、h 键截面尺寸；L 键长", "tip": "普通平键：b×h 由轴径查表，L 按轮毂长度取标准值，略短于毂宽", "mnemonic": "轴径定截面，毂宽定长度" }
+        ]
+      },
+      {
+        "id": "jidai",
+        "name": "带传动",
+        "emoji": "🎗️",
+        "intro": "靠摩擦传力，打滑是个坎",
+        "chapter": "第8章",
+        "formulas": [
+          { "id": "jxsj-dai-01", "title": "欧拉公式（临界打滑）", "formula": "F₁ / F₂ = e^(fα)\nF₁：紧边拉力；F₂：松边拉力", "params": "f 摩擦因数；α 小带轮包角（rad）", "tip": "即将打滑时成立；包角 α 越大能传的力越大", "mnemonic": "紧边是松边乘 e 的 fα 次" },
+          { "id": "jxsj-dai-02", "title": "有效圆周力", "formula": "F = F₁ − F₂ = 2T₁ / d₁", "params": "F 有效圆周力；T₁ 主动轮转矩；d₁ 小带轮基准直径", "tip": "有效拉力就是紧边减松边，跟车速过弯一个道理", "mnemonic": "紧减松是有效力" },
+          { "id": "jxsj-dai-03", "title": "带速与打滑/弹性滑动", "formula": "v = π d₁ n₁ / 60000 ≤ [v_max]（m/s）", "params": "n₁ 小轮转速 r/min；[v_max] ≈ 25 m/s", "tip": "弹性滑动不可避免（带弹性变形），打滑是过载必须避免", "mnemonic": "滑动躲不掉，打滑要喊停" },
+          { "id": "jxsj-dai-04", "title": "带传动功率", "formula": "P = F · v / 1000（kW）", "params": "F 有效圆周力 N；v 带速 m/s", "tip": "功率 = 力 × 速度，单位换算别忘除以 1000", "mnemonic": "功率就是力乘速" },
+          { "id": "jxsj-dai-05", "title": "带的基准长度（节线长）", "formula": "L_d ≈ 2a + π/2(d₁+d₂) + (d₂−d₁)²/(4a)", "params": "a 中心距；d₁、d₂ 两轮基准直径", "tip": "先估中心距算带长，再圆整到标准 L_d，反推实际中心距", "mnemonic": "两倍中心距，加半圆周长" },
+          { "id": "jxsj-dai-06", "title": "小带轮包角", "formula": "α₁ ≈ 180° − (d₂ − d₁)/a × 57.3°", "params": "d₁、d₂ 小/大带轮直径；a 中心距；α₁ 小轮包角（应 ≥ 120°）", "tip": "包角越大能传的力越大；不够时加大中心距、减小传动比或加张紧轮", "mnemonic": "直径差越大，包角越小" },
+          { "id": "jxsj-dai-07", "title": "压轴力（张紧力对轴的压力）", "formula": "F_Q ≈ 2·F₀·sin(α₁/2)", "params": "F₀ 初拉力；α₁ 小轮包角", "tip": "压轴力是带传动作用在轴上的载荷，多根带时按根数累加", "mnemonic": "两倍初拉力，正弦半包角" }
+        ]
+      },
+      {
+        "id": "jilian",
+        "name": "链传动",
+        "emoji": "⛓️",
+        "intro": "靠链条啮合传力，无打滑",
+        "chapter": "第9章",
+        "formulas": [
+          { "id": "jxsj-lian-01", "title": "链传动传动比", "formula": "i = n₁ / n₂ = z₂ / z₁", "params": "z₁、z₂ 主动/从动链轮齿数；n₁、n₂ 转速", "tip": "与齿轮一样只跟齿数有关；链轮齿数不宜过少（加剧冲击）", "mnemonic": "齿数反比定转速" },
+          { "id": "jxsj-lian-02", "title": "平均链速", "formula": "v = z₁ · p · n₁ / 60（m/s）", "params": "p 节距 mm；其余同上", "tip": "一个链节对应一个链轮齿，转速齿数节距三连乘", "mnemonic": "齿 × 节距 × 转速，除 60 得链速" },
+          { "id": "jxsj-lian-03", "title": "链传动的多边形效应", "formula": "瞬时传动比波动：\n链速随链节铰链位置变化，i_瞬时 ≠ i_平均", "params": "节距越大、齿数越少波动越明显", "tip": "链绕在正多边形上，'多边形效应'造成速度波动和冲击", "mnemonic": "链条像方轮子，走起来一颠一颠" },
+          { "id": "jxsj-lian-04", "title": "链节数计算", "formula": "L_p = 2a/p + (z₁+z₂)/2 + ((z₂−z₁)/2π)²·p/a", "params": "a 中心距；p 节距；z₁、z₂ 主动/从动链轮齿数", "tip": "算得的 L_p 圆整为整数，最好取偶数（避免过渡链节），再反推实际中心距", "mnemonic": "两倍中心距加齿和半，平方项修中心" },
+          { "id": "jxsj-lian-05", "title": "链轮齿数选取", "formula": "小链轮 z₁ ≥ 17（z_min）\n大链轮 z₂ ≤ 120（防跳齿脱链）", "params": "z₁ 小链轮齿数；z₂ 大链轮齿数", "tip": "齿数太少→多边形效应剧烈、冲击大；太多→易跳齿、脱链", "mnemonic": "小轮十七起步，大轮不过百二" }
+        ]
+      },
+      {
+        "id": "jichilun",
+        "name": "齿轮传动",
+        "emoji": "⚙️",
+        "intro": "强度两大校核：接触强度与弯曲强度",
+        "chapter": "第10章",
+        "formulas": [
+          { "id": "jxsj-cl-01", "title": "齿数比与传动比", "formula": "u = z₂ / z₁（减速 u > 1）\ni = n₁ / n₂ = z₂ / z₁", "params": "z₁、z₂ 小/大齿轮齿数", "tip": "齿数比 u 习惯 ≥ 1，考试别把方向搞反", "mnemonic": "大齿比小齿，减速大于一" },
+          { "id": "jxsj-cl-02", "title": "齿面接触强度校核", "formula": "σ_H = Z_H·Z_E·Z_ε·√[ 2KT₁/(bd₁²) · (u+1)/u ] ≤ [σ_H]", "params": "Z_H 节点区域系数；Z_E 弹性系数；Z_ε 重合度系数；K 载荷系数；T₁ 小轮转矩；b 齿宽；d₁ 分度圆直径", "tip": "接触强度与 d₁（中心距）直接相关——想提高承载就加大中心距", "mnemonic": "根号里转矩乘(差比)，中心距大它变小" },
+          { "id": "jxsj-cl-03", "title": "齿根弯曲强度校核", "formula": "σ_F = Y_F·Y_S·Y_ε·(2KT₁ / b·d₁·m) ≤ [σ_F]", "params": "Y_F 齿形系数；Y_S 应力修正系数；Y_ε 重合度系数；m 模数", "tip": "弯曲强度与模数 m 成正比——想防断齿就加大模数", "mnemonic": "模数管断齿，直径管点蚀" },
+          { "id": "jxsj-cl-04", "title": "齿轮传动载荷系数", "formula": "K = K_A · K_v · K_α · K_β", "params": "K_A 使用系数；K_v 动载系数；K_α 齿间载荷分配系数；K_β 齿向载荷分布系数", "tip": "四个 K 相乘，分别对应工况、冲击、啮合、偏载", "mnemonic": "用动间向，四项相乘" },
+          { "id": "jxsj-cl-05", "title": "软/硬齿面设计顺序", "formula": "软齿面（HBS≤350）按接触强度设计、弯曲校核\n硬齿面按弯曲强度设计、接触校核", "params": "记忆性结论", "tip": "哪个'弱'先按哪个设计；软齿面接触弱，硬齿面弯曲相对突出", "mnemonic": "软面按接触，硬面按弯曲" },
+          { "id": "jxsj-cl-06", "title": "标准直齿圆柱齿轮几何尺寸", "formula": "d = m·z\nd_a = m(z+2)\nd_f = m(z−2.5)", "params": "d 分度圆；d_a 齿顶圆；d_f 齿根圆；m 模数；z 齿数（h_a*=1，c*=0.25）", "tip": "标准齿轮 h_a*=1、c*=0.25：齿顶高 m、齿根高 1.25m，画齿轮/算尺寸必用", "mnemonic": "分度 mz，齿顶加二，齿根减二点五" },
+          { "id": "jxsj-cl-07", "title": "标准齿轮中心距与正确啮合", "formula": "a = m(z₁+z₂)/2\n正确啮合条件：m₁=m₂，α₁=α₂", "params": "a 中心距；m 模数；z₁、z₂ 齿数；α 压力角", "tip": "一对标准直齿正确啮合必须模数、压力角分别相等；中心距=分度圆半径之和", "mnemonic": "模角要相等，中心距是齿和半" }
+        ]
+      },
+      {
+        "id": "jiwo",
+        "name": "蜗杆传动",
+        "emoji": "🐌",
+        "intro": "大传动比、自锁、效率低",
+        "chapter": "第11章",
+        "formulas": [
+          { "id": "jxsj-wo-01", "title": "蜗杆传动传动比", "formula": "i = n₁ / n₂ = z₂ / z₁", "params": "z₁ 蜗杆头数；z₂ 蜗轮齿数", "tip": "注意蜗杆是'主动件'，头数少传动比大", "mnemonic": "蜗杆带头数越少越减速" },
+          { "id": "jxsj-wo-02", "title": "蜗杆直径系数 q", "formula": "q = d₁ / m", "params": "d₁ 蜗杆分度圆直径；m 模数", "tip": "直径系数是蜗杆特有的参数，保证蜗轮滚刀标准化", "mnemonic": "直径除模数就是 q" },
+          { "id": "jxsj-wo-03", "title": "自锁条件", "formula": "γ < ρ_v\nγ：蜗杆导程角；ρ_v：当量摩擦角", "params": "tan γ = z₁ / q", "tip": "自锁：只能蜗杆带动蜗轮，不能反过来（如起重装置）", "mnemonic": "导程角小于摩擦角，只能顺转不能倒" },
+          { "id": "jxsj-wo-04", "title": "蜗杆传动效率", "formula": "η = tan γ / tan(γ + ρ_v)", "params": "略有发热，重载时需校核散热", "tip": "蜗杆传动效率低、易发热，大功率要用散热装置", "mnemonic": "效率看导程角，发热要散热" },
+          { "id": "jxsj-wo-05", "title": "蜗轮分度圆直径", "formula": "d₂ = m·z₂", "params": "m 模数；z₂ 蜗轮齿数", "tip": "蜗轮分度圆与齿轮公式相同 d₂=mz₂；蜗杆分度圆 d₁=m·q 由直径系数 q 决定", "mnemonic": "蜗轮看齿数，蜗杆看 q" },
+          { "id": "jxsj-wo-06", "title": "蜗杆传动中心距", "formula": "a = m(q + z₂) / 2", "params": "m 模数；q 蜗杆直径系数；z₂ 蜗轮齿数", "tip": "中心距由模数、直径系数、蜗轮齿数共同决定；选标准 m、q 后圆整 a", "mnemonic": "q 加 z₂ 乘模数，对半是中心距" }
+        ]
+      },
+      {
+        "id": "jizhou",
+        "name": "轴",
+        "emoji": "🔄",
+        "intro": "轴的分类与弯扭合成强度",
+        "chapter": "第15章",
+        "formulas": [
+          { "id": "jxsj-zhou-01", "title": "轴按受载分类", "formula": "心轴：只受弯矩\n传动轴：只受转矩\n转轴：弯矩 + 转矩", "params": "记忆性结论", "tip": "'转轴'最常见（如减速器输入轴），'心轴'如火车轮轴", "mnemonic": "心动传转，轴轴分明" },
+          { "id": "jxsj-zhou-02", "title": "弯扭合成强度校核", "formula": "σ_ca = √(M² + (αT)²) / W ≤ [σ]", "params": "M 合成弯矩；T 转矩；α 折合系数（转矩化为当量弯矩）；W 抗弯截面系数", "tip": "α 对脉动转矩取 0.6 左右，对称取 1", "mnemonic": "弯扭正交合成，勾股定理算当量" },
+          { "id": "jxsj-zhou-03", "title": "按扭转强度估算最小轴径", "formula": "d ≥ A₀ · ³√(P / n)  （mm）", "params": "A₀ 与材料有关的系数（45钢约 126~135）；P 功率 kW；n 转速 r/min", "tip": "初估轴径用，开键槽要放大 3%~5%", "mnemonic": "A₀ 开三次方功率转速比" },
+          { "id": "jxsj-zhou-04", "title": "抗弯/抗扭截面系数", "formula": "抗弯：W = πd³/32\n抗扭：W_T = πd³/16", "params": "d 实心圆轴直径；W 抗弯截面系数；W_T 抗扭截面系数", "tip": "弯扭合成里 σ_ca = √(M²+(αT)²)/W 用的是抗弯 W；纯扭校核用 W_T", "mnemonic": "弯三十二，扭十六" },
+          { "id": "jxsj-zhou-05", "title": "轴的刚度校核", "formula": "挠度 y ≤ [y]，转角 θ ≤ [θ]\n扭角 φ ≤ [φ]（°/m）", "params": "y 最大挠度；θ 支承处转角；φ 单位长度扭角（许用值查表）", "tip": "刚度不足→变形过大→齿轮偏载、轴承卡滞；细长轴常是刚度先控制", "mnemonic": "挠转角扭角，三样都限住" }
+        ]
+      },
+      {
+        "id": "jizhoucheng",
+        "name": "滚动轴承",
+        "emoji": "🛞",
+        "intro": "寿命计算是核心考点",
+        "chapter": "第13章",
+        "formulas": [
+          { "id": "jxsj-zc-01", "title": "当量动载荷", "formula": "P = X·F_r + Y·F_a", "params": "X 径向系数；Y 轴向系数；F_r 径向载荷；F_a 轴向载荷", "tip": "只有纯径向或纯轴向时 P 取相应载荷", "mnemonic": "X 乘径向 Y 乘轴向" },
+          { "id": "jxsj-zc-02", "title": "基本额定寿命（小时）", "formula": "L_h = 10⁶ / (60n) · (C / P)^ε", "params": "C 基本额定动载荷；P 当量动载荷；ε 寿命指数（球轴承 3，滚子轴承 10/3）；n 转速", "tip": "寿命与 C/P 的 ε 次方成正比，载荷翻倍寿命剧降", "mnemonic": "C 比 P 的ε次方，除以60n" },
+          { "id": "jxsj-zc-03", "title": "修正额定寿命", "formula": "L_na = a₁·a₂·a₃ · L_h", "params": "a₁ 可靠性系数；a₂ 材料系数；a₃ 使用条件系数", "tip": "实际使用温度高、润滑差时寿命要打折", "mnemonic": "可靠材料工况，三个系数相乘" },
+          { "id": "jxsj-zc-04", "title": "角接触轴承派生轴向力", "formula": "7000AC：S = e·F_r（e≈0.68）\n7000B：S = 1.14·F_r\n30000 型：S = F_r/(2Y)", "params": "S 派生轴向力；F_r 径向载荷；e、Y 为判断系数（查表）", "tip": "角接触/圆锥滚子轴承受径向力必产生派生轴向力，算 F_a 时先画受力简图再列平衡", "mnemonic": "AC 零点六八，B 型一点一四" }
+        ]
+      },
+      {
+        "id": "jiqita",
+        "name": "滑动轴承·联轴器·弹簧",
+        "emoji": "🔗",
+        "intro": "次要零件快速过",
+        "chapter": "第12/14/16章",
+        "formulas": [
+          { "id": "jxsj-qt-01", "title": "滑动轴承压强 p", "formula": "p = F_r / (d·B) ≤ [p]", "params": "F_r 径向载荷；d 轴径；B 轴瓦宽度", "tip": "限制压强防磨损，pv 值限制发热", "mnemonic": "载荷除以直径乘宽" },
+          { "id": "jxsj-qt-02", "title": "弹簧刚度", "formula": "c = G·d⁴ / (8·D³·n)", "params": "G 切变模量；d 簧丝直径；D 弹簧中径；n 有效圈数", "tip": "簧丝细圈数多→软；簧丝粗中径小→硬", "mnemonic": "丝的四次方除以圈三次方" },
+          { "id": "jxsj-qt-03", "title": "联轴器/离合器选型", "formula": "刚性（凸缘）→严格对中\n挠性（弹性套柱销）→补偿偏移、缓冲\n安全联轴器→过载保护", "params": "按工况选型", "tip": "有冲击缓冲需求选弹性，过载保护选安全联轴器", "mnemonic": "要对中选刚性，要缓冲选弹性" },
+          { "id": "jxsj-qt-04", "title": "滑动轴承 pv 值校核", "formula": "p = F_r/(d·B) ≤ [p]\npv = p·v ≤ [pv]", "params": "p 压强；v 轴颈圆周速度 v=πdn/60000；F_r 径向载荷；d、B 轴颈直径与轴瓦宽度", "tip": "先校 p 防挤压损坏，再校 pv 限制摩擦热（温升），磨损与发热双重把关", "mnemonic": "压强限挤压，pv 限发热" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dianzi",
+    "name": "电子技术",
+    "book": "电工学下册·电子技术（第8版）· 秦曾煌 等",
+    "emoji": "⚡",
+    "color": "#7c3aed",
+    "cover": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzRjMWQ5NSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiM3YzNhZWQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYTc4YmZhIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHBhdHRlcm4gaWQ9ImRvdHMiIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIxLjQiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xNCIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDgwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNiZykiLz4KICA8cmVjdCB3aWR0aD0iNDgwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNkb3RzKSIvPgoKICA8IS0tIOeUtei3r+adv+W6lSAtLT4KICA8cmVjdCB4PSI0NCIgeT0iNDIiIHdpZHRoPSIzOTIiIGhlaWdodD0iMjE2IiByeD0iMTYiIGZpbGw9IiMwZjA1MjQiIGZpbGwtb3BhY2l0eT0iMC4zOCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4yOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KCiAgPCEtLSBQQ0Ig6LWw57q/IC0tPgogIDxnIHN0cm9rZT0iI2M0YjVmZCIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgogICAgPHBhdGggZD0iTSA3NiA5NiBMIDE0OCA5NiBMIDE2OCAxMTggTCAyMjggMTE4Ii8+CiAgICA8cGF0aCBkPSJNIDMxNiAxNDggTCAzNTIgMTQ4IEwgMzgwIDE3NiIvPgogICAgPHBhdGggZD0iTSA5NiAyMTQgTCAxNDggMjE0IEwgMTc2IDE4NiBMIDIzNiAxODYiLz4KICAgIDxwYXRoIGQ9Ik0gMzAwIDc0IEwgMzMwIDc0IEwgMzU2IDEwMCIvPgogIDwvZz4KICA8ZyBmaWxsPSIjZmNkMzRkIj4KICAgIDxjaXJjbGUgY3g9Ijc2IiBjeT0iOTYiIHI9IjYiLz4KICAgIDxjaXJjbGUgY3g9IjIyOCIgY3k9IjExOCIgcj0iNiIvPgogICAgPGNpcmNsZSBjeD0iMzgwIiBjeT0iMTc2IiByPSI2Ii8+CiAgICA8Y2lyY2xlIGN4PSI5NiIgY3k9IjIxNCIgcj0iNiIvPgogICAgPGNpcmNsZSBjeD0iMjM2IiBjeT0iMTg2IiByPSI2Ii8+CiAgICA8Y2lyY2xlIGN4PSIzMDAiIGN5PSI3NCIgcj0iNiIvPgogICAgPGNpcmNsZSBjeD0iMzU2IiBjeT0iMTAwIiByPSI2Ii8+CiAgICA8Y2lyY2xlIGN4PSIzMTYiIGN5PSIxNDgiIHI9IjYiLz4KICA8L2c+CgogIDwhLS0g6L+Q5pS+56ym5Y+3IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMiwxNTYpIj4KICAgIDxwYXRoIGQ9Ik0wLDI4IEw0NiwwIEwwLC0yOCBaIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjEyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgICA8bGluZSB4MT0iLTI2IiB5MT0iLTE0IiB4Mj0iMCIgeTI9Ii0xNCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgIDxsaW5lIHgxPSItMjYiIHkxPSIxNCIgeDI9IjAiIHkyPSIxNCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgIDxsaW5lIHgxPSI0NiIgeTE9IjAiIHgyPSI2OCIgeTI9IjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgICA8dGV4dCB4PSItMTQiIHk9Ii02IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmNkMzRkIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiI+KzwvdGV4dD4KICAgIDx0ZXh0IHg9Ii0xNCIgeT0iMTkiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmY2QzNGQiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIj7iiJI8L3RleHQ+CiAgPC9nPgoKICA8IS0tIOmXqueUtSAtLT4KICA8cG9seWdvbiBwb2ludHM9IjI1Niw4NCAxOTgsMTUyIDIyOCwxNTIgMjA2LDIxNiAyNjQsMTQ2IDIzMiwxNDYgMjU2LDg0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiM3YzNhZWQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgoKICA8IS0tIOato+W8puazoiAtLT4KICA8cGF0aCBkPSJNIDMyMiA5NiBRIDMzOCA3OCAzNTQgOTYgVCAzODYgOTYgVCA0MTggOTYiIHN0cm9rZT0iI2U5ZDVmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgoKICA8IS0tIOagh+etviAtLT4KICA8dGV4dCB4PSI0NTIiIHk9IjI3MiIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiIgZm9udC1mYW1pbHk9IidNaWNyb3NvZnQgWWFIZWknLCdQaW5nRmFuZyBTQycsc2Fucy1zZXJpZiI+55S15bel55S15a2QPC90ZXh0PgogIDx0ZXh0IHg9IjQ1MiIgeT0iMjk0IiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iMyIgZmlsbD0iI2RkZDZmZSIgZm9udC1mYW1pbHk9IidNaWNyb3NvZnQgWWFIZWknLCdQaW5nRmFuZyBTQycsc2Fucy1zZXJpZiI+RUxFQ1RSSUNBTCAmYW1wOyBFTEVDVFJPTklDUzwvdGV4dD4KPC9zdmc+",
+    "desc": "模拟电子 + 数字电子，看清电路怎么放大、怎么判断",
+    "categories": [
+      {
+        "id": "dz-bandaoti",
+        "name": "半导体器件",
+        "emoji": "🔬",
+        "intro": "二极管、稳压管、三极管的基本特性",
+        "chapter": "第1章",
+        "formulas": [
+          { "id": "dz-bd-01", "title": "二极管单向导电", "formula": "正向偏置（P>N）：导通\n反向偏置（P<N）：截止", "params": "记忆性结论；硅管正向压降约 0.7V，锗管 0.3V", "tip": "PN 结特性：正偏导通、反偏截止", "mnemonic": "高电位进 P 导通，反了就截止" },
+          { "id": "dz-bd-02", "title": "稳压管稳压原理", "formula": "工作在反向击穿区\nU_o = U_z（击穿后电压基本不变）", "params": "U_z 稳压值；需配合限流电阻限制 I_z ≤ I_zmax", "tip": "稳压管必须反接 + 串联限流电阻", "mnemonic": "反着击穿电压稳，限流电阻不能省" },
+          { "id": "dz-bd-03", "title": "三极管电流分配", "formula": "I_E = I_C + I_B\nI_C = β · I_B", "params": "I_E 发射极电流；I_C 集电极电流；I_B 基极电流；β 电流放大倍数", "tip": "放大条件：发射结正偏、集电结反偏", "mnemonic": "发射是总账，集电极 β 倍基极" },
+          { "id": "dz-bd-04", "title": "三极管的三个工作区", "formula": "截止区：U_BE < 开启电压，I_C ≈ 0\n放大区：发射结正偏、集电结反偏\n饱和区：两个结都正偏，U_CE ≈ 0.3V", "params": "记忆性结论", "tip": "放大电路工作在放大区，开关电路工作在截止/饱和区", "mnemonic": "放大一个区，开关两端走" },
+          { "id": "dz-bd-05", "title": "二极管伏安特性", "formula": "I = I_S · (e^(U/U_T) − 1)\nU_T ≈ 26 mV（室温）", "params": "I_S 反向饱和电流；U_T 温度电压当量；U 外加电压", "tip": "正偏电压超过约 0.5V 后电流指数上升；反向偏置基本截止", "mnemonic": "正偏指数涨，反偏被截住" }
+        ]
+      },
+      {
+        "id": "dz-fangda",
+        "name": "基本放大电路",
+        "emoji": "📢",
+        "intro": "共射、共集两种接法是考试主角",
+        "chapter": "第2章",
+        "formulas": [
+          { "id": "dz-fd-01", "title": "共射放大电路静态工作点", "formula": "I_BQ = (U_CC - U_BE) / R_b\nI_CQ = β · I_BQ\nU_CEQ = U_CC - I_CQ · R_c", "params": "U_CC 电源电压；U_BE ≈ 0.7V；R_b 基极电阻；R_c 集电极电阻", "tip": "先算 I_B 再算 I_C 最后 U_CE，'三步走'", "mnemonic": "基极电流算起，一推二乘三减" },
+          { "id": "dz-fd-02", "title": "电压放大倍数", "formula": "A_u = -β · (R_c ‖ R_L) / r_be", "params": "r_be ≈ 300 + (1+β)·26mV/I_EQ；R_L 负载电阻", "tip": "负号表示共射放大'反相'；r_be 是动态输入电阻", "mnemonic": "负 β 乘并联电阻除 r_be" },
+          { "id": "dz-fd-03", "title": "共集放大电路（射极跟随器）", "formula": "A_u ≈ 1（跟随，不反相）\nr_i 大；r_o 小", "params": "记忆性结论", "tip": "共集电路用做'输入级/输出级'：隔离缓冲、带负载能力强", "mnemonic": "射极跟随不放大，输入大来输出小" },
+          { "id": "dz-fd-04", "title": "静态工作点与波形失真", "formula": "Q 点偏低 → 截止失真（顶部削平）\nQ 点偏高 → 饱和失真（底部削平）", "params": "记忆性结论", "tip": "调节 R_b 可以移动 Q 点；失真了先看 Q 点高低", "mnemonic": "低了截顶，高了饱底" },
+          { "id": "dz-fd-05", "title": "输入/输出电阻", "formula": "共射：r_i = R_b ‖ r_be，r_o = R_c\n共集：r_i 很大，r_o 很小", "params": "记忆性结论", "tip": "r_i 大→信号源负担小；r_o 小→带载能力强", "mnemonic": "共射阻平常，共集两头反" },
+          { "id": "dz-fd-06", "title": "分压偏置电路静态工作点", "formula": "U_B ≈ R_b2/(R_b1+R_b2) · U_CC\nI_CQ ≈ (U_B − U_BE)/R_e\nU_CEQ ≈ U_CC − I_CQ(R_c + R_e)", "params": "R_b1、R_b2 上下偏置电阻；R_e 射极电阻；U_BE≈0.7V", "tip": "射极电阻 R_e 引入直流负反馈稳定 Q 点，I_CQ 与 β 基本无关", "mnemonic": "分压定基压，射极稳电流" },
+          { "id": "dz-fd-07", "title": "多级放大总增益", "formula": "A_u = A_u1 · A_u2 · … · A_un", "params": "A_u1、A_u2… 各级电压放大倍数", "tip": "多级放大总增益=各级增益相乘（若用分贝：20lg|A_u| = 各分贝相加）", "mnemonic": "总增益连乘，分贝相加" }
+        ]
+      },
+      {
+        "id": "dz-yunfang",
+        "name": "集成运算放大器",
+        "emoji": "🧮",
+        "intro": "虚短虚断打天下，五大基本电路",
+        "chapter": "第3章",
+        "formulas": [
+          { "id": "dz-yf-01", "title": "虚短与虚断", "formula": "虚短：u_+ ≈ u_-（同相端≈反相端）\n虚断：i_+ ≈ i_- ≈ 0（输入端不取电流）", "params": "理想运放 + 深度负反馈时成立", "tip": "分析运放电路的两把钥匙，优先判断反馈是否深度负反馈", "mnemonic": "短是电压相等，断是电流为零" },
+          { "id": "dz-yf-02", "title": "反相比例运算", "formula": "u_o = -(R_f / R₁) · u_i", "params": "R₁ 输入电阻；R_f 反馈电阻", "tip": "负号反相；放大倍数只由电阻比决定", "mnemonic": "负的反馈比输入" },
+          { "id": "dz-yf-03", "title": "同相比例运算", "formula": "u_o = (1 + R_f / R₁) · u_i", "params": "R₁、R_f 同上", "tip": "同相放大倍数是 1+ 反馈比；R₁=∞时是电压跟随器", "mnemonic": "一加反馈比，同相不反号" },
+          { "id": "dz-yf-04", "title": "加法与减法运算", "formula": "加法：u_o = -(R_f/R₁·u₁ + R_f/R₂·u₂)\n减法（差分）：u_o = R_f/R₁·(u₂ - u₁)", "params": "多个输入叠加；减法=同相加法+反相法组合", "tip": "减法电路常用于传感器差动信号放大", "mnemonic": "加负减正，各按比例" },
+          { "id": "dz-yf-05", "title": "积分与微分运算", "formula": "积分：u_o = -(1/RC)·∫u_i dt\n微分：u_o = -RC·(du_i/dt)", "params": "电容接在反馈回路是积分，接在输入端是微分", "tip": "积分电路把方波变三角波，微分把方波变尖脉冲", "mnemonic": "反着积分，正着微分" },
+          { "id": "dz-yf-06", "title": "电压跟随器", "formula": "u_o = u_i（A ≈ 1，不反相）", "params": "同相比例电路 R₁→∞（或 R_f=0）的特例", "tip": "输入阻抗极高、输出阻抗极低，作缓冲隔离级", "mnemonic": "进出电压一样，阻抗缓冲强" },
+          { "id": "dz-yf-07", "title": "有源低通滤波器截止频率", "formula": "f₀ = 1 / (2π·R·C)", "params": "R、C 一阶低通网络参数", "tip": "一阶同相低通截止频率由 RC 决定；信号频率高于 f₀ 后按 -20dB/十倍频 衰减", "mnemonic": "二派 RC 倒数，就是截止频率" }
+        ]
+      },
+      {
+        "id": "dz-fankui",
+        "name": "反馈",
+        "emoji": "🔁",
+        "intro": "会判断四种反馈，能说清负反馈的四大影响",
+        "chapter": "第4章",
+        "formulas": [
+          { "id": "dz-fk-01", "title": "反馈类型判断四步", "formula": "① 看输出端：是否直接引回→电压反馈\n② 输入端：并联（电流求和）还是串联（电压求和）\n③ 判别极性：瞬时极性法（+→- 为负反馈）", "params": "记忆性方法", "tip": "输出端引回是电压反馈；反馈到反相输入端容易构成负反馈", "mnemonic": "先看输出取电压，再看输入并串联" },
+          { "id": "dz-fk-02", "title": "负反馈对性能的四大影响", "formula": "① 放大倍数降为 1/(1+AF)\n② 展宽频带 BW 增大\n③ 减小非线性失真\n④ 稳定增益（电压串联：稳定输出电压）", "params": "A 开环增益；F 反馈系数；1+AF 反馈深度", "tip": "深负反馈下增益只由反馈网络决定（虚短虚断的由来）", "mnemonic": "增益换稳定，带宽失真双改善" },
+          { "id": "dz-fk-03", "title": "四种组态与作用", "formula": "电压串联：稳定 U_o，r_i 大（理想：r_i→∞）\n电压并联：稳定 U_o，r_i 小\n电流串联：稳定 I_o，r_i 大\n电流并联：稳定 I_o，r_i 小", "params": "记忆性结论", "tip": "欲稳定什么就'采样'什么，串联提高输入电阻", "mnemonic": "串高并低，采什么稳什么" },
+          { "id": "dz-fk-04", "title": "深度负反馈闭环增益", "formula": "A_f = A / (1 + A·F) ≈ 1/F（1+AF ≫ 1）", "params": "A 开环增益；F 反馈系数；A_f 闭环增益；1+AF 反馈深度", "tip": "深度负反馈下增益只由反馈网络决定，与 A 无关——虚短虚断的由来", "mnemonic": "反馈足够深，只剩 1/F" },
+          { "id": "dz-fk-05", "title": "负反馈自激振荡条件", "formula": "相位条件：附加相移达 180°\n幅值条件：|AF| ≥ 1", "params": "负反馈在高/低频处附加相移累计 180° 即变正反馈", "tip": "自激时输出产生持续振荡（如啸叫），需用相位补偿电容消除", "mnemonic": "相移一百八，幅值过一就自激" }
+        ]
+      },
+      {
+        "id": "dz-dianyuan",
+        "name": "直流稳压电源",
+        "emoji": "🔋",
+        "intro": "整流→滤波→稳压三步走",
+        "chapter": "第5章",
+        "formulas": [
+          { "id": "dz-dy-01", "title": "整流电路输出电压", "formula": "半波：U_o ≈ 0.45·U₂\n桥式全波：U_o ≈ 0.9·U₂", "params": "U₂ 变压器副边电压有效值", "tip": "桥式是半波的两倍，二极管承受反压不同", "mnemonic": "半四五，桥九折" },
+          { "id": "dz-dy-02", "title": "电容滤波后的电压", "formula": "桥式 + 电容滤波：U_o ≈ 1.2·U₂\n空载时 U_o ≈ √2·U₂", "params": "负载越小（R_L 越大）电容滤波效果越好", "tip": "滤波电容越大越好？注意耐压要够", "mnemonic": "桥式滤波 1.2 倍" },
+          { "id": "dz-dy-03", "title": "三端集成稳压器", "formula": "78 系列：输出正电压（如 7805 → +5V）\n79 系列：输出负电压（如 7905 → -5V）", "params": "记忆性结论", "tip": "78/79 后两位就是输出电压值，固定稳压首选", "mnemonic": "正七八负七九，后两位是电压" },
+          { "id": "dz-dy-04", "title": "稳压管稳压电路限流电阻", "formula": "(U_i - U_z) / I_zmax < R < (U_i - U_z) / I_zmin", "params": "U_i 输入电压；U_z 稳压值；I_z 稳压管电流", "tip": "限流电阻保证稳压管电流在允许范围，同时承担压差", "mnemonic": "压差除电流，两边夹出 R" },
+          { "id": "dz-dy-05", "title": "整流二极管反向电压", "formula": "桥式整流：U_RM = √2·U₂\n半波/全波：U_RM ≈ 2√2·U₂", "params": "U₂ 变压器副边电压有效值；U_RM 每管承受的最大反向电压", "tip": "选管时按 U_RM 留 1.5~2 倍裕量；桥式每管反压比全波小一半", "mnemonic": "桥式根二，全波两倍根二" },
+          { "id": "dz-dy-06", "title": "滤波电容放电时间常数", "formula": "R_L·C ≥ (3~5)·T/2", "params": "R_L 负载电阻；C 滤波电容；T 交流电周期（50Hz 时 T=20ms）", "tip": "时间常数越大放电越慢、纹波越小；负载越轻（R_L 大）滤波效果越好", "mnemonic": "三五倍半周期，电容足足的" }
+        ]
+      },
+      {
+        "id": "dz-luoji",
+        "name": "门电路与组合逻辑",
+        "emoji": "🚦",
+        "intro": "逻辑代数化简 + 常用门，数字电路打基础",
+        "chapter": "第8章",
+        "formulas": [
+          { "id": "dz-lj-01", "title": "逻辑代数基本公式", "formula": "A + AB = A（吸收律）\nA(A+B) = A\nA + A′B = A + B\nAB + A′C = AB + A′C + BC（多余项）", "params": "记忆性公式", "tip": "化简时先找公共因子，再套吸收律", "mnemonic": "吸收律消掉多余项" },
+          { "id": "dz-lj-02", "title": "摩根定律", "formula": "(A·B)′ = A′ + B′\n(A+B)′ = A′ · B′", "params": "记忆性公式", "tip": "与变或、或变与，各自取反；'长杠开花，各管各'", "mnemonic": "与或互变，取反各分家" },
+          { "id": "dz-lj-03", "title": "基本门电路表达式", "formula": "与非：Y = (A·B)′\n或非：Y = (A+B)′\n异或：Y = A⊕B = A′B + AB′\n同或：Y = A⊙B = AB + A′B′", "params": "记忆性公式", "tip": "与非门是'万能门'，任何逻辑都能只用与非门搭出来", "mnemonic": "异或：相异为 1，相同为 0" },
+          { "id": "dz-lj-04", "title": "数制转换与 8421 码", "formula": "二进制 → 十进制：按权展开\n十进制 → 二进制：除 2 取余\n8421 码：每位十进制数用 4 位二进制表示", "params": "示例：(13)₁₀ = (1101)₂", "tip": "8421 码每位 0~9，10~15 是无效码", "mnemonic": "8421 每四位，10 以上没有位" },
+          { "id": "dz-lj-05", "title": "组合逻辑电路分析步骤", "formula": "① 写各门输出表达式\n② 化简\n③ 列真值表\n④ 说明逻辑功能", "params": "记忆性方法", "tip": "分析题=写式→化简→真值表→结论", "mnemonic": "表达式真值表，功能自然到" },
+          { "id": "dz-lj-06", "title": "卡诺图化简法", "formula": "① 按变量数画方格图（相邻格只差一位）\n② 圈 1：圈越大越好、圈数越少越好\n③ 每圈消去相异变量，保留相同变量", "params": "记忆性方法", "tip": "每圈含 2ⁿ 个相邻 1；'圈大圈少'是化简最简的关键", "mnemonic": "圈大圈少，相异消掉" },
+          { "id": "dz-lj-07", "title": "常用集成门电路", "formula": "TTL 与非门：74LS00（四 2 输入与非）\nCMOS 门：4011、4001\n三态门/OC 门：输出可并联、总线传输", "params": "记忆性结论", "tip": "TTL 速度快、功耗大；CMOS 功耗低、抗干扰强；三态门有高阻态可挂总线", "mnemonic": "TTL 快、CMOS 省，三态挂总线" }
+        ]
+      },
+      {
+        "id": "dz-chufaqi",
+        "name": "触发器与计数器",
+        "emoji": "⏱️",
+        "intro": "记忆功能：一个触发器存 1 位",
+        "chapter": "第9/11章",
+        "formulas": [
+          { "id": "dz-cf-01", "title": "JK 触发器特性方程", "formula": "Qⁿ⁺¹ = J·Q′ + K′·Q", "params": "J、K 控制输入；Qⁿ 现态；Qⁿ⁺¹ 次态", "tip": "JK 功能最全：J=K=1 翻转，J=K=0 保持", "mnemonic": "J 与反 Q，K 反与 Q" },
+          { "id": "dz-cf-02", "title": "D 触发器特性方程", "formula": "Qⁿ⁺¹ = D", "params": "D 输入直接决定次态", "tip": "D 触发器'输入什么存什么'，常用于寄存器", "mnemonic": "D 就是下一态" },
+          { "id": "dz-cf-03", "title": "T 触发器与计数分频", "formula": "Qⁿ⁺¹ = T⊕Q\nn 级二进制计数器可计 2ⁿ 个数（分频 2ⁿ）", "params": "T=1 时每个 CP 翻转一次", "tip": "级联 n 个 T′ 触发器 → 2ⁿ 分频", "mnemonic": "两分频四八十六，翻倍往上走" },
+          { "id": "dz-cf-04", "title": "555 定时器（无稳态）", "formula": "f = 1.44 / [(R₁ + 2R₂)·C]", "params": "R₁、R₂ 外接电阻；C 外接电容", "tip": "输出方波；改 R、C 就能调频率——实用神器", "mnemonic": "1.44 除括号里电阻电容" },
+          { "id": "dz-cf-05", "title": "同步与异步计数", "formula": "同步：各位触发器同时翻转\n异步：逐级进位，速度快慢有别", "params": "记忆性结论", "tip": "同步计数快、异步简单；十进制计数器（74LS160 等）", "mnemonic": "同步齐步走，异步排排队" },
+          { "id": "dz-cf-06", "title": "RS 触发器特性方程", "formula": "Qⁿ⁺¹ = S + R′·Qⁿ\n（约束：S·R = 0）", "params": "S 置位端；R 复位端；Qⁿ 现态；Qⁿ⁺¹ 次态", "tip": "S=R=1 时输出不定，必须禁止（约束 SR=0）；S 置 1、R 清 0", "mnemonic": "S 置位 R 复位，双一禁止" },
+          { "id": "dz-cf-07", "title": "555 定时器（单稳态）脉宽", "formula": "t_w = 1.1·R·C", "params": "R、C 外接定时元件（单稳态接法）", "tip": "单稳态：触发一次输出一个固定宽度脉冲，做定时/整形/延时；和无稳态公式 f=1.44/(…) 别混", "mnemonic": "一点一乘 RC，脉宽定下来" }
+        ]
+      },
+      {
+        "id": "dz-moni",
+        "name": "信号发生·A/D·D/A",
+        "emoji": "📊",
+        "intro": "波形产生与数模/模数转换",
+        "chapter": "第10/12章",
+        "formulas": [
+          { "id": "dz-mn-01", "title": "RC 正弦振荡起振条件", "formula": "振幅条件：|AF| ≥ 1\n相位条件：φ_A + φ_F = 2nπ（正反馈）", "params": "A 放大倍数；F 反馈系数", "tip": "振荡电路必须满足相位平衡，且起振时 |AF|>1 稳幅后 =1", "mnemonic": "相位同相要正反馈，放大先大后稳一" },
+          { "id": "dz-mn-02", "title": "采样定理", "formula": "f_s ≥ 2·f_max", "params": "f_s 采样频率；f_max 信号最高频率", "tip": "采样率不够会产生'混叠'失真", "mnemonic": "采样两倍最高频" },
+          { "id": "dz-mn-03", "title": "D/A 与 A/D 转换", "formula": "D/A：u_o = (U_ref/2ⁿ)·(数字量加权和)\nA/D：逐次逼近型原理（比较器+寄存器）", "params": "n 位数；位数越高分辨率越高", "tip": "8 位 D/A 分辨率为 1/256，位数加一分辨率翻倍", "mnemonic": "位数越高越精细" },
+          { "id": "dz-mn-04", "title": "文氏桥 RC 正弦振荡频率", "formula": "f = 1 / (2π·R·C)", "params": "R、C 文氏桥串并联选频网络参数", "tip": "文氏桥振荡器输出正弦波，频率由 RC 决定；虚短虚断+正反馈分析", "mnemonic": "二派 RC 倒过来，正弦转起来" },
+          { "id": "dz-mn-05", "title": "电压比较器", "formula": "u_+ > u_-：输出高电平\nu_+ < u_-：输出低电平", "params": "u_+、u_- 同相/反相端输入电压；输出接近 ±U_om", "tip": "运放开环（无负反馈）工作在非线性区；过零比较器把正弦波整成方波", "mnemonic": "同相高则出高，反相高则出低" },
+          { "id": "dz-mn-06", "title": "施密特触发器（滞回比较器）", "formula": "回差电压：ΔU = U_T+ − U_T-\n（上门限与下门限不重合）", "params": "U_T+ 正向阈值；U_T- 反向阈值", "tip": "回差特性抗干扰：输入噪声不至于引起反复翻转，常用于整形与波形变换", "mnemonic": "上门限下门限，差一段不回弹" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "yeya",
+    "name": "液压与气压传动",
+    "book": "液压与气压传动（高校通用教材）",
+    "emoji": "💧",
+    "color": "#0d9488",
+    "cover": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzEzNGU0YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMwZDk0ODgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMmRkNGJmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hcmtlciBpZD0iYXJyIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjUiIHJlZlk9IjUiIG9yaWVudD0iYXV0byIgbWFya2VyVW5pdHM9InN0cm9rZVdpZHRoIj4KICAgICAgPHBhdGggZD0iTTAsMCBMMTAsNSBMMCwxMCB6IiBmaWxsPSIjYTdmM2QwIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjYmcpIi8+CiAgPGNpcmNsZSBjeD0iNDA0IiBjeT0iNDYiIHI9IjkwIiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KICA8Y2lyY2xlIGN4PSI1MiIgY3k9IjI2MiIgcj0iNzAiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPgoKICA8IS0tIOa2suWOi+e8uCAtLT4KICA8Zz4KICAgIDxyZWN0IHg9IjE3NiIgeT0iMTIwIiB3aWR0aD0iMTY4IiBoZWlnaHQ9IjYwIiByeD0iOSIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjE0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIvPgogICAgPHJlY3QgeD0iMjM4IiB5PSIxMzAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZmZmZmZiIvPgogICAgPHJlY3QgeD0iMjU4IiB5PSIxMzgiIHdpZHRoPSI4NiIgaGVpZ2h0PSIyNCIgcng9IjQiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC44OCIvPgogIDwvZz4KCiAgPCEtLSDov5sv5Ye65rK5566t5aS0IC0tPgogIDxsaW5lIHgxPSIxMjAiIHkxPSI1OCIgeDI9IjEyMCIgeTI9IjEwNCIgc3Ryb2tlPSIjYTdmM2QwIiBzdHJva2Utd2lkdGg9IjQiIG1hcmtlci1lbmQ9InVybCgjYXJyKSIvPgogIDxsaW5lIHgxPSIzMDIiIHkxPSIyMDIiIHgyPSIzMDIiIHkyPSIyNDIiIHN0cm9rZT0iI2E3ZjNkMCIgc3Ryb2tlLXdpZHRoPSI0IiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KCiAgPCEtLSDmtrLmu7QgLS0+CiAgPGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjg1Ij4KICAgIDxwYXRoIGQ9Ik0gODIgODQgQyA3MiA5NiA3MiAxMDggODIgMTEyIEMgOTIgMTA4IDkyIDk2IDgyIDg0IFoiLz4KICAgIDxwYXRoIGQ9Ik0gMTM4IDIyOCBDIDEzMCAyMzggMTMwIDI0OCAxMzggMjUxIEMgMTQ2IDI0OCAxNDYgMjM4IDEzOCAyMjggWiIvPgogIDwvZz4KCiAgPCEtLSDljovlipvooaggLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE4LDE2OCkiPgogICAgPGNpcmNsZSByPSIzOCIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjEwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41Ii8+CiAgICA8bGluZSB4MT0iLTI2IiB5MT0iLTgiIHgyPSItMTgiIHkyPSItMTgiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDxsaW5lIHgxPSItOCIgeTE9Ii0yNiIgeDI9Ii00IiB5Mj0iLTE0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8bGluZSB4MT0iMjYiIHkxPSItOCIgeDI9IjE4IiB5Mj0iLTE4IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8bGluZSB4MT0iMCIgeTE9IjAiIHgyPSIxNiIgeTI9Ii0yNiIgc3Ryb2tlPSIjZjQzZjVlIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8Y2lyY2xlIHI9IjYiIGZpbGw9IiNmZmZmZmYiLz4KICA8L2c+CgogIDwhLS0g5qCH5rOoIC0tPgogIDx0ZXh0IHg9IjQ1MiIgeT0iMjcyIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjMwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmZmZmIiBmb250LWZhbWlseT0iJ01pY3Jvc29mdCBZYUhlaScsJ1BpbmdGYW5nIFNDJyxzYW5zLXNlcmlmIj7mtrLljovmsJTliqg8L3RleHQ+CiAgPHRleHQgeD0iNDUyIiB5PSIyOTQiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIzIiBmaWxsPSIjOTlmNmU0IiBmb250LWZhbWlseT0iJ01pY3Jvc29mdCBZYUhlaScsJ1BpbmdGYW5nIFNDJyxzYW5zLXNlcmlmIj5IWURSQVVMSUMgJmFtcDsgUE5FVU1BVElDPC90ZXh0Pgo8L3N2Zz4=",
+    "desc": "流体基础→泵缸阀→回路，油路看得懂",
+    "categories": [
+      {
+        "id": "yy-liuti",
+        "name": "流体力学基础",
+        "emoji": "🌊",
+        "intro": "压力、流量、连续性方程，液压的地基",
+        "chapter": "第1~2章",
+        "formulas": [
+          { "id": "yy-lt-01", "title": "压力与帕斯卡原理", "formula": "p = F / A\n密闭容器内压力处处相等（帕斯卡原理）", "params": "F 作用力；A 作用面积；p 压力（MPa）", "tip": "液压传动'以小力控大力'的秘密：面积不同压力乘面积", "mnemonic": "压力等于力除面积" },
+          { "id": "yy-lt-02", "title": "连续性方程", "formula": "q = A₁·v₁ = A₂·v₂（常数）", "params": "A 通流截面积；v 平均流速；q 流量", "tip": "流量守恒：管子粗的地方流速慢", "mnemonic": "截面乘速度处处相等" },
+          { "id": "yy-lt-03", "title": "流量与流速关系（缸）", "formula": "v 缸 = q / A", "params": "v 活塞速度；q 输入流量；A 活塞有效面积", "tip": "速度只由流量决定，与压力无关——调速就是调流量", "mnemonic": "速度等于流量除面积" },
+          { "id": "yy-lt-04", "title": "液压功率", "formula": "P = p · q", "params": "P 功率（kW）；p 压力（MPa）；q 流量（L/min）", "tip": "注意单位：p 用 MPa、q 用 L/min 时 P ≈ p·q/60 kW", "mnemonic": "功率压力乘流量，再除 60 算千瓦" },
+          { "id": "yy-lt-05", "title": "静压力基本方程", "formula": "p = p₀ + ρ·g·h", "params": "p₀ 液面压力；ρ 密度；g 重力加速度；h 距液面深度", "tip": "液体内部压力随深度线性增大；同一水平面各点压力相等", "mnemonic": "液面压力加密度乘高" },
+          { "id": "yy-lt-06", "title": "伯努利方程（能量守恒）", "formula": "p₁/(ρg) + v₁²/(2g) + z₁ = p₂/(ρg) + v₂²/(2g) + z₂", "params": "p 压力；v 流速；z 位置高度；g 重力加速度", "tip": "理想液体恒定流动：压力能+动能+位能沿线守恒；速度高处压力低", "mnemonic": "压力动能位能，三样加起不变" },
+          { "id": "yy-lt-07", "title": "液体流态与雷诺数", "formula": "Re = v·d / ν\nRe < 2320：层流；Re > 2320：湍流", "params": "v 平均流速；d 通流直径；ν 运动黏度；Re 雷诺数", "tip": "层流摩擦损失小；液压管路一般按湍流验算压力损失", "mnemonic": "流速乘直径除黏度，两千三百二分界" }
+        ]
+      },
+      {
+        "id": "yy-beng",
+        "name": "液压泵与液压马达",
+        "emoji": "🌀",
+        "intro": "动力元件：把机械能变液压能",
+        "chapter": "第2章",
+        "formulas": [
+          { "id": "yy-beng-01", "title": "泵的实际流量", "formula": "q = n · V · η_v", "params": "n 转速；V 排量（每转排出体积）；η_v 容积效率", "tip": "排量 × 转速 = 理论流量，乘效率得实际流量", "mnemonic": "转速乘排量再乘效率" },
+          { "id": "yy-beng-02", "title": "泵的输入功率", "formula": "P_i = p·q / (60·η)（kW）", "params": "p 工作压力 MPa；q 实际流量 L/min；η 总效率", "tip": "总效率 = 容积效率 × 机械效率，泵选型看压力流量", "mnemonic": "压力流量除效率（60 换单位）" },
+          { "id": "yy-beng-03", "title": "三类泵对比", "formula": "齿轮泵：结构简单，中低压，不能变量\n叶片泵：较平稳，中压，可变量（限压式）\n柱塞泵：高压大流量，可变量，价格高", "params": "记忆性结论", "tip": "柱塞泵轴向柱塞式最常用（如变量泵调速）", "mnemonic": "齿简叶稳柱高压" },
+          { "id": "yy-beng-04", "title": "泵的三大问题", "formula": "困油现象（齿轮泵）：在过渡区压力突变 → 开卸荷槽\n泄漏：间隙越小泄漏越小\n吸空与气穴：吸油不畅会噪声", "params": "记忆性结论", "tip": "卸荷槽是齿轮泵的标配", "mnemonic": "困油卸荷槽，泄漏看间隙" },
+          { "id": "yy-beng-05", "title": "液压马达转速与转矩", "formula": "n = q·η_v / V\nT = Δp·V·η_m / (2π)", "params": "n 转速；q 输入流量；V 排量；η_v 容积效率；Δp 进出口压差；η_m 机械效率；T 输出转矩", "tip": "马达与泵互逆：转速由流量定，转矩由压差定", "mnemonic": "转速看流量，转矩看压差" },
+          { "id": "yy-beng-06", "title": "泵的压力与功率参数", "formula": "工作压力：由负载决定\n额定压力：能连续运行的最大压力\n排量 V：泵每转排出体积（mL/r）", "params": "记忆性结论", "tip": "选泵按额定压力≥系统最大工作压力；泵的输出压力由负载决定，不是泵'给'的压力", "mnemonic": "负载定压力，泵只给流量" }
+        ]
+      },
+      {
+        "id": "yy-gang",
+        "name": "液压缸",
+        "emoji": "🛢️",
+        "intro": "执行元件：把液压能变机械能",
+        "chapter": "第3章",
+        "formulas": [
+          { "id": "yy-gang-01", "title": "单杆缸推力与速度", "formula": "无杆腔进油：F = p·A₁，v = q/A₁\n有杆腔进油：F = p·A₂，v = q/A₂", "params": "A₁ = πD²/4（无杆腔面积）；A₂ = π(D²-d²)/4（有杆腔面积）", "tip": "A₁ > A₂：无杆腔进油推力大速度慢，有杆腔反之", "mnemonic": "无杆腔大力慢，有杆腔小力快" },
+          { "id": "yy-gang-02", "title": "差动连接", "formula": "v = q / (A₁ - A₂)\nF = p·(A₁ - A₂)", "params": "两腔都进压油时活塞快速右移", "tip": "差动 = 快进：速度远大于普通接法，常用于'快进-工进'循环", "mnemonic": "差动快进面积差" },
+          { "id": "yy-gang-03", "title": "缸筒壁厚校核", "formula": "δ ≥ p_y · D / (2·[σ])", "params": "p_y 试验压力；D 缸筒内径；[σ] 许用应力", "tip": "壁厚够不够是液压缸设计必算项", "mnemonic": "试验压乘内径除两倍许用" },
+          { "id": "yy-gang-04", "title": "液压缸的速度-流量-面积链", "formula": "推力 F = p·A → 面积定力\n速度 v = q/A → 面积定速\n输出功率 P = F·v = p·q（守恒）", "params": "记忆性关系", "tip": "面积大→力大速慢；用流量调速，用压力调节力", "mnemonic": "面积分两头，力速各一半" },
+          { "id": "yy-gang-05", "title": "双杆活塞缸", "formula": "两腔有效面积相等 A₁ = A₂\nF₁ = F₂，v₁ = v₂（往返对称）", "params": "双杆缸两腔进油面积相同：速度、推力往返一致", "tip": "双杆缸主要用于往返运动特性一致的场合（如磨床工作台）", "mnemonic": "双杆对称，来回一样" },
+          { "id": "yy-gang-06", "title": "增压缸", "formula": "p₂ = p₁ · A₁ / A₂", "params": "A₁ 大腔面积；A₂ 小腔面积；p₁ 输入压力；p₂ 输出压力", "tip": "增压比 = 面积比；以低压油换高压小流量，用于局部高压工况", "mnemonic": "面积比就是增压比" }
+        ]
+      },
+      {
+        "id": "yy-fa",
+        "name": "液压控制阀",
+        "emoji": "🚪",
+        "intro": "方向、压力、流量三大类阀",
+        "chapter": "第5~7章",
+        "formulas": [
+          { "id": "yy-fa-01", "title": "方向控制阀", "formula": "换向阀由'位'和'通'描述\n如：三位四通（3位4通）O 型中位", "params": "示例：P-A-B-T 四个油口", "tip": "中位机能决定停车状态（O 型锁死、H 型浮动）", "mnemonic": "几通看油口，几位看阀芯位置" },
+          { "id": "yy-fa-02", "title": "压力控制阀对比", "formula": "溢流阀：常闭，定压溢流/过载保护，进出口都通压力腔\n减压阀：定出口压力（二次压力）\n顺序阀：压力达到才开启，做顺序动作", "params": "记忆性结论", "tip": "溢流阀并联在泵出口，减压阀串接在支路", "mnemonic": "溢流保泵压，减压稳支路，顺序定动作" },
+          { "id": "yy-fa-03", "title": "节流阀流量特性", "formula": "q = K·A·Δp^m", "params": "K 系数；A 节流口面积；Δp 节流口压差；m≈0.5（薄壁孔）", "tip": "流量与 Δp 有关→负载一变速度就变，这是节流调速的缺点", "mnemonic": "面积定流量，压差也掺和" },
+          { "id": "yy-fa-04", "title": "调速阀的原理", "formula": "节流阀 + 定差减压阀\n使节流口前后压差 Δp 恒定 → q 稳定", "params": "记忆性结论", "tip": "调速阀把 Δp 锁住，速度基本不受负载影响", "mnemonic": "减压阀稳压差，节流口定流量" },
+          { "id": "yy-fa-05", "title": "溢流阀的调定压力", "formula": "p_y ≥ p_max（系统最高工作压力）", "params": "p_y 溢流阀调定压力", "tip": "泵的出口压力由负载决定，溢流阀压力是上限", "mnemonic": "溢流值是天花板" },
+          { "id": "yy-fa-06", "title": "单向阀与液控单向阀", "formula": "单向阀：正向通、反向断\n液控单向阀：加控制油可反向导通（液压锁）", "params": "记忆性结论", "tip": "液控单向阀成对使用实现双向锁紧，如举升机保位", "mnemonic": "单向只放行，液控能反开" },
+          { "id": "yy-fa-07", "title": "电液换向阀", "formula": "电磁阀（先导级）+ 液动主阀 = 电液换向阀\n小流量先导控制大流量主阀", "params": "记忆性结论", "tip": "大流量系统电磁力不足以直接推动主阀芯，用先导电磁阀控制液流推动", "mnemonic": "电磁做先导，液动扛大流" }
+        ]
+      },
+      {
+        "id": "yy-huilu",
+        "name": "液压基本回路",
+        "emoji": "♻️",
+        "intro": "调速、调压、卸荷、锁紧，会看图就行",
+        "chapter": "第8章",
+        "formulas": [
+          { "id": "yy-hl-01", "title": "节流调速三种形式", "formula": "进油节流：节流阀在进油路\n回油节流：节流阀在回油路（有背压，较平稳）\n旁路节流：节流阀并联在泵出口旁路", "params": "记忆性结论", "tip": "都靠溢流阀定压；回油节流能承受负向负载", "mnemonic": "进回旁，回油最稳当" },
+          { "id": "yy-hl-02", "title": "容积调速", "formula": "用变量泵或变量马达改变流量实现调速\n特点：无节流损失、效率高", "params": "记忆性结论", "tip": "大功率系统用容积调速，小功率用节流调速经济", "mnemonic": "变量泵高效率，节流阀够廉价" },
+          { "id": "yy-hl-03", "title": "卸荷回路", "formula": "泵卸荷：输出压力 ≈ 0 但仍在转\nM 型中位机能 / 电磁溢流阀实现", "params": "记忆性结论", "tip": "卸荷≠停机：省功率、防发热", "mnemonic": "泵转不出力，就是卸荷" },
+          { "id": "yy-hl-04", "title": "锁紧与平衡回路", "formula": "锁紧：液控单向阀（液压锁）双向锁死\n平衡：平衡阀建立背压，防立缸下滑", "params": "记忆性结论", "tip": "液压锁能长时间保压锁位，如举升机保位", "mnemonic": "锁用液控单向阀，垂下设平衡阀" },
+          { "id": "yy-hl-05", "title": "调压回路", "formula": "溢流阀调定系统最高压力（上限）\n多级调压：换向阀切换不同溢流阀/远程调压阀", "params": "记忆性结论", "tip": "需要多级压力（如快进低压、工进高压）时用多级调压回路", "mnemonic": "溢流定上限，换向分几级" },
+          { "id": "yy-hl-06", "title": "快速运动回路", "formula": "快进：差动连接（v = q/(A₁−A₂)）或双泵供油\n工进：小流量高压，快退：大流量", "params": "记忆性结论", "tip": "'快进-工进-快退'是典型工作循环，差动+双泵组合节能高效", "mnemonic": "差动快进，双泵分工" },
+          { "id": "yy-hl-07", "title": "速度换接回路", "formula": "行程阀/电磁阀切换：快进 ↔ 工进\n调速阀稳速，行程阀保证换接位置准确", "params": "记忆性结论", "tip": "换接冲击要小：用行程阀预减速再切调速阀，避免液压冲击", "mnemonic": "行程阀换档，调速阀稳速" }
+        ]
+      },
+      {
+        "id": "yy-qidong",
+        "name": "气压传动",
+        "emoji": "🎈",
+        "intro": "用压缩空气驱动，清洁低成本",
+        "chapter": "第10~11章",
+        "formulas": [
+          { "id": "yy-qd-01", "title": "气源处理三件套", "formula": "过滤器 → 减压阀 → 油雾器\n（按气流方向排列）", "params": "记忆性结论", "tip": "三件套给气动系统提供'干净、定压、润滑'的压缩空气", "mnemonic": "滤减压油，顺序别乱" },
+          { "id": "yy-qd-02", "title": "气缸推力", "formula": "F = (π/4)·D²·p·η_m", "params": "D 缸径；p 工作压力；η_m 机械效率（0.7~0.85）", "tip": "气动压力低（0.4~0.8MPa），推力比液压小很多", "mnemonic": "四分之一 πD² 乘压乘效率" },
+          { "id": "yy-qd-03", "title": "气压传动的特点", "formula": "优点：介质易得、无污染、速度可很高\n缺点：压力低、噪声大、需油雾润滑", "params": "记忆性结论", "tip": "气动适合开闭、抓取、分拣等轻载高速场合", "mnemonic": "气动快洁噪声大，液压力强动作稳" },
+          { "id": "yy-qd-04", "title": "气动速度控制", "formula": "排气节流调速：节流阀装在排气口（推荐）\n进气节流调速：节流阀装在进气口", "params": "记忆性结论", "tip": "排气节流能给气缸建立背压、运动平稳，是气动调速首选", "mnemonic": "排气节流稳，进气节流冲" },
+          { "id": "yy-qd-05", "title": "气源装置组成", "formula": "空压机 → 储气罐 → 冷却器 → 过滤器\n→ 油水分离 → 干燥器 → 气源处理三件套", "params": "记忆性结论", "tip": "三件套（过滤器、减压阀、油雾器）给系统提供'干净、定压、润滑'的压缩空气", "mnemonic": "压缩储存冷却，滤干油雾三件" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "zhuangbei",
+    "name": "机械制造装备设计",
+    "book": "机械制造装备设计（第4版）· 关慧贞 等",
+    "emoji": "🏭",
+    "color": "#d97706",
+    "cover": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzdjMmQxMiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiNkOTc3MDYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hcmtlciBpZD0iYXJyIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjUiIHJlZlk9IjUiIG9yaWVudD0iYXV0byIgbWFya2VyVW5pdHM9InN0cm9rZVdpZHRoIj4KICAgICAgPHBhdGggZD0iTTAsMCBMMTAsNSBMMCwxMCB6IiBmaWxsPSIjZmRlNjhhIi8+CiAgICA8L21hcmtlcj4KICAgIDxwYXR0ZXJuIGlkPSJkb3RzIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMS41IiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuMTMiLz4KICAgIDwvcGF0dGVybj4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjYmcpIi8+CiAgPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZG90cykiLz4KCiAgPCEtLSDljYHlrZflh4bmmJ8gLS0+CiAgPGxpbmUgeDE9IjUyIiB5MT0iMTUwIiB4Mj0iNDI4IiB5Mj0iMTUwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIwLjUwIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNyA3Ii8+CiAgPGxpbmUgeDE9IjI0MCIgeTE9IjQ2IiB4Mj0iMjQwIiB5Mj0iMjUyIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIwLjUwIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNyA3Ii8+CgogIDwhLS0g5Y2h55uYICsg5Li76L20IC0tPgogIDxjaXJjbGUgY3g9IjIxMiIgY3k9IjE1MCIgcj0iNTgiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuMTAiLz4KICA8ZyBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuODUiPgogICAgPHJlY3QgeD0iLTciIHk9Ii01MiIgd2lkdGg9IjE0IiBoZWlnaHQ9IjIyIiByeD0iMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjEyLDE1MCkiLz4KICAgIDxyZWN0IHg9Ii03IiB5PSIzMCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjIyIiByeD0iMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjEyLDE1MCkiLz4KICAgIDxyZWN0IHg9Ii0xMSIgeT0iLTUyIiB3aWR0aD0iMjIiIGhlaWdodD0iMTYiIHJ4PSIzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMTIsMTUwKSByb3RhdGUoMTIwKSIvPgogICAgPHJlY3QgeD0iLTExIiB5PSIzNiIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE2IiByeD0iMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjEyLDE1MCkgcm90YXRlKDEyMCkiLz4KICAgIDxyZWN0IHg9Ii0xMSIgeT0iLTUyIiB3aWR0aD0iMjIiIGhlaWdodD0iMTYiIHJ4PSIzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMTIsMTUwKSByb3RhdGUoMjQwKSIvPgogICAgPHJlY3QgeD0iLTExIiB5PSIzNiIgd2lkdGg9IjIyIiBoZWlnaHQ9IjE2IiByeD0iMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjEyLDE1MCkgcm90YXRlKDI0MCkiLz4KICA8L2c+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjEyLDE1MCkiPgogICAgPGNpcmNsZSByPSIzNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC41NSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8Y2lyY2xlIHI9IjkiIGZpbGw9IiNmZmZmZmYiLz4KICA8L2c+CiAgPHJlY3QgeD0iMjcwIiB5PSIxMzYiIHdpZHRoPSI4NCIgaGVpZ2h0PSIyOCIgcng9IjYiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC44OCIvPgogIDxyZWN0IHg9IjM1NCIgeT0iMTQwIiB3aWR0aD0iMTgiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuNTUiLz4KCiAgPCEtLSDlsLrlr7jmoIfms6ggLS0+CiAgPGxpbmUgeDE9IjEzMiIgeTE9IjI0MCIgeDI9IjMzNiIgeTI9IjI0MCIgc3Ryb2tlPSIjZmRlNjhhIiBzdHJva2Utd2lkdGg9IjIiIG1hcmtlci1zdGFydD0idXJsKCNhcnIpIiBtYXJrZXItZW5kPSJ1cmwoI2FycikiLz4KICA8dGV4dCB4PSIyMzQiIHk9IjIyOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2ZlZjNjNyIgZm9udC1mYW1pbHk9IidNaWNyb3NvZnQgWWFIZWknLCdQaW5nRmFuZyBTQycsc2Fucy1zZXJpZiI+TDwvdGV4dD4KICA8bGluZSB4MT0iMzk4IiB5MT0iNjgiIHgyPSIzOTgiIHkyPSIyMzIiIHN0cm9rZT0iI2ZkZTY4YSIgc3Ryb2tlLXdpZHRoPSIyIiBtYXJrZXItc3RhcnQ9InVybCgjYXJyKSIgbWFya2VyLWVuZD0idXJsKCNhcnIpIi8+CiAgPHRleHQgeD0iMzg0IiB5PSIxNTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNmZWYzYzciIGZvbnQtZmFtaWx5PSInTWljcm9zb2Z0IFlhSGVpJywnUGluZ0ZhbmcgU0MnLHNhbnMtc2VyaWYiPkg8L3RleHQ+CgogIDwhLS0g6KeS5qCH5Y2B5a2XIC0tPgogIDxnIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgc3Ryb2tlLXdpZHRoPSIyIj4KICAgIDxwYXRoIGQ9Ik0gMzQgMzAgdiAxOCBNIDI1IDM5IGggMTgiLz4KICAgIDxwYXRoIGQ9Ik0gNDQ2IDMwIHYgMTggTSA0MzcgMzkgaCAxOCIvPgogIDwvZz4KCiAgPCEtLSDmoIfnrb4gLS0+CiAgPHRleHQgeD0iNDUyIiB5PSIyNzIiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmZmZmYiIGZvbnQtZmFtaWx5PSInTWljcm9zb2Z0IFlhSGVpJywnUGluZ0ZhbmcgU0MnLHNhbnMtc2VyaWYiPuijheWkh+iuvuiuoTwvdGV4dD4KICA8dGV4dCB4PSI0NTIiIHk9IjI5NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIxMyIgbGV0dGVyLXNwYWNpbmc9IjMiIGZpbGw9IiNmZGU2OGEiIGZvbnQtZmFtaWx5PSInTWljcm9zb2Z0IFlhSGVpJywnUGluZ0ZhbmcgU0MnLHNhbnMtc2VyaWYiPk1BQ0hJTkUgVE9PTCBERVNJR048L3RleHQ+Cjwvc3ZnPg==",
+    "desc": "机床设计 + 夹具设计双主线，转速图是硬骨头",
+    "categories": [
+      {
+        "id": "zb-fangfa",
+        "name": "装备设计方法",
+        "emoji": "📐",
+        "intro": "装备范畴与'三化'",
+        "chapter": "第1章",
+        "formulas": [
+          { "id": "zb-ff-01", "title": "机械制造装备范畴", "formula": "金属切削机床 + 机床夹具 + 工业机器人\n+ 物流系统（AGV等）+ 机械加工生产线", "params": "记忆性结论", "tip": "这门课五块内容：机床、夹具、机器人、物流、生产线", "mnemonic": "机夹人流线，五件套" },
+          { "id": "zb-ff-02", "title": "'三化'与设计步骤", "formula": "标准化、系列化、通用化\n设计步骤：方案→总体→部件→零件→工艺", "params": "记忆性结论", "tip": "三化是降低成本、缩短周期的法宝", "mnemonic": "标准系列通用，方案先行走" },
+          { "id": "zb-ff-03", "title": "模块化设计", "formula": "把装备按功能分解成独立模块（动力头、立柱、床身…）\n积木式组合出不同规格产品", "params": "记忆性结论", "tip": "模块化便于快速变型、维修更换，是专用机床/组合机床的关键", "mnemonic": "功能分模块，积木搭变型" }
+        ]
+      },
+      {
+        "id": "zb-zongti",
+        "name": "机床总体设计",
+        "emoji": "🗺️",
+        "intro": "基本参数、精度、刚度",
+        "chapter": "第2章",
+        "formulas": [
+          { "id": "zb-zt-01", "title": "机床基本参数三要素", "formula": "尺寸参数（加工范围）\n运动参数（转速/进给量范围）\n动力参数（主电机功率）", "params": "记忆性结论", "tip": "尺寸参数用'主参数'表示（如车床最大工件回转直径）", "mnemonic": "尺寸运动动力，三参数定盘子" },
+          { "id": "zb-zt-02", "title": "机床精度与刚度", "formula": "精度：几何精度、运动精度、定位精度\n刚度：静刚度、动刚度（抗振性）", "params": "记忆性结论", "tip": "刚度不够→变形→精度下降；刚度是精密机床的生命线", "mnemonic": "精度三兄弟，刚度两条道" },
+          { "id": "zb-zt-03", "title": "机床类型选择", "formula": "通用机床：批量小、柔性大\n专用机床：大批量、效率高\n组合机床：多刀多工位，适于自动线", "params": "记忆性结论", "tip": "按生产批量选型：单件小批用通用，大批量用专用/组合", "mnemonic": "小批通用大批专，组合适合自动线" },
+          { "id": "zb-zt-04", "title": "机床型号编制", "formula": "类代号（C 车床 / Z 钻床 / X 铣床…）\n+ 通用特性（M 精密 / G 高精度…）\n例：CM6132 → 车床·精密·卧式·最大回转直径 320mm", "params": "记忆性结论", "tip": "型号首字母是类代号，后半段表示组别/系别与主参数", "mnemonic": "字母是类型，数字定规格" },
+          { "id": "zb-zt-05", "title": "主参数与第二主参数", "formula": "主参数：反映机床规格（车床=床身上最大工件回转直径）\n第二主参数：反映加工范围（如最大工件长度）", "params": "记忆性结论", "tip": "主参数是型号中的主要数字来源，第二主参数常用派生系列区分", "mnemonic": "主参数定规格，第二参数补范围" }
+        ]
+      },
+      {
+        "id": "zb-chuan",
+        "name": "主传动系设计",
+        "emoji": "⚙️",
+        "intro": "转速数列、标准公比、转速图（考试重灾区）",
+        "chapter": "第2章",
+        "formulas": [
+          { "id": "zb-cd-01", "title": "标准公比 φ", "formula": "φ = 1.06 / 1.12 / 1.26 / 1.41 / 1.58 / 1.78 / 2.00", "params": "'标准转速数列'每级公比取 φ，且 φ = ⁴⁰√10 的整数次幂", "tip": "φ=2 就是每级转速翻倍，级数最少", "mnemonic": "1.06 起七个标准公比" },
+          { "id": "zb-cd-02", "title": "变速范围", "formula": "R_n = n_max / n_min = φ^(z-1)", "params": "n_max 最高转速；n_min 最低转速；z 转速级数", "tip": "转速范围越大级数越多；相邻转速比是 φ", "mnemonic": "范园等于公比的(z-1)次" },
+          { "id": "zb-cd-03", "title": "转速级数", "formula": "z = lgR_n / lgφ + 1", "params": "同上", "tip": "由 R_n 和 φ 反推级数，考试常出计算", "mnemonic": "对数相除再加一" },
+          { "id": "zb-cd-04", "title": "转速图与结构式", "formula": "结构式：z = 3₁ × 2₂（下标=级比指数）\n基本组、第一扩大组、第二扩大组…", "params": "示例：z=6 = 3₁×2₂：3 是基本组（级比 1），2 是第一扩大组（级比 3）", "tip": "转速图上'平行斜线'就是扩大组，先窄后宽", "mnemonic": "基本组斜线最密，扩大组越扩越疏" },
+          { "id": "zb-cd-05", "title": "主轴计算转速", "formula": "n_j = n_min · φ^(k) 分级变速时按'恒功率范围'分界\n中低速恒扭矩，高速恒功率", "params": "记忆性结论", "tip": "计算转速是选择电机功率的依据，不要和最高转速混了", "mnemonic": "低速恒扭矩，高速恒功率" },
+          { "id": "zb-cd-06", "title": "齿轮齿数计算", "formula": "中心距相等条件：z₁ + z₂ = 常数\n按传动比 i = z₂/z₁ 分配两齿轮齿数", "params": "z₁、z₂ 主/被动齿轮齿数；同一变速组各对齿轮中心距相同", "tip": "先由中心距条件定齿数和，再按传动比取整分配齿数，凑出推荐值", "mnemonic": "齿和是常数，按比来分配" },
+          { "id": "zb-cd-07", "title": "转速图绘制步骤", "formula": "① 列结构式（如 6 = 3₁×2₂）\n② 按基本组/扩大组排各轴转速\n③ 连线：斜线代表传动比 i = φ^±x", "params": "记忆性方法", "tip": "转速图横轴是传动轴、纵轴是 lg 转速；基本组斜线最密、扩大组渐疏", "mnemonic": "先结构式再画轴，连线定变速" }
+        ]
+      },
+      {
+        "id": "zb-jingei",
+        "name": "进给传动系",
+        "emoji": "🎯",
+        "intro": "进给运动特点与丝杠传动",
+        "chapter": "第2/6章",
+        "formulas": [
+          { "id": "zb-jg-01", "title": "进给传动系特点", "formula": "恒力传动（进给力基本恒定）\n低速大扭矩、转速范围宽", "params": "记忆性结论", "tip": "与主传动不同：进给看力不看功率", "mnemonic": "主传动看功率，进给看力气" },
+          { "id": "zb-jg-02", "title": "滚珠丝杠螺母机构", "formula": "滚动摩擦替代滑动摩擦\n特点：效率高（90%+）、磨损小、无爬行", "params": "记忆性结论", "tip": "数控机床进给必用滚珠丝杠，但刚度不如滑动丝杠", "mnemonic": "滚珠丝杠效率高，轴向载荷别超限" },
+          { "id": "zb-jg-03", "title": "伺服进给系统", "formula": "开环：步进电机，无检测，精度低\n闭环：光栅/编码器反馈，精度高\n半闭环：检测电机端转角", "params": "记忆性结论", "tip": "数控机床大多半闭环（丝杠螺母的误差测不到）", "mnemonic": "闭环最准半次之，开环便宜精度低" },
+          { "id": "zb-jg-04", "title": "进给速度与导程", "formula": "v = n·P_h / 1000（m/min）\n进给速度由丝杠导程与转速决定", "params": "v 进给速度；n 丝杠转速；P_h 滚珠丝杠导程", "tip": "滚珠丝杠的导程决定'每转走多少'，直线速度=导程×转速", "mnemonic": "导程乘转速，进给速度出" },
+          { "id": "zb-jg-05", "title": "滚珠丝杠的预拉伸", "formula": "预拉伸/预紧可消除间隙、提高轴向刚度\n按丝杠温升补偿预拉伸量 ΔL = α·L·Δt", "params": "α 线膨胀系数；L 丝杠长度；Δt 温升", "tip": "高速高精度进给用预拉伸丝杠，抵消温升热伸长，稳定定位精度", "mnemonic": "预紧消间隙，预拉伸抗热胀" }
+        ]
+      },
+      {
+        "id": "zb-zhou",
+        "name": "主轴部件与导轨",
+        "emoji": "🛠️",
+        "intro": "主轴的刚度和导轨怎么选",
+        "chapter": "第3章",
+        "formulas": [
+          { "id": "zb-zx-01", "title": "主轴部件设计要求", "formula": "刚度、精度、抗振性、温升小", "params": "记忆性结论", "tip": "主轴刚度不足是加工振纹的头号原因", "mnemonic": "刚精抗温，四个字" },
+          { "id": "zb-zx-02", "title": "导轨类型选择", "formula": "滑动导轨：结构简单、阻尼大，低速易爬行\n滚动导轨：摩擦小、精度高，需预紧\n静压导轨：刚度高、精度最高，成本高", "params": "记忆性结论", "tip": "数控机床常用滚动直线导轨；重型机床用静压", "mnemonic": "滑动廉价静压贵，滚动居中最常见" },
+          { "id": "zb-zx-03", "title": "轴承配置", "formula": "前支承（靠近主轴前端）：主要承受载荷\n后支承：辅助支撑；选型看精度和转速", "params": "记忆性结论", "tip": "主轴前端刚性最重要（刀尖就在这里）", "mnemonic": "前支承扛大梁" },
+          { "id": "zb-zx-04", "title": "主轴前端悬伸量", "formula": "悬伸量 a 越小，刀尖处受力变形越小\n（a = 前轴承到刀尖作用点的距离）", "params": "记忆性结论", "tip": "减小悬伸量是提高主轴前端刚度的第一手段；悬伸与跨距要配合", "mnemonic": "悬伸短一截，刚度高一截" }
+        ]
+      },
+      {
+        "id": "zb-jiaju",
+        "name": "机床夹具设计",
+        "emoji": "🧲",
+        "intro": "六点定位、定位误差、夹紧力计算",
+        "chapter": "第5章",
+        "formulas": [
+          { "id": "zb-jj-01", "title": "六点定位原理", "formula": "工件 6 个自由度：3 移动 + 3 转动\n6 个支承点（限制自由度）完全定位", "params": "记忆性结论", "tip": "完全定位=6点；欠定位不允许（加工不确定），过定位视情况", "mnemonic": "三移三转六个自由，六个点全锁住" },
+          { "id": "zb-jj-02", "title": "定位误差分析", "formula": "Δ_定位 = Δ_基准不重合 + Δ_基准位移", "params": "基准不重合：工序基准与定位基准不重合带来的误差；基准位移：定位元件本身误差", "tip": "选'工序基准'作定位基准能消除第一项误差", "mnemonic": "不重合加位移，两笔账相加" },
+          { "id": "zb-jj-03", "title": "夹紧力估算", "formula": "W = K · F / μ", "params": "F 切削力等外力；μ 摩擦因数（夹紧面间）；K 安全系数（1.5~3）", "tip": "夹紧力宁大勿小但别压坏工件；K 取 1.5~3 保安全", "mnemonic": "外力除摩擦乘安全系数" },
+          { "id": "zb-jj-04", "title": "常用夹紧机构", "formula": "斜楔夹紧：增力比 i = 1/tanα（α≈6°~8°）\n螺旋夹紧：增力大、自锁\n偏心夹紧：动作快、行程小", "params": "记忆性结论", "tip": "螺旋增力最大且自锁，偏心夹紧快但夹紧力小", "mnemonic": "斜楔小角自锁，螺旋力大，偏心图快" },
+          { "id": "zb-jj-05", "title": "常见定位元件", "formula": "平面定位：支承钉/支承板\n外圆定位：V 形块（对中性好）\n孔定位：定位销/心轴", "params": "记忆性结论", "tip": "V 形块自动对中；一面两孔是箱体件经典定位", "mnemonic": "面钉板、圆V块、孔销轴" },
+          { "id": "zb-jj-06", "title": "一面两孔定位", "formula": "大平面（3 自由度）+ 圆柱销（2 自由度）+ 菱形销（1 自由度）\n菱形销削边方向垂直于两销连线", "params": "记忆性结论", "tip": "一面两孔是箱体类零件最常用的完全定位方案；菱形销防过定位", "mnemonic": "面三销二菱防转，共锁六自由" },
+          { "id": "zb-jj-07", "title": "V 形块定位误差", "formula": "Δ = δ / (2·sin(α/2))\n（α = 90° 时 Δ ≈ 0.707·δ）", "params": "δ 工件直径公差；α V 形块夹角", "tip": "V 形块定外圆对中性好，但直径公差会带来定位误差——考题常算这一笔", "mnemonic": "公差除两倍半角正弦" }
+        ]
+      },
+      {
+        "id": "zb-jiqiren",
+        "name": "机器人·物流·生产线",
+        "emoji": "🤖",
+        "intro": "自由度、坐标形式、FMS 概念题",
+        "chapter": "第4/6/7章",
+        "formulas": [
+          { "id": "zb-jr-01", "title": "工业机器人自由度", "formula": "自由度 = 独立运动数\n≥3 个自由度可确定末端位置", "params": "记忆性结论", "tip": "6 自由度可任意定位定向（3位置+3姿态）", "mnemonic": "六自由全姿态，三自由到位置" },
+          { "id": "zb-jr-02", "title": "机器人坐标形式", "formula": "直角坐标 / 圆柱坐标 / 球坐标 / 关节坐标\n关节型最灵活，直角型精度高", "params": "记忆性结论", "tip": "焊接机器人常用关节型，上下料常见直角/圆柱型", "mnemonic": "直角准、关节活" },
+          { "id": "zb-jr-03", "title": "柔性制造系统 FMS", "formula": "FMS = 数控机床 + 物流（AGV/托盘）+ 中央控制\n特点：能加工多品种变批量", "params": "记忆性结论", "tip": "FMS 是'自动化+柔性'的结合，区别于刚性自动线", "mnemonic": "机床物流加控制，多品种也吃得下" },
+          { "id": "zb-jr-04", "title": "生产率与节拍", "formula": "Q = 1 / t_节（产量与节拍成反比）\nt_节 = 加工时间 + 辅助时间", "params": "记忆性结论", "tip": "提高生产率：缩短切削时间、辅助时间（装机上下料自动化）", "mnemonic": "节拍越短产量越高" },
+          { "id": "zb-jr-05", "title": "机器人自由度与姿态", "formula": "6 自由度 = 3 位置 + 3 姿态\n腕部 3 个旋转自由度决定末端姿态", "params": "记忆性结论", "tip": "位置由大臂/小臂/腰决定，姿态由腕部（俯仰/偏航/滚转）决定", "mnemonic": "臂管位置，腕管姿态" }
+        ]
+      }
+    ]
+  }
+];
+
+;
+/* ============ 学习助手 · 四门主课·习题集（v3.14 考试风真实习题） ============
+   结构：每道习题 = 课程(course) + 知识点分类(cat) + 题型(type) + 难度(diff)
+   formulas 是本习题「搭配」的公式 id 列表（必须全部存在于 courses.js 对应课程）
+   解答字段：body 题干 / answer 参考答案 / step 解题思路 / pitfall 易错点（可空）
+*/
+window.KC_CASES = [
+
+  /* ================= 1. 机械设计（8 道） ================= */
+  {
+    "id": "ex-jxsj-01",
+    "course": "jixiesheji",
+    "cat": "jiluowen",
+    "type": "计算题",
+    "diff": 2,
+    "title": "气缸盖螺栓组预紧与拉伸强度校核",
+    "body": "气缸盖用 4 个 M12 普通螺栓联接（螺纹小径 d₁=10.106 mm），每个螺栓预紧力 F₀=5000 N，工作时受外拉力 F_e=4000 N。已知螺栓与被连接件刚度比 C_b/(C_b+C_m)=0.3，许用应力 [σ]=160 MPa。求：(1) 每个螺栓受的总拉力 F₂；(2) 校核危险截面拉伸强度。",
+    "formulas": ["jxsj-lw-02", "jxsj-lw-03"],
+    "answer": "(1) F₂ = F₀ + [C_b/(C_b+C_m)]·F_e = 5000 + 0.3×4000 = 6200 N\n(2) A = πd₁²/4 ≈ 80.2 mm²，σ_ca = 1.3F₂/A = 1.3×6200/80.2 ≈ 100.5 MPa < [σ]=160 MPa，强度满足。",
+    "step": "① 用总拉力公式 F₂=F₀+(C_b/(C_b+C_m))·F_e 求 F₂；② 危险截面取螺纹小径 d₁ 处，面积 A=πd₁²/4；③ 代入 σ_ca=1.3F₂/A 与 [σ] 比较。",
+    "pitfall": "σ_ca 必须乘 1.3（考虑拧紧时扭转切应力）；危险截面用小径 d₁，不是公称直径 d。"
+  },
+  {
+    "id": "ex-jxsj-02",
+    "course": "jixiesheji",
+    "cat": "jidai",
+    "type": "计算题",
+    "diff": 2,
+    "title": "带传动紧松边拉力与功率计算",
+    "body": "平带传动，紧边拉力 F₁=1100 N，松边拉力 F₂=500 N，小带轮基准直径 d₁=200 mm，转速 n₁=960 r/min，摩擦因数 f=0.3，小带轮包角 α=180°。求：(1) 有效圆周力 F 与传递功率 P；(2) 判断是否打滑。",
+    "formulas": ["jxsj-dai-01", "jxsj-dai-02", "jxsj-dai-04"],
+    "answer": "(1) F=F₁−F₂=600 N；带速 v=πd₁n₁/60000≈10.05 m/s；P=F·v/1000≈6.03 kW。\n(2) 临界条件 F₁/F₂=e^(fα)=e^(0.3π)≈2.566；实际比 1100/500=2.2 < 2.566，尚不打滑，但裕度不大，可增大包角或摩擦因数。",
+    "step": "① 有效拉力=紧边−松边；② 带速 v=πdn/60000；③ 功率 P=Fv/1000；④ 用欧拉公式比较 F₁/F₂ 与 e^(fα)。",
+    "pitfall": "v 公式分母 60000 是「毫米→米、min→s」的双重换算；α 必须换算成弧度。"
+  },
+  {
+    "id": "ex-jxsj-03",
+    "course": "jixiesheji",
+    "cat": "jichilun",
+    "type": "计算题",
+    "diff": 1,
+    "title": "齿轮传动比与从动轮转速",
+    "body": "一对标准直齿圆柱齿轮，主动轮齿数 z₁=25、转速 n₁=1440 r/min，从动轮齿数 z₂=75。求传动比 i、齿数比 u 及从动轮转速 n₂。",
+    "formulas": ["jxsj-cl-01"],
+    "answer": "i = u = z₂/z₁ = 75/25 = 3；n₂ = n₁/i = 1440/3 = 480 r/min。",
+    "step": "齿数比直接用 z₂/z₁；转速与齿数成反比。",
+    "pitfall": "减速传动习惯记 u=大齿轮/小齿轮 > 1；问 n₂ 别写成 n₁。"
+  },
+  {
+    "id": "ex-jxsj-04",
+    "course": "jixiesheji",
+    "cat": "jizhoucheng",
+    "type": "计算题",
+    "diff": 3,
+    "title": "深沟球轴承当量动载荷与寿命",
+    "body": "深沟球轴承受径向载荷 F_r=3000 N、轴向载荷 F_a=1000 N，转速 n=1000 r/min。手册查得 X=0.56、Y=1.6，基本额定动载荷 C=29500 N，寿命指数 ε=3。求：(1) 当量动载荷 P；(2) 基本额定寿命 L_h。",
+    "formulas": ["jxsj-zc-01", "jxsj-zc-02"],
+    "answer": "(1) P = X·F_r + Y·F_a = 0.56×3000 + 1.6×1000 = 3280 N。\n(2) L_h = 10⁶/(60n)·(C/P)^ε = 10⁶/(60×1000)×(29500/3280)³ ≈ 12125 h（约 1.2 万小时）。",
+    "step": "① 有轴向载荷时不能直接取 F_r，按 P=XF_r+YF_a 折算；② 代入寿命公式，n 用 r/min，结果单位小时。",
+    "pitfall": "载荷翻倍、寿命约降到 1/8（ε=3 的三次方关系）；球轴承 ε=3，滚子轴承取 10/3。"
+  },
+  {
+    "id": "ex-jxsj-05",
+    "course": "jixiesheji",
+    "cat": "jizhou",
+    "type": "计算题",
+    "diff": 2,
+    "title": "按扭转强度初估传动轴最小直径",
+    "body": "45 钢实心传动轴，传递功率 P=10 kW，转速 n=1460 r/min，取系数 A₀=126。按扭转强度估算最小轴径 d，考虑开键槽需放大 5%，再圆整取标准值。",
+    "formulas": ["jxsj-zhou-03"],
+    "answer": "d ≥ A₀·³√(P/n) = 126×³√(10/1460) ≈ 23.9 mm；开键槽放大：23.9×1.05 ≈ 25.1 mm，取标准直径 d=25 mm。",
+    "step": "① 直接代入 d=A₀·³√(P/n)（P 用 kW、n 用 r/min）；② 有键槽放大 3%~5%；③ 圆整到标准直径。",
+    "pitfall": "开键槽的放大系数别漏；初估值只是「估」，最终需按弯扭合成校核。"
+  },
+  {
+    "id": "ex-jxsj-06",
+    "course": "jixiesheji",
+    "cat": "jijian",
+    "type": "计算题",
+    "diff": 2,
+    "title": "平键联接挤压强度校核",
+    "body": "钢制实心轴与轮毂用普通平键联接，传递转矩 T=120 N·m，轴径 d=40 mm，键的接触高度 k=4 mm，工作长度 l=36 mm，许用挤压应力 [σ]_p=120 MPa。校核挤压强度。",
+    "formulas": ["jxsj-jian-01"],
+    "answer": "σ_p = 2T/(k·l·d) = 2×120000/(4×36×40) ≈ 41.7 MPa < [σ]_p=120 MPa，挤压强度满足。",
+    "step": "① 转矩单位换为 N·mm（120 N·m = 120000 N·mm）；② 代入 σ_p=2T/(kld)。",
+    "pitfall": "平键主要失效是挤压面压溃，一般只校核挤压；k 是接触高度（≈h/2），不是键高 h。"
+  },
+  {
+    "id": "ex-jxsj-07",
+    "course": "jixiesheji",
+    "cat": "jiluowen",
+    "type": "计算题",
+    "diff": 2,
+    "title": "铰制孔螺栓组剪切与挤压强度校核",
+    "body": "两块钢板用 4 个 M16 铰制孔螺栓（光杆直径 d₀=17 mm）联接，传递横向工作载荷 F=60 kN，每个螺栓均匀受力；单面受剪（m=1），被连接件最小接触厚度 L_min=20 mm。许用剪应力 [τ]=80 MPa，许用挤压应力 [σ]_p=120 MPa。校核该螺栓组的剪切与挤压强度。",
+    "formulas": ["jxsj-lw-05", "jxsj-lw-06"],
+    "answer": "每螺栓横向力 F_s=F/4=15 kN。\n剪切：τ=4F_s/(m·π·d₀²)=4×15000/(1×π×17²)=60000/907.9≈66.1 MPa < [τ]=80 MPa，满足。\n挤压：σ_p=F_s/(d₀·L_min)=15000/(17×20)≈44.1 MPa < [σ]_p=120 MPa，满足。",
+    "step": "① 横向载荷均匀分给每个螺栓 F_s=F/n；② 剪切校核用杆部光杆直径 d₀、受剪面数 m，代入 τ=4F_s/(mπd₀²)；③ 挤压校核面积取杆径×最小接触厚度 d₀·L_min；④ 分别与许用值比较。",
+    "pitfall": "F 是总载荷，必须先除以螺栓数得单螺栓载荷；挤压面积是光杆直径×接触厚度（投影面），不是 πd₀²/4；铰制孔螺栓靠杆部承剪传力，不靠预紧摩擦。"
+  },
+  {
+    "id": "ex-jxsj-08",
+    "course": "jixiesheji",
+    "cat": "jichilun",
+    "type": "计算题",
+    "diff": 1,
+    "title": "标准直齿圆柱齿轮几何尺寸与中心距",
+    "body": "一对标准直齿圆柱齿轮正确啮合安装：模数 m=2 mm，压力角 α=20°，齿数 z₁=20、z₂=60。求：(1) 两轮的分度圆直径 d、齿顶圆直径 d_a、齿根圆直径 d_f；(2) 标准安装中心距 a。",
+    "formulas": ["jxsj-cl-06", "jxsj-cl-07"],
+    "answer": "(1) 小齿轮：d₁=m·z₁=40 mm；d_a1=m(z₁+2)=44 mm；d_f1=m(z₁−2.5)=35 mm。\n大齿轮：d₂=120 mm；d_a2=124 mm；d_f2=115 mm。\n(2) a=m(z₁+z₂)/2=2×80/2=80 mm。",
+    "step": "① 分度圆直径 d=mz；② 齿顶圆 d_a=m(z+2)（齿顶高 h_a=m）；③ 齿根圆 d_f=m(z−2.5)（齿根高 1.25m，含 0.25m 顶隙）；④ 标准中心距=两分度圆半径之和。",
+    "pitfall": "齿根圆是 −2.5m（齿根高 1.25m 的 2 倍），不是 −2m；中心距用两轮分度圆半径相加，别用齿顶圆。"
+  },
+
+  /* ================= 2. 电子技术（8 道） ================= */
+  {
+    "id": "ex-dz-01",
+    "course": "dianzi",
+    "cat": "dz-dianyuan",
+    "type": "计算题",
+    "diff": 1,
+    "title": "桥式整流电容滤波电路输出电压",
+    "body": "桥式整流电容滤波电路中，变压器副边电压有效值 U₂=20 V。求：(1) 带负载时输出电压 U_o；(2) 空载（R_L=∞）时输出电压；(3) 每个二极管承受的最大反向电压。",
+    "formulas": ["dz-dy-01", "dz-dy-02"],
+    "answer": "(1) U_o ≈ 1.2U₂ = 24 V；(2) 空载 U_o ≈ √2·U₂ ≈ 28.3 V；(3) 二极管最大反向电压 U_RM ≥ 2√2·U₂ ≈ 56.6 V，选管耐压要留裕量。",
+    "step": "桥式+电容滤波按 1.2U₂ 估算；空载时电容无放电回路、充到峰值 √2U₂；每只管截止时承受的反压为副边峰值电压的 2 倍。",
+    "pitfall": "滤波电容耐压必须 ≥ √2U₂；别把 1.2 与 √2 用混。"
+  },
+  {
+    "id": "ex-dz-02",
+    "course": "dianzi",
+    "cat": "dz-dianyuan",
+    "type": "计算题",
+    "diff": 2,
+    "title": "稳压管稳压电路限流电阻选择",
+    "body": "稳压管稳压电路：输入 U_i=15 V，稳压管 U_z=6 V，允许电流范围 I_zmin=5 mA、I_zmax=40 mA，负载电流 I_L=10 mA。求限流电阻 R 的取值范围。",
+    "formulas": ["dz-dy-04"],
+    "answer": "流过 R 的电流 I_R=I_z+I_L，要求 I_z∈[5,40] mA，即 I_R∈[15,50] mA；压差 U_i−U_z=9 V。\nR_max=9/0.015=600 Ω，R_min=9/0.05=180 Ω，故 180 Ω < R < 600 Ω。",
+    "step": "① 列电流关系 I_R=I_z+I_L；② R=(U_i−U_z)/I_R；③ 用 I_R 上下限反推出 R 的范围。",
+    "pitfall": "不能只按 I_z 算，必须加上负载电流 I_L；R 太小烧稳压管，R 太大稳压管退出击穿区失去稳压作用。"
+  },
+  {
+    "id": "ex-dz-03",
+    "course": "dianzi",
+    "cat": "dz-fangda",
+    "type": "计算题",
+    "diff": 3,
+    "title": "共射放大电路静态工作点与放大倍数",
+    "body": "共射放大电路：U_CC=12 V，R_b=400 kΩ，R_c=2 kΩ，R_L=2 kΩ，晶体管 β=50，U_BE≈0.7 V。求：(1) 静态工作点 I_BQ、I_CQ、U_CEQ；(2) 电压放大倍数 A_u（r_be≈300+(1+β)·26mV/I_EQ）。",
+    "formulas": ["dz-fd-01", "dz-fd-02"],
+    "answer": "(1) I_BQ=(U_CC−U_BE)/R_b=(12−0.7)/400k≈28.25 µA；I_CQ=β·I_BQ≈1.41 mA；U_CEQ=U_CC−I_CQ·R_c=12−1.41×2≈9.18 V（落在放大区）。\n(2) r_be≈300+(1+50)×26/1.41≈1239 Ω；A_u=−β(R_c‖R_L)/r_be=−50×1000/1239≈−40.4。",
+    "step": "① 三步走：先 I_BQ（基极回路），再 I_CQ=βI_BQ，最后 U_CEQ=U_CC−I_CQ·R_c；② I_EQ≈I_CQ 估算 r_be；③ 并联 R_c‖R_L 后乘 β 取负号。",
+    "pitfall": "A_u 的负号表示反相，别丢；r_be 公式中电流 I_EQ 以 mA 代入、乘积 26mV 直接使用。"
+  },
+  {
+    "id": "ex-dz-04",
+    "course": "dianzi",
+    "cat": "dz-yunfang",
+    "type": "计算题",
+    "diff": 2,
+    "title": "集成运放反相比例与加法运算电路",
+    "body": "(1) 反相比例运算电路：R₁=10 kΩ，R_f=50 kΩ，输入 u_i=0.2 V，求 u_o；(2) 加法运算电路：R₁=R₂=10 kΩ，R_f=50 kΩ，u₁=0.3 V，u₂=0.5 V，求 u_o。",
+    "formulas": ["dz-yf-02", "dz-yf-04"],
+    "answer": "(1) u_o = −(R_f/R₁)·u_i = −5×0.2 = −1 V。\n(2) u_o = −(R_f/R₁·u₁ + R_f/R₂·u₂) = −(5×0.3 + 5×0.5) = −4 V。",
+    "step": "反相比例按电阻比（取负）；加法电路把各输入按各自比例叠加后再取负。",
+    "pitfall": "运用虚短虚断列节点电流方程时，反相端为「虚地」；输出带负号。"
+  },
+  {
+    "id": "ex-dz-05",
+    "course": "dianzi",
+    "cat": "dz-luoji",
+    "type": "计算题",
+    "diff": 2,
+    "title": "逻辑代数化简与摩根定律",
+    "body": "(1) 化简：Y = AB + AB′ + A′C；(2) 写出摩根定律的两种基本形式，并说明其规律。",
+    "formulas": ["dz-lj-01", "dz-lj-02"],
+    "answer": "(1) AB+AB′=A（吸收律）⇒ Y = A + A′C = A + C（吸收律 A+A′C=A+C）。\n(2) (A·B)′ = A′ + B′；(A+B)′ = A′ · B′。规律：与变或、或变与，变量各自取反。",
+    "step": "① 先找公共因子合并同类项；② 套吸收律 A+AB=A、A+A′B=A+B；③ 摩根定律「长杠开花，各管各」。",
+    "pitfall": "化简顺序：先合并再消去；摩根定律展开时每个变量都要各自取反，不能只对一个取反。"
+  },
+  {
+    "id": "ex-dz-06",
+    "course": "dianzi",
+    "cat": "dz-chufaqi",
+    "type": "计算题",
+    "diff": 2,
+    "title": "555 定时器无稳态振荡频率",
+    "body": "555 定时器接成无稳态（多谐振荡）电路，外接电阻 R₁=5 kΩ、R₂=5 kΩ，电容 C=0.1 µF。求输出方波频率 f。",
+    "formulas": ["dz-cf-04"],
+    "answer": "f = 1.44/[(R₁+2R₂)·C] = 1.44/[(5k+10k)×0.1µ] = 1.44/(15×10³×10⁻⁷) = 960 Hz。",
+    "step": "直接代入公式，注意 R₂ 前的系数 2；电容 0.1 µF = 10⁻⁷ F 换单位后再除。",
+    "pitfall": "别把 R₂ 的 2 倍系数漏掉；电容单位必须换成法拉。"
+  },
+  {
+    "id": "ex-dz-07",
+    "course": "dianzi",
+    "cat": "dz-fangda",
+    "type": "计算题",
+    "diff": 2,
+    "title": "分压偏置放大电路静态工作点",
+    "body": "分压偏置共射放大电路：U_CC=12 V，上偏置电阻 R_b1=40 kΩ、R_b2=20 kΩ，集电极电阻 R_c=2 kΩ、射极电阻 R_e=1 kΩ，晶体管 β=100，U_BE≈0.7 V。求静态工作点 I_CQ、U_CEQ。",
+    "formulas": ["dz-fd-06", "dz-bd-03"],
+    "answer": "U_B = R_b2/(R_b1+R_b2)·U_CC = 20/60×12 = 4 V。\nI_CQ ≈ (U_B−U_BE)/R_e = (4−0.7)/1k = 3.3 mA。\nU_CEQ = U_CC − I_CQ(R_c+R_e) = 12 − 3.3×3 = 2.1 V（> 0.3 V，工作在放大区）。",
+    "step": "① 分压求基极电位 U_B（忽略 I_B，与 β 基本无关）；② 用射极电阻定电流：I_CQ≈I_E=(U_B−U_BE)/R_e；③ 列 KVL 求 U_CEQ=U_CC−I_CQ(R_c+R_e)，R_c 与 R_e 压降都要减。",
+    "pitfall": "分压偏置的 I_CQ 靠 R_e 引入直流负反馈稳定，与 β 无关，别用 I_BQ=U_CC/R_b 那套；U_CEQ 漏减 R_e 上的压降是常见错。"
+  },
+  {
+    "id": "ex-dz-08",
+    "course": "dianzi",
+    "cat": "dz-dianyuan",
+    "type": "计算题",
+    "diff": 2,
+    "title": "整流二极管反压与滤波电容选择",
+    "body": "桥式整流电容滤波电路：变压器副边电压有效值 U₂=25 V，负载电阻 R_L=100 Ω，工频 f=50 Hz。求：(1) 带载输出电压 U_o；(2) 每只二极管承受的最大反向电压 U_RM（选管留 ≥1.5 倍裕量）；(3) 满足 R_L·C ≥ 3T/2 的最小滤波电容值。",
+    "formulas": ["dz-dy-05", "dz-dy-06"],
+    "answer": "(1) U_o ≈ 1.2U₂ = 30 V。\n(2) 桥式每管反压 U_RM=√2·U₂≈35.4 V，选管耐压 ≥1.5×35.4≈53 V，取 100 V 档。\n(3) T=1/50=20 ms，R_L·C ≥ 3T/2=30 ms ⇒ C ≥ 30 ms/R_L = 0.03/100 = 300 µF，取标准值 330 µF（电容耐压 ≥ √2U₂≈35.4 V，取 50 V 档）。",
+    "step": "① 桥式+电容滤波输出按 1.2U₂ 估算；② 桥式整流每管反压是 √2U₂（半波/全波才是 2√2U₂）；③ 由时间常数条件反解 C 的最小值，再取标准系列并复核耐压。",
+    "pitfall": "桥式反压别误用 2√2U₂；µF 与 F 换算是 10⁻⁶ 关系（300 µF=3×10⁻⁴ F）；电容耐压必须 ≥√2U₂。"
+  },
+
+  /* ================= 3. 液压与气压传动（7 道） ================= */
+  {
+    "id": "ex-yy-01",
+    "course": "yeya",
+    "cat": "yy-liuti",
+    "type": "计算题",
+    "diff": 1,
+    "title": "液压千斤顶帕斯卡原理增力计算",
+    "body": "液压千斤顶小活塞面积 A₁=10 cm²，大活塞面积 A₂=100 cm²。手柄使小活塞产生推力 F₁=200 N。求：(1) 系统压力 p；(2) 大活塞能举起的重物重力 F₂（不计损失）。",
+    "formulas": ["yy-lt-01"],
+    "answer": "(1) p = F₁/A₁ = 200/(10×10⁻⁴) = 2×10⁵ Pa = 0.2 MPa。\n(2) F₂ = p·A₂ = 2×10⁵ × 100×10⁻⁴ = 20000 N = 20 kN（增力 100 倍，等于面积比 A₂/A₁）。",
+    "step": "帕斯卡原理：密闭容器内压力处处相等；大活塞力 = 压力 × 大活塞面积。",
+    "pitfall": "面积要换算成 m²；增力倍数 = 面积比，代价是行程成反比缩短。"
+  },
+  {
+    "id": "ex-yy-02",
+    "course": "yeya",
+    "cat": "yy-gang",
+    "type": "计算题",
+    "diff": 2,
+    "title": "单杆液压缸两种进油与差动连接速度",
+    "body": "单杆活塞缸：活塞直径 D=80 mm，活塞杆直径 d=40 mm，输入流量 q=25 L/min。求：(1) 无杆腔进油速度 v₁；(2) 有杆腔进油速度 v₂；(3) 差动连接时的速度 v。",
+    "formulas": ["yy-gang-01", "yy-gang-02"],
+    "answer": "A₁=πD²/4≈50.27 cm²，A₂=π(D²−d²)/4≈37.70 cm²，q=25 L/min≈4.17×10⁻⁴ m³/s。\n(1) v₁=q/A₁≈0.083 m/s；(2) v₂=q/A₂≈0.111 m/s；(3) 差动 v=q/(A₁−A₂)≈0.332 m/s。",
+    "step": "速度=流量/有效通流面积；差动连接两腔同时进压油，有效面积=A₁−A₂。",
+    "pitfall": "有杆腔有效面积要减去杆截面；差动面积差小所以「快进」，但推力也相应减小。"
+  },
+  {
+    "id": "ex-yy-03",
+    "course": "yeya",
+    "cat": "yy-beng",
+    "type": "计算题",
+    "diff": 2,
+    "title": "液压泵实际流量与输入功率",
+    "body": "定量齿轮泵：转速 n=1450 r/min，排量 V=10 mL/r，容积效率 η_v=0.9；工作压力 p=10 MPa，总效率 η=0.85。求：(1) 实际输出流量 q；(2) 输入功率 P_i。",
+    "formulas": ["yy-beng-01", "yy-beng-02"],
+    "answer": "(1) q = n·V·η_v = 1450×10×0.9 = 13050 mL/min ≈ 13.05 L/min。\n(2) P_i = p·q/(60·η) = 10×13.05/(60×0.85) ≈ 2.56 kW。",
+    "step": "① 理论流量=转速×排量，再乘容积效率得实际流量；② 输入功率用 P_i=pq/(60η)（p 用 MPa、q 用 L/min）。",
+    "pitfall": "60 这个系数是单位折算（min→s、L→m³ 的组合）；η 用总效率而非只乘 η_v。"
+  },
+  {
+    "id": "ex-yy-04",
+    "course": "yeya",
+    "cat": "yy-fa",
+    "type": "分析题",
+    "diff": 2,
+    "title": "溢流阀与减压阀区别及调定压力",
+    "body": "说明溢流阀与减压阀在「安装方式」和「控制压力」上的主要区别；在定量泵节流调速系统中，溢流阀调定压力 p_y 应如何确定？",
+    "formulas": ["yy-fa-02", "yy-fa-05"],
+    "answer": "① 溢流阀：并联在泵出口，常闭，开启后进口压力≈调定压力，起定压溢流与过载保护；减压阀：串联在支路，常开，控制的是出口（二次）压力，稳定支路压力。② 定量泵节流调速时，p_y 必须大于系统最高工作压力 p_max（通常取 p_y ≈ 1.1~1.3 p_max），否则系统建不起工作压力、无法正常调速。",
+    "step": "从「串并联位置 / 常态开闭 / 控制进口还是出口压力」三方面对比；调定压力思路：先算最高负载压力，再留裕量。",
+    "pitfall": "最易混淆的是「溢流阀控进口、减压阀控出口」；p_y 小于负载压力时系统建压失败。"
+  },
+  {
+    "id": "ex-yy-05",
+    "course": "yeya",
+    "cat": "yy-qidong",
+    "type": "计算题",
+    "diff": 2,
+    "title": "单作用气缸推力计算",
+    "body": "单作用气缸缸径 D=40 mm，工作压力 p=0.6 MPa，机械效率 η_m=0.8（不计弹簧反力）。求理论推力与实际输出推力。",
+    "formulas": ["yy-qd-02"],
+    "answer": "理论 F=π/4·D²·p=π/4×0.04²×0.6×10⁶ ≈ 754 N；实际 F=π/4·D²·p·η_m ≈ 754×0.8 ≈ 603 N。",
+    "step": "推力 = 活塞面积 × 压力 × 机械效率；压力必须换成 Pa（0.6 MPa=6×10⁵ Pa）。",
+    "pitfall": "气动压力低（0.4~0.8 MPa），同缸径推力远小于液压；别忘了乘 η_m。"
+  },
+  {
+    "id": "ex-yy-06",
+    "course": "yeya",
+    "cat": "yy-liuti",
+    "type": "计算题",
+    "diff": 2,
+    "title": "雷诺数判断液流流态",
+    "body": "液压油运动黏度 ν=20 cSt，流经内径 d=10 mm 的管道，流量 q=10 L/min。求：(1) 平均流速 v；(2) 雷诺数 Re；(3) 判断液流是层流还是湍流。",
+    "formulas": ["yy-lt-07"],
+    "answer": "(1) A=πd²/4=π×0.01²/4≈7.85×10⁻⁵ m²；q=10×10⁻³/60≈1.667×10⁻⁴ m³/s；v=q/A≈2.12 m/s。\n(2) Re=v·d/ν=2.12×0.01/(20×10⁻⁶)=0.0212/(2×10⁻⁵)≈1061。\n(3) Re=1061 < 2320，为层流。",
+    "step": "① 单位换算：L/min→m³/s、cSt→m²/s（1 cSt=10⁻⁶ m²/s）、mm→m；② 平均流速 v=q/A；③ Re=v·d/ν 与临界值 2320（圆管）比较。",
+    "pitfall": "本题主坑是单位：ν=20 cSt=20×10⁻⁶ m²/s；d 与 v 分别用 m、m/s；层流临界雷诺数圆管取 2320。"
+  },
+  {
+    "id": "ex-yy-07",
+    "course": "yeya",
+    "cat": "yy-beng",
+    "type": "计算题",
+    "diff": 2,
+    "title": "定量液压马达转速与输出转矩",
+    "body": "定量液压马达排量 V=40 mL/r，输入流量 q=60 L/min，容积效率 η_v=0.92，进出口压差 Δp=8 MPa，机械效率 η_m=0.90。求：(1) 输出转速 n；(2) 输出转矩 T。",
+    "formulas": ["yy-beng-05"],
+    "answer": "(1) n = q·η_v/V = 60×10³×0.92/40 = 1380 r/min。\n(2) T = Δp·V·η_m/(2π) = 8×40×0.9/(2π) ≈ 45.8 N·m。",
+    "step": "① 流量从 L/min 换成 mL/min（×1000）后除以排量 V（mL/r）得理论转速，再乘容积效率 η_v；② 转矩 T=Δp·V·η_m/(2π)，Δp 用 MPa、V 用 mL/r 时结果直接是 N·m；③ 转速乘 η_v、转矩乘 η_m，两个效率各归各位。",
+    "pitfall": "转矩公式分母 2π 别丢；转速乘容积效率、转矩乘机械效率，用反是常见错；排量单位 mL/r 与流量单位要统一。"
+  },
+
+  /* ================= 4. 机械制造装备设计（7 道） ================= */
+  {
+    "id": "ex-zb-01",
+    "course": "zhuangbei",
+    "cat": "zb-chuan",
+    "type": "计算题",
+    "diff": 2,
+    "title": "主轴转速级数计算",
+    "body": "某机床主轴转速范围 n_min=31.5 r/min ~ n_max=1600 r/min，选用标准公比 φ=1.26。求：(1) 变速范围 R_n；(2) 转速级数 z。",
+    "formulas": ["zb-cd-01", "zb-cd-02", "zb-cd-03"],
+    "answer": "(1) R_n = n_max/n_min = 1600/31.5 ≈ 50.8。\n(2) z = lgR_n/lgφ + 1 = lg50.8/lg1.26 + 1 ≈ 18（取 18 级）。",
+    "step": "由 R_n=φ^(z−1) 两边取对数，反解得 z=lgR_n/lgφ+1。",
+    "pitfall": "取对数时用同底（常用对数即可）且比值别取反；最后要 +1。"
+  },
+  {
+    "id": "ex-zb-02",
+    "course": "zhuangbei",
+    "cat": "zb-chuan",
+    "type": "分析题",
+    "diff": 3,
+    "title": "转速图结构式合理性判断",
+    "body": "变速箱需 z=6 级转速，方案一结构式 6=3₁×2₂，方案二结构式 6=3₂×2₁。判断哪个结构式合理，并说明理由。",
+    "formulas": ["zb-cd-04"],
+    "answer": "方案一 6=3₁×2₂ 合理。理由：基本组的级比指数必须为 1（一根轴上的相邻转速按 φ 递增）；方案二基本组级比指数为 2，基本组输出的 3 根转速会「跳挡」互不衔接，且扩大组级比指数 1 小于基本组的变速范围（φ²），将造成转速重复或空缺。符合「前密后疏、级比指数先小后大」规律，方案一是标准结构。",
+    "step": "结构式 z=p₁^e₁×p₂^e₂…：基本组级比指数必为 1；扩大组级比指数 = 前一组（级比范围内包含的 φ 指数）。",
+    "pitfall": "只数级数、不看级比指数是常见错法；记住「基本组必须级比 1」。"
+  },
+  {
+    "id": "ex-zb-03",
+    "course": "zhuangbei",
+    "cat": "zb-jiaju",
+    "type": "分析题",
+    "diff": 2,
+    "title": "一面两孔定位的自由度分析",
+    "body": "箱体类零件采用「一面两孔」定位：大平面 + 一个圆柱销 + 一个菱形销。试分析限制了哪 6 个自由度？属完全定位还是欠定位？",
+    "formulas": ["zb-jj-01", "zb-jj-05"],
+    "answer": "大平面限制 3 个自由度（沿 z 移动、绕 x 和 y 转动）；圆柱销限制 2 个（沿 x、y 移动）；菱形销限制 1 个（绕 z 转动）。共 6 个，属完全定位。菱形销削边方向垂直于两销连线，避免两个销在 x、y 上重复限制造成过定位。",
+    "step": "「数点法」逐个数：平面 3 点、圆柱销 2 点、菱形销 1 点；再检查是否与已有约束重复。",
+    "pitfall": "菱形销的作用是「防转」且不与圆柱销重复限制移动；若两个都用圆柱销就会过定位。"
+  },
+  {
+    "id": "ex-zb-04",
+    "course": "zhuangbei",
+    "cat": "zb-jiaju",
+    "type": "计算题",
+    "diff": 2,
+    "title": "夹紧力估算（安全系数法）",
+    "body": "铣削工件受切削力 F=1000 N，夹紧面间摩擦因数 μ=0.2，取安全系数 K=2。按 W=K·F/μ 估算所需夹紧力 W。",
+    "formulas": ["zb-jj-03"],
+    "answer": "W = K·F/μ = 2×1000/0.2 = 10000 N = 10 kN。",
+    "step": "夹紧力必须克服「切削力 ÷ 摩擦因数」，再乘安全系数；若工件需抵抗的是力矩，先换算成等效作用力。",
+    "pitfall": "安全系数 K 常取 1.5~3，不能省；μ 按夹紧面实际材料查表，不能随意取。"
+  },
+  {
+    "id": "ex-zb-05",
+    "course": "zhuangbei",
+    "cat": "zb-jiaju",
+    "type": "分析题",
+    "diff": 2,
+    "title": "定位误差的两笔账与减小方法",
+    "body": "某工序采用平面定位，工序基准与定位基准不重合产生误差 ΔB=0.02 mm，定位元件制造误差引起基准位移误差 ΔY=0.03 mm。求总定位误差 ΔD，并说明如何减小第一项误差。",
+    "formulas": ["zb-jj-02"],
+    "answer": "ΔD = ΔB + ΔY = 0.02 + 0.03 = 0.05 mm。减小基准不重合误差：让定位基准与工序基准重合（尽量选工序基准作定位基准），可使 ΔB→0。",
+    "step": "定位误差 = 基准不重合 + 基准位移；两项独立时按最不利情况直接相加。",
+    "pitfall": "定位误差是两个分量之和，不是取其中较大者；基准重合时 ΔB=0。"
+  },
+  {
+    "id": "ex-zb-06",
+    "course": "zhuangbei",
+    "cat": "zb-jiaju",
+    "type": "计算题",
+    "diff": 2,
+    "title": "V 形块定位误差计算",
+    "body": "轴在 α=90° 的 V 形块上定位（工序基准为轴心线）铣削键槽，轴直径 d=40±0.05 mm（直径公差 δ=0.1 mm）。求：(1) 定位引起的基准位移误差；(2) 该定位方案的定位总误差 ΔD（并说明基准不重合误差）。",
+    "formulas": ["zb-jj-07", "zb-jj-02"],
+    "answer": "(1) V 形块定外圆，直径误差引起的轴心线位移 ΔY=δ/[2·sin(α/2)]=0.1/(2×sin45°)=0.1/1.414≈0.071 mm。\n(2) 工序基准（轴心线）与定位基准（轴心线）重合，基准不重合误差 ΔB=0；总定位误差 ΔD=ΔY+ΔB≈0.071 mm。",
+    "step": "① V 形块定位时直径公差带来的基准位移 Δ=δ/(2sin(α/2))，注意用半角 α/2；② 判断工序基准与定位基准是否重合以确定 ΔB；③ ΔD=ΔB+ΔY 两项相加。",
+    "pitfall": "α/2 用半角（90°→45°，sin45°≈0.707，故 Δ≈0.707δ）；若工序基准改为下母线，Δ≈0.207δ、上母线 Δ≈1.207δ——同一 V 形块因工序基准不同误差不同，答题要先明确基准。"
+  },
+  {
+    "id": "ex-zb-07",
+    "course": "zhuangbei",
+    "cat": "zb-jingei",
+    "type": "计算题",
+    "diff": 2,
+    "title": "滚珠丝杠进给速度与预拉伸量",
+    "body": "数控机床进给系统：滚珠丝杠导程 P_h=10 mm，丝杠转速 n=300 r/min；丝杠有效长度 L=1.2 m，工作温升 Δt=5 ℃，材料线膨胀系数 α=11×10⁻⁶ 1/℃。求：(1) 工作台进给速度 v；(2) 因温升引起的丝杠热伸长 ΔL，以及需施加的预拉伸补偿量。",
+    "formulas": ["zb-jg-04", "zb-jg-05"],
+    "answer": "(1) v = n·P_h/1000 = 300×10/1000 = 3 m/min。\n(2) ΔL = α·L·Δt = 11×10⁻⁶×1.2×5 = 6.6×10⁻⁵ m = 0.066 mm；预拉伸量取 ≥0.066 mm（抵消热伸长，稳定定位精度）。",
+    "step": "① 直线速度=导程×转速：P_h(mm)×n(r/min) 得 mm/min，除以 1000 换 m/min；② 热伸长 ΔL=α·L·Δt，先用国际单位算得 m 再 ×10³ 转 mm；③ 预拉伸补偿量应不小于热伸长量。",
+    "pitfall": "导程是丝杠'每转的直线移动量'；ΔL 数量级容易算错（6.6×10⁻⁵ m=0.066 mm）；预拉伸与温升补偿是 ΔL=αLΔt 这一笔。"
+  }
+];
+;
+/* ============ 学习助手 · 主应用逻辑（v3.15：小程序风格外壳——顶栏 + 底部 4 Tab + 我的页） ============ */
+(function () {
+  'use strict';
+
+  /* ---------- 工具 ---------- */
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+
+  /* ---------- 数据 ---------- */
+  const COURSES = window.KC_COURSES || [];
+  const CASES = window.KC_CASES || [];
+
+  // 3D 封面的分层配色：plate=浅色厚度层，deep=深色厚度层（与每课主色配套）
+  const CC3D = {
+    jixiesheji: { plate: '#60a5fa', deep: '#1d4ed8' },
+    dianzi:     { plate: '#a78bfa', deep: '#6d28d9' },
+    yeya:       { plate: '#2dd4bf', deep: '#0f766e' },
+    zhuangbei:  { plate: '#fbbf24', deep: '#b45309' }
+  };
+
+  /* ---------- 收藏（localStorage：公式 + 案例） ---------- */
+  const FAV_KEY = 'kcfav';
+  let fav = loadFav();
+  function loadFav() {
+    try {
+      const d = JSON.parse(localStorage.getItem(FAV_KEY) || '{}');
+      return { formulas: new Set(d.formulas || []), cases: new Set(d.cases || []) };
+    } catch (e) { return { formulas: new Set(), cases: new Set() }; }
+  }
+  function saveFav() {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify({ formulas: [...fav.formulas], cases: [...fav.cases] })); }
+    catch (e) { /* 个别环境 file:// 下 localStorage 不可用，忽略 */ }
+  }
+  function toggleFav(type, id) {
+    if (type === 'case') {
+      if (fav.cases.has(id)) fav.cases.delete(id); else fav.cases.add(id);
+    } else {
+      if (fav.formulas.has(id)) fav.formulas.delete(id); else fav.formulas.add(id);
+    }
+    saveFav();
+  }
+
+  /* ---------- 状态 ---------- */
+  const S = {
+    view: 'home',
+    course: { id: null, tab: 'formula' },
+    formula: { cat: 'all', q: '', favOnly: false },
+    cases: { cate: '全部', scene: '全部', q: '' }
+  };
+  let keepQ = false; // 案例弹窗「知识点跳转」：切到目标课程时保留搜索词
+
+  /* ---------- 数据辅助 ---------- */
+  // 拍平：课程 → 分类 → 公式，每条带 cat/course 引用
+  function allFormulas() {
+    const out = [];
+    COURSES.forEach((c) => (c.categories || []).forEach((cat) => (cat.formulas || []).forEach((f) => {
+      out.push(Object.assign({}, f, { cat: cat, course: c }));
+    })));
+    return out;
+  }
+  function formulaHaystack(f) {
+    return [f.title, f.formula, f.params, f.tip, f.mnemonic, f.cat.name, f.course.name].join(' ').toLowerCase();
+  }
+  function courseById(id) { return COURSES.find((c) => c.id === id); }
+  function catCount(c) { return (c.categories || []).length; }
+  function formulaCount(c) { return (c.categories || []).reduce((n, cat) => n + (cat.formulas || []).length, 0); }
+  function casesOf(courseId) { return CASES.filter((c) => c.course === courseId); }
+  // v3.12 习题·公式联动辅助
+  function formulaById(id) { return allFormulas().find((f) => f.id === id) || null; }
+  function catNameOf(courseId, catId) {
+    const c = courseById(courseId);
+    const cat = c && (c.categories || []).find((x) => x.id === catId);
+    return cat ? cat.name : '';
+  }
+  function stars(n) { n = Math.max(1, Math.min(3, n || 1)); return '★'.repeat(n) + '☆'.repeat(3 - n); }
+
+  /* ---------- 路由 ---------- */
+  function goHash(h) {
+    h = h || location.hash || '#/';
+    try { if (location.hash !== h) location.hash = h; } catch (err) { /* 个别环境禁止改 hash */ }
+    route(h);
+  }
+  function route(forceHash) {
+    // forceHash 只接受字符串；hashchange 事件回调不能把 Event 对象传进来
+    let h = (typeof forceHash === 'string' && forceHash) || location.hash || '';
+    const seg = h.replace(/^#\/?/, '').split('/').filter(Boolean);
+    if (seg[0] === 'course') {
+      const c = courseById(seg[1]);
+      if (c) { routeView('course', c, seg[2] === 'cases' ? 'cases' : 'formula'); return; }
+    }
+    if (seg[0] === 'about') { routeView('about'); return; }
+    // 无 hash / 未知路由一律回首页（四张封面）
+    routeView('home');
+  }
+  function routeView(v, course, tab) {
+    if (v === 'course' && course) {
+      if (!S.course.id || S.course.id !== course.id) {
+        // 切换课程：清掉跨课筛选（防止旧筛选把新课程筛空）；知识点跳转时保留搜索词
+        S.course.id = course.id;
+        S.formula.cat = 'all';
+        S.formula.favOnly = false;
+        S.cases.cate = '全部';
+        S.cases.scene = '全部';
+        if (!keepQ) S.formula.q = '';
+      }
+      S.course.tab = tab;
+    }
+    keepQ = false;
+    S.view = v;
+    $$('.view').forEach((s) => s.classList.toggle('active', s.id === 'view-' + v));
+    // 小程序外壳：标题 / 返回键 / 底部 Tab 高亮
+    $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'about' ? '我的' : '学习助手');
+    $('#mp-back').classList.toggle('hidden', v === 'home');
+    const tabName = v === 'course' ? S.course.tab : (v === 'about' ? 'about' : 'home');
+    $$('#mp-tabbar .mp-tab').forEach((a) => a.classList.toggle('active', a.getAttribute('data-tab') === tabName));
+    ({ home: renderHome, course: renderCourse, about: renderAbout })[v]();
+    window.scrollTo({ top: 0 });
+  }
+
+  /* ---------- 首页：只有四张封面 ---------- */
+  function renderHome() {
+    $('#home-list').innerHTML = COURSES.map((c) => {
+      const fc = formulaCount(c);
+      const cc = casesOf(c.id).length;
+      const t = CC3D[c.id] || { plate: c.color, deep: c.color };
+      return `
+      <div class="c3d">
+        <a class="cover-card" href="#/course/${esc(c.id)}" style="--cc:${esc(c.color)};--cc-plate:${esc(t.plate)};--cc-deep:${esc(t.deep)}">
+          ${c.cover ? `<img class="cc-cover" src="${esc(c.cover)}" alt="${esc(c.name)} 封面" loading="lazy">` : ''}
+          <span class="cc-body">
+            <b class="cc-name">${c.emoji} ${esc(c.name)} <span class="cc-go">进入 ▸</span></b>
+            ${c.desc ? `<span class="cc-desc">${esc(c.desc)}</span>` : ''}
+            <span class="cc-meta">🧮 ${fc} 条公式 · ✏️ ${cc} 道习题</span>
+          </span>
+          <span class="cc-shine" aria-hidden="true"></span>
+        </a>
+        <!-- 厚度层：卡片的外部兄弟（z-index:-1），排在卡片不透明白底之下，只露出四周厚度 -->
+        <span class="cc-plates" aria-hidden="true"></span>
+      </div>`;
+    }).join('');
+  }
+
+  /* ---------- 课程页：公式速记 + 习题案例 ---------- */
+  function renderCourse() {
+    const c = courseById(S.course.id);
+    if (!c) { routeView('home'); return; }
+    const nf = formulaCount(c);
+    const nc = casesOf(c.id).length;
+
+    // 课程头：封面横幅 + 课名/教材/简介 + 计数（--cc-plate：暗色主题下标题的每课浅色变体）
+    const t = CC3D[c.id] || { plate: c.color, deep: c.color };
+    $('#course-head').innerHTML = `
+      <div class="co-head" style="--cc:${esc(c.color)};--cc-plate:${esc(t.plate)};--cc-deep:${esc(t.deep)}">
+        ${c.cover ? `<img class="co-banner" src="${esc(c.cover)}" alt="${esc(c.name)} 封面" loading="lazy">` : ''}
+        <div class="co-head-in">
+          <span class="co-crumb"><a href="#/">← 返回首页</a> · ${esc(c.name)}</span>
+          <div class="co-title-row">
+            <span class="co-emoji">${c.emoji}</span>
+            <span class="co-title">${esc(c.name)}</span>
+          </div>
+          <div class="co-sub">${esc(c.book)}${c.desc ? ' · ' + esc(c.desc) : ''}</div>
+          <div class="co-counts">
+            <span class="chip on">🧮 公式速记 ${nf} 条</span>
+            <span class="chip on">✏️ 习题练习 ${nc} 道</span>
+          </div>
+        </div>
+      </div>`;
+
+    // 双标签
+    $('#course-tabs').innerHTML = `
+      <a class="ctab ${S.course.tab === 'formula' ? 'active' : ''}" href="#/course/${esc(c.id)}">🧮 公式速记（${nf}）</a>
+      <a class="ctab ${S.course.tab === 'cases' ? 'active' : ''}" href="#/course/${esc(c.id)}/cases">✏️ 习题练习（${nc}）</a>`;
+
+    // 标签页显隐
+    $('#co-formula-pane').classList.toggle('hidden', S.course.tab !== 'formula');
+    $('#co-cases-pane').classList.toggle('hidden', S.course.tab !== 'cases');
+
+    renderFormulaPane(c);
+    renderCasesPane(c);
+  }
+
+  function renderFormulaPane(c) {
+    // 搜索框是静态 DOM：只同步值，不重建（保住输入焦点）
+    $('#cof-search').value = S.formula.q;
+    $('#cof-favtoggle').classList.toggle('on', S.formula.favOnly);
+
+    // 本课分类 chips（点任一分类只看该分类）
+    $('#cof-cats').innerHTML =
+      `<span class="chip ${S.formula.cat === 'all' ? 'on' : ''}" data-setcat="all">📚 全部分类（${formulaCount(c)}）</span>` +
+      c.categories.map((cat) =>
+        `<span class="chip ${S.formula.cat === cat.id ? 'on' : ''}" data-setcat="${esc(cat.id)}">${cat.emoji} ${esc(cat.name)}（${(cat.formulas || []).length}）</span>`).join('');
+
+    let list = allFormulas().filter((f) => f.course.id === c.id);
+    if (S.formula.cat !== 'all') list = list.filter((f) => f.cat.id === S.formula.cat);
+    if (S.formula.q) { const q = S.formula.q.toLowerCase(); list = list.filter((f) => formulaHaystack(f).indexOf(q) >= 0); }
+    if (S.formula.favOnly) list = list.filter((f) => fav.formulas.has(f.id));
+
+    if (!S.formula.q && !S.formula.favOnly && S.formula.cat === 'all') {
+      // 默认：按本课分类分组展示全部公式
+      $('#cof-list').innerHTML = c.categories.map((cat) => {
+        const fs = list.filter((f) => f.cat.id === cat.id);
+        return `
+        <div class="cat-block">
+          <div class="cat-head">
+            ${cat.emoji} ${esc(cat.name)}
+            ${cat.chapter ? `<span class="chip">📖 ${esc(cat.chapter)}</span>` : ''}
+            <span class="chip">${fs.length} 条</span>
+          </div>
+          ${cat.intro ? `<p class="cat-intro">${esc(cat.intro)}</p>` : ''}
+          ${fs.length ? cardsHTML(fs) : '<p class="loading">该分类暂无公式</p>'}
+        </div>`;
+      }).join('');
+    } else {
+      $('#cof-list').innerHTML = cardsHTML(list, '没有找到匹配的公式，换个词试试' + (S.formula.favOnly ? '（或取消「只看收藏」）' : ''));
+    }
+  }
+
+  function renderCasesPane(c) {
+    $('#coc-search').value = S.cases.q;
+    const list0 = casesOf(c.id);
+    // 第一行 chips = 知识点分类（本课分类顺序去重），第二行 = 题型
+    const catIds = ['全部'].concat(Array.from(new Set(list0.map((x) => x.cat).filter((v) => v))));
+    const cates = catIds.map((id) => (id === '全部' ? '全部' : catNameOf(c.id, id) || id));
+    const types = ['全部'].concat(Array.from(new Set(list0.map((x) => x.type).filter((v) => v))));
+    $('#coc-cates').innerHTML = catIds.map((id, i) =>
+      `<span class="chip ${S.cases.cate === id ? 'on' : ''}" data-casecate="${esc(id)}">${esc(cates[i])}</span>`).join('');
+    $('#coc-scenes').innerHTML = types.map((t) =>
+      `<span class="chip ${S.cases.scene === t ? 'on' : ''}" data-casescene="${esc(t)}">${esc(t)}</span>`).join('');
+    let list = list0.slice();
+    if (S.cases.cate !== '全部') list = list.filter((x) => x.cat === S.cases.cate);
+    if (S.cases.scene !== '全部') list = list.filter((x) => x.type === S.cases.scene);
+    if (S.cases.q) {
+      const q = S.cases.q.toLowerCase();
+      list = list.filter((x) =>
+        (x.title + x.body + x.answer + x.step + (x.pitfall || '') + x.type + catNameOf(c.id, x.cat)).toLowerCase().indexOf(q) >= 0);
+    }
+    $('#coc-list').innerHTML = list.length
+      ? list.map(exerciseCardHTML).join('')
+      : `<p class="loading">${list0.length ? '没有找到匹配的习题，换个关键词试试' : '本课暂无配套习题，可先看「公式速记」，或到其他课程逛逛'}</p>`;
+  }
+
+  /* ---------- 卡片 ---------- */
+  function cardsHTML(list, emptyMsg) {
+    if (!list.length) return `<p class="loading">${emptyMsg || '没有找到匹配的公式，换个词试试'}</p>`;
+    return `<div class="cards-wrap">${list.map(formulaCardHTML).join('')}</div>`;
+  }
+  function formulaCardHTML(f) {
+    const isFav = fav.formulas.has(f.id);
+    return `
+      <article class="card formula-card" data-id="${esc(f.id)}">
+        <div class="fc-head">
+          <span class="chip course-chip">${f.course.emoji} ${esc(f.course.name)}</span>
+          <span class="chip cat-chip" data-setcat="${esc(f.cat.id)}" title="只看该分类">${f.cat.emoji} ${esc(f.cat.name)}</span>
+          <button class="favbtn ${isFav ? 'on' : ''}" data-type="formula" data-id="${esc(f.id)}">${isFav ? '★' : '☆'}</button>
+        </div>
+        <h3>${esc(f.title)}</h3>
+        <pre class="fml">${esc(f.formula)}</pre>
+        ${f.params ? `<div class="params">变量：${esc(f.params)}</div>` : ''}
+        ${f.tip ? `<div class="tip">💡 ${esc(f.tip)}</div>` : ''}
+        ${f.mnemonic ? `<div class="mnemonic">🗝️ ${esc(f.mnemonic)}</div>` : ''}
+      </article>`;
+  }
+  // v3.12 习题卡：题干 + 题型 + 难度 + 「涉及公式」按钮（点击直达公式速记并高亮）
+  function exerciseCardHTML(x) {
+    const isFav = fav.cases.has(x.id);
+    const catName = catNameOf(x.course, x.cat) || '';
+    const links = (x.formulas || []).map((fid) => {
+      const f = formulaById(fid);
+      return f ? `<button class="cc-fmlink" data-goto-formula="${esc(f.id)}">${esc(f.title)}</button>` : '';
+    }).join('');
+    return `
+      <article class="card case-card" data-id="${esc(x.id)}">
+        <div class="cc-head">
+          <span class="cc-name">✏️ ${esc(x.title)}</span>
+          <span class="cc-badge">${esc(x.type)}</span>
+        </div>
+        <div class="cc-sub">${esc(catName)} · 难度 <span class="cc-diff">${stars(x.diff)}</span></div>
+        <p class="highlight">📝 ${esc(x.body)}</p>
+        ${links ? `<div class="cc-fmlinks">💡 涉及公式：${links}</div>` : ''}
+        <div class="cc-meta">
+          <span>📚 共 ${(x.formulas || []).length} 条搭配公式</span>
+          <button class="favbtn ${isFav ? 'on' : ''}" data-type="case" data-id="${esc(x.id)}">${isFav ? '★' : '☆'}</button>
+        </div>
+        <div class="cc-open"><button data-open="${esc(x.id)}">查看答案与解析 ▸</button></div>
+      </article>`;
+  }
+
+  /* ---------- 习题答案弹窗 ---------- */
+  function openExercise(id) {
+    const x = CASES.find((v) => v.id === id);
+    if (!x) return;
+    const catName = catNameOf(x.course, x.cat) || '';
+    const fmls = (x.formulas || []).map((fid) => {
+      const f = formulaById(fid);
+      return f ? `<div class="m-formula">
+        <pre class="fml">${esc(f.formula)}</pre>
+        <button class="cc-fmlink" data-goto-formula="${esc(f.id)}">📌 ${esc(f.title)}：去公式速记定位</button>
+      </div>` : '';
+    }).join('');
+    $('#modal-body').innerHTML = `
+      <h2>✏️ ${esc(x.title)}</h2>
+      <div class="meta">${esc(x.type)} · 难度 ${stars(x.diff)} · ${esc(catName)}</div>
+      <div class="m-field"><h4>📝 题目</h4><p>${esc(x.body)}</p></div>
+      ${fmls ? `<div class="m-field"><h4>📖 本题用到的公式（已与公式速记联动）</h4>${fmls}</div>` : ''}
+      <div class="m-field"><h4>✅ 参考答案</h4><div class="m-note">${esc(x.answer)}</div></div>
+      <div class="m-field"><h4>🧭 解题思路</h4><p>${esc(x.step)}</p></div>
+      ${x.pitfall ? `<div class="m-field"><h4>⚠️ 易错点</h4><p>${esc(x.pitfall)}</p></div>` : ''}`;
+    $('#case-modal').classList.remove('hidden');
+  }
+  function closeModal() { $('#case-modal').classList.add('hidden'); }
+
+  /* ---------- 公式联动：跳回公式速记并滚动高亮目标公式卡 ---------- */
+  function gotoFormula(fid) {
+    const f = formulaById(fid);
+    if (!f) return;
+    closeModal();
+    keepQ = false;
+    S.formula.q = '';
+    S.formula.favOnly = false;
+    // 先按公式所在课程路由（routeView 会重置筛选），再切到该公式分类后重绘，保证卡片可见
+    goHash('#/course/' + f.course.id);
+    S.formula.cat = f.cat.id;
+    S.course.tab = 'formula';
+    renderCourse();
+    setTimeout(() => {
+      const card = document.querySelector('#cof-list .formula-card[data-id="' + f.id + '"]');
+      if (!card) return;
+      try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { /* 忽略 */ }
+      card.classList.add('fml-hl');
+      setTimeout(() => card.classList.remove('fml-hl'), 2600);
+    }, 80);
+  }
+
+  /* ---------- 我的/关于页（统计 + 收藏 + 使用提示，v3.15） ---------- */
+  function renderAbout() {
+    const ncat = COURSES.reduce((n, c) => n + (c.categories || []).length, 0);
+    const nf = COURSES.reduce((n, c) => n + formulaCount(c), 0);
+    $('#ab-stats').innerHTML = [
+      ['📚', COURSES.length + ' 门课程'],
+      ['🗂', ncat + ' 个分类'],
+      ['🧮', nf + ' 条公式'],
+      ['✏️', CASES.length + ' 道习题']
+    ].map((x) => '<span class="ab-stat"><b>' + x[0] + '</b><i>' + x[1] + '</i></span>').join('');
+    $('#ab-per').innerHTML = COURSES.map((c) =>
+      '<span class="ab-per-item">' + c.emoji + ' ' + esc(c.name) +
+      '<i>' + formulaCount(c) + ' 公式 · ' + casesOf(c.id) + ' 习题</i></span>').join('');
+    $('#ab-fav').textContent = '已收藏 ⭐ ' + fav.formulas.size + ' 条公式 · ' + fav.cases.size + ' 道习题';
+  }
+
+  /* ---------- 事件 ---------- */
+  // 站内跳转统一入口：显式设 hash（失败也不影响）+ 直接渲染，
+  // 不依赖浏览器默认 hash 导航或 hashchange 事件——在任何预览沙盒里都点得动
+  function onDocClick(e) {
+    const t = e.target;
+
+    // 底部 Tab 栏（小程序外壳）：公式/习题 Tab 指向当前（或第一门）课程
+    const tab = t.closest('.mp-tab[data-tab]');
+    if (tab) {
+      const tb = tab.getAttribute('data-tab');
+      const cid = S.course.id || (COURSES[0] && COURSES[0].id) || '';
+      goHash(tb === 'home' ? '#/'
+        : tb === 'about' ? '#/about'
+        : tb === 'formula' ? '#/course/' + cid
+        : '#/course/' + cid + '/cases');
+      return;
+    }
+
+    // 顶栏返回键
+    if (t.closest('#mp-back')) { goHash('#/'); return; }
+
+    // 站内 hash 链接（封面卡、标签页、返回首页等）：统一 preventDefault + goHash
+    const link = t.closest('a[href^="#/"]');
+    if (link) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      goHash(link.getAttribute('href') || '#/');
+      return;
+    }
+
+    // 收藏按钮
+    const fb = t.closest('.favbtn');
+    if (fb) { toggleFav(fb.dataset.type, fb.dataset.id); renderCurrent(); return; }
+
+    // 课程页公式分类（chips + 卡内分类标签）
+    const st = t.closest('[data-setcat]');
+    if (st) { S.formula.cat = st.dataset.setcat; renderCourse(); return; }
+
+    // 「只看收藏」
+    const ft = t.closest('#cof-favtoggle');
+    if (ft) { S.formula.favOnly = !S.formula.favOnly; renderCourse(); return; }
+
+    // 课程页案例分类 / 场景
+    const ca = t.closest('#coc-cates .chip');
+    if (ca) { S.cases.cate = ca.dataset.casecate; renderCourse(); return; }
+    const sc = t.closest('#coc-scenes .chip');
+    if (sc) { S.cases.scene = sc.dataset.casescene; renderCourse(); return; }
+
+    // 习题答案弹窗
+    const op = t.closest('[data-open]');
+    if (op) { openExercise(op.dataset.open); return; }
+
+    // 公式联动：习题卡/弹窗里的「涉及公式」→ 回公式速记并高亮该公式卡
+    const gf = t.closest('[data-goto-formula]');
+    if (gf) { gotoFormula(gf.dataset.gotoFormula); return; }
+
+    // 弹窗关闭
+    if (t.closest('#modal-close') || t.id === 'case-modal') closeModal();
+  }
+  function renderCurrent() {
+    ({ home: renderHome, course: renderCourse })[S.view]();
+  }
+
+  /* ---------- 封面 3D 倾斜：整卡朝鼠标方向微微转动（纯 CSS 3D，事件委托） ---------- */
+  (function coverTilt() {
+    var MAX = 7; // 最大倾斜角（度）
+    var cur = null;
+    // 系统开启「减弱动态效果」时跳过鼠标倾斜，只保留静态 3D 立体
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    function applyTilt(v, x, y) {
+      var r = v.getBoundingClientRect();
+      var px = (x - r.left) / r.width - 0.5;   // -0.5（左）.. 0.5（右）
+      var py = (y - r.top) / r.height - 0.5;   // -0.5（上）.. 0.5（下）
+      var rx = -py * 2 * MAX;                  // 上下倾斜
+      var ry = px * 2 * MAX;                   // 左右倾斜
+      v.style.transform = 'translateY(-6px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+    }
+    function resetTilt(v) { v.style.transform = ''; }
+    document.addEventListener('pointermove', function (e) {
+      var v = e.target && e.target.closest ? e.target.closest('.c3d') : null;
+      if (v) {
+        if (cur && cur !== v) resetTilt(cur);
+        cur = v;
+        applyTilt(v, e.clientX, e.clientY);
+      } else if (cur) {
+        resetTilt(cur);
+        cur = null;
+      }
+    }, { passive: true });
+    document.addEventListener('pointerleave', function () {
+      if (cur) { resetTilt(cur); cur = null; }
+    });
+    // 视图切换（回首页重绘）后丢弃旧容器引用，避免残留内联 transform
+    document.addEventListener('click', function () {
+      if (cur && !cur.isConnected) { cur = null; }
+    });
+  })();
+
+  /* ---------- 初始化 ---------- */
+  // 全局错误提示条：任何脚本报错都在页面底部可见，演示现场能自查'点了没反应'的原因
+  window.addEventListener('error', (ev) => {
+    try {
+      const d = document.createElement('div');
+      d.className = 'err-banner';
+      d.textContent = '⚠️ 页面出了点问题：' + ((ev.message) || (ev.error && ev.error.message) || '未知错误');
+      document.body.appendChild(d);
+    } catch (e2) { /* ignore */ }
+  });
+  // 搜索框用事件委托（输入框在 DOM 中保持不重建，避免丢焦点）
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el || !el.id) return;
+    if (el.id === 'cof-search') { S.formula.q = el.value; renderCourse(); }
+    else if (el.id === 'coc-search') { S.cases.q = el.value; renderCourse(); }
+  });
+  document.addEventListener('click', onDocClick);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  window.addEventListener('hashchange', () => route());
+  route();
+})();
+</script>
+</body>
+</html>
