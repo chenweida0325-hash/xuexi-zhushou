@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>学习助手 · 四门主课 公式速记 · 习题练习</title>
+<title>学习助手 · 四门主课 公式速记 · 习题练习 · 第二课堂学分</title>
 <style>
 /* ============ 学习助手 · 基础样式（v3.11：全站深色——课程页与首页同款黑色机械风，首页白卡 3D 封面保留） ============ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -471,6 +471,87 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.3); white-space: pre-wrap;
 }
 
+/* ---------- 第二课堂学分栏目（v4.1） ---------- */
+.cred-head {
+  background: linear-gradient(160deg, rgba(29, 78, 216, .18), rgba(15, 23, 42, .25) 55%);
+  border: 1px solid rgba(96, 165, 250, .25); border-radius: var(--radius);
+  padding: 14px 15px; margin-bottom: 14px; box-shadow: var(--shadow);
+}
+.cred-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cred-emoji { font-size: 26px; }
+.cred-title { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+.cred-title-row .chip { font-size: 11.5px; padding: 3px 10px; }
+.cred-rule { font-size: 13px; color: #cbd5e1; margin-top: 8px; line-height: 1.75; }
+.cred-progress { margin-top: 12px; }
+.cred-bar {
+  height: 12px; border-radius: 999px; overflow: hidden;
+  background: #0d1830; border: 1px solid rgba(148, 163, 184, .22);
+}
+.cred-bar i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--ok), #4ade80);
+  border-radius: 999px; transition: width .35s ease;
+}
+.cred-nums { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; font-size: 13px; }
+.cred-nums b { color: #4ade80; font-size: 16px; }
+.cred-nums i { color: var(--muted); font-style: normal; }
+.cred-meter { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.cred-meter .chip { font-size: 11.5px; padding: 3px 10px; cursor: default; }
+.cred-block { margin-bottom: 14px; }
+.cred-block-head {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  font-size: 14.5px; margin: 4px 2px 10px;
+}
+.cred-block-head b { font-size: 15.5px; letter-spacing: .5px; }
+.cred-block-head span { font-size: 12px; color: var(--muted); }
+.cred-parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.credit-part { transition: border-color .15s, box-shadow .15s; }
+.credit-part.done { border-color: rgba(74, 222, 128, .45); }
+.credit-part.done .cp-name { color: #4ade80; }
+.credit-part.drop { border-color: var(--link); box-shadow: 0 0 0 3px rgba(96, 165, 250, .18); }
+.cp-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cp-name { font-size: 15.5px; font-weight: 700; }
+.cp-head .chip { font-size: 11.5px; padding: 3px 10px; cursor: default; }
+.cp-done {
+  margin-left: auto;
+  border: 1.5px solid var(--line); background: #0d1830; color: var(--muted);
+  font-size: 12px; padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all .15s;
+}
+.cp-done:hover { border-color: var(--ok); color: var(--ok); }
+.cp-done.on { background: rgba(22, 163, 74, .18); border-color: rgba(74, 222, 128, .6); color: #4ade80; font-weight: 600; }
+.cp-desc { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+.cp-files { display: flex; flex-direction: column; gap: 7px; margin-top: 2px; }
+.cp-empty {
+  font-size: 12.5px; color: #64748b; padding: 10px 12px;
+  border: 1.5px dashed rgba(148, 163, 184, .28); border-radius: 10px;
+}
+.cp-file {
+  display: flex; align-items: center; gap: 8px;
+  background: #0d1830; border: 1px solid rgba(148, 163, 184, .16);
+  border-radius: 10px; padding: 7px 10px;
+}
+.cf-ic { font-size: 19px; }
+.cf-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.35; }
+.cf-info b { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cf-info i { font-size: 11px; color: var(--muted); font-style: normal; }
+.cf-dl, .cf-del {
+  flex: none;
+  border: 1.5px solid var(--line); background: none; color: var(--muted);
+  font-size: 11.5px; padding: 4px 10px; border-radius: 999px; cursor: pointer; transition: all .15s;
+}
+.cf-dl:hover { border-color: var(--link); color: var(--link); }
+.cf-del:hover { border-color: var(--bad); color: var(--bad); }
+.cp-actions { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+.cp-dragtip { font-size: 11.5px; color: #64748b; }
+.cred-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.cred-tools .btn { font-size: 12.5px; padding: 6px 13px; }
+.cred-hint { width: 100%; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cred-warn {
+  width: 100%; font-size: 12.5px; color: #fca5a5;
+  background: rgba(220, 38, 38, .12); border: 1px solid rgba(220, 38, 38, .35);
+  padding: 8px 11px; border-radius: 10px;
+}
+
 /* ---------- 小屏 ---------- */
 @media (max-width: 900px) {
   .bg-gear    { width: 220px; }
@@ -561,10 +642,17 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     </div>
   </section>
 
+  <!-- ============ 第二课堂学分（v4.1：佐证文件按类别存进本机浏览器，只看得见自己的） ============ -->
+  <section id="view-credits" class="view">
+    <div id="cred-list"><p class="loading">加载中…</p></div>
+    <input type="file" id="cred-file" multiple hidden>
+    <input type="file" id="cred-import" accept=".json,application/json" hidden>
+  </section>
+
   <!-- ============ 我的/关于页（小程序外壳 4 Tab 之一） ============ -->
   <section id="view-about" class="view">
     <div class="about-card">
-      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.0</small></div>
+      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.1</small></div>
       <p class="ab-sub">四门主课 · 公式速记 + 考试风习题（学术科技创新实践——科技创新成果分享会作品）</p>
       <div id="ab-stats" class="ab-stats"></div>
       <div class="ab-list">
@@ -582,6 +670,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
           <li>公式卡带分类与记忆口诀，可在搜索框按知识点快速定位。</li>
           <li>习题卡点「查看答案与解析」看详解；「涉及公式」一键跳回公式速记并高亮。</li>
           <li>收藏后用「⭐ 只看收藏」集中复习。</li>
+          <li>底部「学分」Tab：把第二课堂佐证文件按学分类别归档（存在本机浏览器，各自设备各存各看；可导出/导入备份迁移）。</li>
         </ul>
       </div>
       <div class="ab-list">
@@ -592,13 +681,13 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
         <h4>📱 离线兜底</h4>
         <p>单文件零依赖：电脑双击「学习助手.html」即可打开；发到手机可用浏览器离线查看。</p>
       </div>
-      <p class="ab-foot">学习助手 v4.0 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
+      <p class="ab-foot">学习助手 v4.1 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
     </div>
   </section>
 </main>
 
 <footer class="site-foot">
-  <p>学习助手 v4.0（2026-11-16）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 4 Tab（首页/公式/习题/我的）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 全站深色机械风 · 首页 2×2 白色 3D 封面点击直达该课 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
+  <p>学习助手 v4.1（2026-11-16）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 5 Tab（首页/公式/习题/学分/我的）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 「第二课堂学分」栏目：把佐证文件按 7 个学分类别存档（2.5 学分进度跟踪，本机浏览器本地保存，只看得见自己的，可导出/导入备份）· 全站深色机械风 · 首页 2×2 白色 3D 封面点击直达该课 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
 </footer>
 
 <!-- 小程序外壳：底部 Tab 栏 -->
@@ -606,6 +695,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   <a class="mp-tab active" data-tab="home" href="#/"><span class="ico">🏠</span>首页</a>
   <a class="mp-tab" data-tab="formula"><span class="ico">🧮</span>公式</a>
   <a class="mp-tab" data-tab="cases"><span class="ico">✏️</span>习题</a>
+  <a class="mp-tab" data-tab="credits"><span class="ico">🎖️</span>学分</a>
   <a class="mp-tab" data-tab="about" href="#/about"><span class="ico">ℹ️</span>我的</a>
 </nav>
 
@@ -616,6 +706,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <div id="modal-body"></div>
   </div>
 </div>
+
 
 
 
@@ -1537,7 +1628,29 @@ window.KC_CASES = [
   }
 ];
 ;
-/* ============ 学习助手 · 主应用逻辑（v3.15：小程序风格外壳——顶栏 + 底部 4 Tab + 我的页） ============ */
+/* ============ 学习助手 · 第二课堂学分数据（v4.1） ============
+   规则来源：用户提供的《办法》截图（2026-11-16）
+   结构：parts 为学分类别卡片；type: required=必修 / elect2=四选二
+   说明：总分 2.5 = 必修 1.5（3×0.5）+ 四选二 1（任意 2 类各 0.5）
+*/
+window.KC_CREDITS = {
+  "title": "第二课堂学分",
+  "rule": "专升本学生必须修满《办法》规定的第二课堂课程 2.5 个学分方可毕业。必修 1.5 学分：思想成长类、社会实践类、创新创业课外选修类各 0.5 学分，共计 1.5 个学分；再从技能特长类、劳动实践类、志愿公益类、校园文化活动类中四选二修满 1 学分。",
+  "total": 2.5,
+  "target": "2027-06",
+  "targetNote": "目标：2027 年 6 月份修完",
+  "parts": [
+    { "id": "sxcz", "name": "思想成长类", "emoji": "🧭", "type": "required", "credit": 0.5, "desc": "思政教育、党团活动、主题讲座等思想引领与素养提升类活动的证明材料" },
+    { "id": "shsj", "name": "社会实践类", "emoji": "🏞️", "type": "required", "credit": 0.5, "desc": "三下乡、返家乡、社会调研、挂职锻炼等实践活动的证明材料" },
+    { "id": "cxcy", "name": "创新创业课外选修类", "emoji": "💡", "type": "required", "credit": 0.5, "desc": "创新创业竞赛、开放实验、课外科技活动、学科竞赛等证明材料" },
+    { "id": "jntz", "name": "技能特长类", "emoji": "🛠️", "type": "elect2", "credit": 0.5, "desc": "专业技能证书、等级考试、体育/文艺特长等佐证材料" },
+    { "id": "ldsj", "name": "劳动实践类", "emoji": "🧹", "type": "elect2", "credit": 0.5, "desc": "日常生活劳动、生产劳动、服务性劳动等实践记录" },
+    { "id": "zygy", "name": "志愿公益类", "emoji": "💝", "type": "elect2", "credit": 0.5, "desc": "志愿服务时长记录、无偿献血、公益活动等证明材料" },
+    { "id": "xywh", "name": "校园文化活动类", "emoji": "🎭", "type": "elect2", "credit": 0.5, "desc": "文艺演出、体育竞赛、社团活动、讲座沙龙等参与证明" }
+  ]
+};
+;
+/* ============ 学习助手 · 主应用逻辑（v4.1：小程序外壳 5 Tab——首页/公式/习题/学分/我的；新增第二课堂学分栏目） ============ */
 (function () {
   'use strict';
 
@@ -1551,6 +1664,7 @@ window.KC_CASES = [
   /* ---------- 数据 ---------- */
   const COURSES = window.KC_COURSES || [];
   const CASES = window.KC_CASES || [];
+  const CREDITS = window.KC_CREDITS || null;
 
   // 3D 封面的分层配色：plate=浅色厚度层，deep=深色厚度层（与每课主色配套）
   const CC3D = {
@@ -1582,12 +1696,368 @@ window.KC_CASES = [
     saveFav();
   }
 
+  /* ---------- 第二课堂学分（v4.1） ----------
+     存储设计：内存镜像是唯一事实源（同步读写，界面与校验无异步负担），
+     IndexedDB 后台持久化；不可用（file://、隐私模式、测试环境）自动降级为仅本次会话内存。
+     window.creditStore 暴露给校验脚本/调试。文件只存在本机浏览器，互不可见。 */
+  const CREDIT_DONE_KEY = 'kc-credit-done';
+  let creditDone = (function () {
+    try { return JSON.parse(localStorage.getItem(CREDIT_DONE_KEY) || '{}') || {}; }
+    catch (e) { return {}; }
+  })();
+  function saveCreditDone() { try { localStorage.setItem(CREDIT_DONE_KEY, JSON.stringify(creditDone)); } catch (e) { /* 忽略 */ } }
+  function toggleCreditDone(partId) {
+    if (creditDone[partId]) delete creditDone[partId]; else creditDone[partId] = 1;
+    saveCreditDone();
+  }
+
+  let creditWarnMsg = '';
+  function setCreditWarn(m) { creditWarnMsg = m; }
+
+  const creditStore = (function () {
+    const DB_NAME = 'kc-credits', STORE_NAME = 'files';
+    let db = null, broken = false, opening = null, dirty = false, ready = false;
+    let mem = [];
+    function openDB() {
+      return new Promise((resolve) => {
+        let req;
+        try { req = window.indexedDB.open(DB_NAME, 1); }
+        catch (e) { broken = true; resolve(null); return; }
+        req.onupgradeneeded = () => {
+          try {
+            const s = req.result.createObjectStore(STORE_NAME, { keyPath: 'id' });
+            s.createIndex('partId', 'partId', { unique: false });
+          } catch (e) { /* 升级失败不致命 */ }
+        };
+        req.onsuccess = () => { db = req.result; resolve(db); };
+        req.onerror = () => { broken = true; resolve(null); };
+        req.onblocked = () => { /* 忽略 */ };
+      });
+    }
+    function ensure() {
+      if (db) return Promise.resolve(db);
+      if (broken || !window.indexedDB) { broken = true; return Promise.resolve(null); }
+      if (opening) return opening;
+      opening = openDB().finally(() => { opening = null; });
+      return opening;
+    }
+    function storeReq(mode) { return db.transaction(STORE_NAME, mode).objectStore(STORE_NAME); }
+    function idbReadAll() {
+      return new Promise((resolve) => {
+        try {
+          const req = storeReq('readonly').getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve(null);
+        } catch (e) { resolve(null); }
+      });
+    }
+    function idbWriteAll(recs) {
+      return new Promise((resolve) => {
+        try {
+          const t = db.transaction(STORE_NAME, 'readwrite');
+          const os = t.objectStore(STORE_NAME);
+          os.clear();
+          recs.forEach((r) => os.put(r));
+          t.oncomplete = () => resolve(true);
+          t.onerror = () => resolve(false);
+          t.onabort = () => resolve(false);
+        } catch (e) { resolve(false); }
+      });
+    }
+    function idbPutOne(rec) {
+      return new Promise((resolve) => {
+        try {
+          const t = db.transaction(STORE_NAME, 'readwrite');
+          t.objectStore(STORE_NAME).put(rec);
+          t.oncomplete = () => resolve(true);
+          t.onerror = () => resolve(false);
+          t.onabort = () => resolve(false);
+        } catch (e) { resolve(false); }
+      });
+    }
+    function idbDelOne(id) {
+      return new Promise((resolve) => {
+        try {
+          const t = db.transaction(STORE_NAME, 'readwrite');
+          t.objectStore(STORE_NAME).delete(id);
+          t.oncomplete = () => resolve(true);
+          t.onerror = () => resolve(false);
+          t.onabort = () => resolve(false);
+        } catch (e) { resolve(false); }
+      });
+    }
+    return {
+      broken() { return broken; },
+      init() {
+        return ensure().then((conn) => {
+          if (!conn) return;
+          return idbReadAll().then((recs) => {
+            if (!recs) { broken = true; return; }
+            mem = recs;
+            ready = true;
+            if (dirty) { dirty = false; return idbWriteAll(mem); }
+          });
+        }).catch(() => { broken = true; });
+      },
+      list(partId) { return partId ? mem.filter((r) => r.partId === partId) : mem.slice(); },
+      put(rec) {
+        mem.push(rec);
+        if (ready && db) idbPutOne(rec); else dirty = true;
+      },
+      del(id) {
+        const i = mem.findIndex((r) => r.id === id);
+        if (i < 0) return;
+        mem.splice(i, 1);
+        if (ready && db) idbDelOne(id); else dirty = true;
+      },
+      replaceAll(recs) {
+        mem = recs.slice();
+        if (ready && db) idbWriteAll(mem); else dirty = true;
+      }
+    };
+  })();
+  window.creditStore = creditStore;
+
+  /* ---------- 学分页辅助 ---------- */
+  function creditUid() { return 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 9); }
+  function fmtNum(n) { return String(Math.round(n * 100) / 100); }
+  function fmtSize(n) {
+    if (n == null) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+  function fmtTime(t) {
+    try {
+      const d = new Date(t);
+      const p = (x) => (x < 10 ? '0' + x : '' + x);
+      return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+    } catch (e) { return ''; }
+  }
+  function fileIcon(type) {
+    if (!type) return '📄';
+    if (type.indexOf('image/') === 0) return '🖼️';
+    if (type.indexOf('pdf') >= 0) return '📕';
+    if (type.indexOf('zip') >= 0 || type.indexOf('rar') >= 0 || type.indexOf('7z') >= 0) return '🗜️';
+    if (type.indexOf('word') >= 0 || type.indexOf('document') >= 0) return '📘';
+    if (type.indexOf('excel') >= 0 || type.indexOf('sheet') >= 0) return '📗';
+    if (type.indexOf('powerpoint') >= 0 || type.indexOf('presentation') >= 0) return '📙';
+    return '📄';
+  }
+  function blobToDataURL(blob) {
+    return new Promise((resolve) => {
+      try {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = () => resolve(null);
+        r.readAsDataURL(blob);
+      } catch (e) { resolve(null); }
+    });
+  }
+  function dataURLToBlob(durl) {
+    try {
+      if (typeof atob === 'undefined') return null;
+      const m = /^data:([^;,]+)?(;base64)?,(.*)/s.exec(durl);
+      if (!m) return null;
+      const bin = m[2] ? atob(m[3]) : decodeURIComponent(m[3]);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new Blob([bytes], { type: m[1] || 'application/octet-stream' });
+    } catch (e) { return null; }
+  }
+  function downloadFile(rec) {
+    try {
+      if (typeof URL === 'undefined' || !URL.createObjectURL) { setCreditWarn('当前环境不支持下载'); renderCredits(); return; }
+      const url = URL.createObjectURL(rec.data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = rec.name || 'file';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    } catch (e) { /* 忽略 */ }
+  }
+  function handleCreditFiles(files, partId) {
+    if (!partId || !files || !files.length) return;
+    const MAX = 20 * 1024 * 1024; // 20MB
+    let skipped = 0;
+    Array.prototype.forEach.call(files, (f) => {
+      if (f.size > MAX) { skipped += 1; return; }
+      creditStore.put({
+        id: creditUid(),
+        partId: partId,
+        name: f.name || '未命名文件',
+        type: f.type || 'application/octet-stream',
+        size: f.size,
+        time: Date.now(),
+        data: f
+      });
+    });
+    if (skipped) setCreditWarn(skipped + ' 个文件超过 20MB 已跳过，请压缩后再添加');
+    renderCredits();
+  }
+  function exportCreditBackup() {
+    const recs = creditStore.list();
+    if (!recs.length) { setCreditWarn('当前还没有文件，暂无可导出的备份'); renderCredits(); return; }
+    const meta = recs.map((r) => ({ id: r.id, partId: r.partId, name: r.name, type: r.type, size: r.size, time: r.time }));
+    blobToDataURL(recs[0]).then(() => {
+      // 逐个转 base64 后打包导出
+      Promise.all(recs.map((r) => blobToDataURL(r.data))).then((urls) => {
+        try {
+          if (urls.some((u) => !u)) { setCreditWarn('导出失败：存在无法读取的文件'); renderCredits(); return; }
+          const data = {
+            app: '学习助手-学分备份',
+            version: 1,
+            createdAt: Date.now(),
+            parts: creditDone,
+            files: meta.map((m, i) => ({ id: m.id, partId: m.partId, name: m.name, type: m.type, size: m.size, time: m.time, data: urls[i] }))
+          };
+          const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+          if (typeof URL === 'undefined' || !URL.createObjectURL) { setCreditWarn('当前环境不支持导出下载'); renderCredits(); return; }
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = '第二课堂学分备份-' + String(new Date()).slice(0, 15).replace(/\s/g, '-') + '.json';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 3000);
+        } catch (e) { setCreditWarn('导出失败：' + (e.message || e)); renderCredits(); }
+      });
+    });
+  }
+  function importCreditBackup(file) {
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const data = JSON.parse(r.result);
+        const files = Array.isArray(data && data.files) ? data.files : [];
+        const recs = [];
+        files.forEach((f) => {
+          const blob = dataURLToBlob(f.data);
+          if (!blob) return;
+          recs.push({
+            id: (f.id && String(f.id)) || creditUid(),
+            partId: f.partId || '',
+            name: f.name || '未命名文件',
+            type: f.type || blob.type || 'application/octet-stream',
+            size: f.size || blob.size,
+            time: f.time || Date.now(),
+            data: blob
+          });
+        });
+        if (recs.length) {
+          creditStore.replaceAll(recs);
+          if (data && data.parts && typeof data.parts === 'object') {
+            creditDone = {};
+            Object.keys(data.parts).forEach((k) => { if (data.parts[k]) creditDone[k] = 1; });
+            saveCreditDone();
+          }
+        }
+        renderCredits();
+      } catch (e) { setCreditWarn('导入失败：备份文件格式不正确'); renderCredits(); }
+    };
+    r.onerror = () => { setCreditWarn('导入失败：无法读取文件'); renderCredits(); };
+    r.readAsText(file);
+  }
+
+  /* ---------- 学分页渲染（v4.1） ---------- */
+  function creditParts() { return (CREDITS && CREDITS.parts) || []; }
+  function creditProgress() {
+    const parts = creditParts();
+    let got = 0, doneReq = 0, doneElect = 0;
+    parts.forEach((p) => {
+      if (!creditDone[p.id]) return;
+      if (p.type === 'required') { got += (p.credit || 0.5); doneReq += 1; }
+      else doneElect += 1;
+    });
+    if (doneElect >= 2) got += 1; // 四选二：勾满任意 2 类共 1 学分
+    return { got: Math.round(got * 100) / 100, doneReq, doneElect };
+  }
+  function partCardHTML(p, files) {
+    const done = !!creditDone[p.id];
+    const badge = p.type === 'required' ? '必修 · ' + p.credit + ' 学分' : '四选二 · ' + p.credit + ' 学分';
+    const frows = files.length ? files.map((f) => `
+        <div class="cp-file">
+          <span class="cf-ic">${fileIcon(f.type)}</span>
+          <div class="cf-info"><b>${esc(f.name)}</b><i>${fmtSize(f.size)} · ${fmtTime(f.time)}</i></div>
+          <button class="cf-dl" data-dl="${esc(f.id)}">下载</button>
+          <button class="cf-del" data-del="${esc(f.id)}">删除</button>
+        </div>`).join('')
+      : '<p class="cp-empty">暂无文件，点「＋ 添加文件」或直接把文件拖到卡片上</p>';
+    return `
+      <div class="credit-part card${done ? ' done' : ''}" data-part="${esc(p.id)}">
+        <div class="cp-head">
+          <span class="cp-name">${p.emoji} ${esc(p.name)}</span>
+          <span class="chip">${esc(badge)}</span>
+          <button class="cp-done${done ? ' on' : ''}" data-part="${esc(p.id)}">${done ? '✔ 已修满' : '○ 标记已修满'}</button>
+        </div>
+        ${p.desc ? `<p class="cp-desc">${esc(p.desc)}</p>` : ''}
+        <div class="cp-files">${frows}</div>
+        <div class="cp-actions">
+          <button class="cp-add btn small" data-part="${esc(p.id)}">＋ 添加文件</button>
+          <span class="cp-dragtip">⇩ 支持拖拽到卡片</span>
+        </div>
+      </div>`;
+  }
+  function renderCredits() {
+    const C = CREDITS || { title: '第二课堂学分', total: 2.5, targetNote: '' };
+    const parts = creditParts();
+    const pg = creditProgress();
+    const total = C.total || 2.5;
+    const pct = total > 0 ? Math.round((pg.got / total) * 100) : 0;
+    const remain = Math.max(0, Math.round((total - pg.got) * 100) / 100);
+    const required = parts.filter((p) => p.type === 'required');
+    const elect = parts.filter((p) => p.type === 'elect2');
+    const blocks = [];
+    if (required.length) blocks.push(`
+      <div class="cred-block">
+        <div class="cred-block-head"><b>📚 必修（1.5 学分）</b><span>3 个类别，各 0.5 学分</span></div>
+        <div class="cred-parts">${required.map((p) => partCardHTML(p, creditStore.list(p.id))).join('')}</div>
+      </div>`);
+    if (elect.length) blocks.push(`
+      <div class="cred-block">
+        <div class="cred-block-head"><b>✅ 四选二（1 学分）</b><span>任选 2 类修满即可，各 0.5 学分</span></div>
+        <div class="cred-parts">${elect.map((p) => partCardHTML(p, creditStore.list(p.id))).join('')}</div>
+      </div>`);
+    const warns = [];
+    if (creditWarnMsg) warns.push(creditWarnMsg);
+    if (creditStore.broken()) warns.push('当前环境不支持持久保存（如单文件离线 / 隐私模式），文件仅本次打开有效，建议使用在线版');
+    $('#cred-list').innerHTML = `
+      <div class="cred-head">
+        <div class="cred-title-row">
+          <span class="cred-emoji">🎖️</span>
+          <span class="cred-title">${esc(C.title || '第二课堂学分')}</span>
+          ${C.target ? `<span class="chip on">${esc(C.targetNote || C.target)}</span>` : ''}
+        </div>
+        ${C.rule ? `<p class="cred-rule">📜 ${esc(C.rule)}</p>` : ''}
+        <div class="cred-progress">
+          <div class="cred-bar"><i style="width:${pct}%"></i></div>
+          <div class="cred-nums"><b>${fmtNum(pg.got)} / ${fmtNum(total)} 学分</b><i>已获 ${pct}% · 还差 ${fmtNum(remain)}</i></div>
+        </div>
+        <div class="cred-meter">
+          <span class="chip">必修已勾 ${pg.doneReq}/3</span>
+          <span class="chip">四选二已勾 ${pg.doneElect}/4（勾满任意 2 类＝1 学分）</span>
+        </div>
+      </div>
+      ${blocks.join('')}
+      <div class="cred-tools">
+        <button id="cred-export" class="btn">📤 导出备份</button>
+        <button id="cred-import-click" class="btn">📥 导入备份（覆盖）</button>
+        <p class="cred-hint">💾 文件只保存在本机浏览器，他人访问看不到你的文件；换设备请「导出备份 → 新设备导入」。</p>
+        ${warns.length ? `<p class="cred-warn">⚠️ ${warns.map(esc).join('；')}</p>` : ''}
+      </div>`;
+  }
+
   /* ---------- 状态 ---------- */
   const S = {
     view: 'home',
     course: { id: null, tab: 'formula' },
     formula: { cat: 'all', q: '', favOnly: false },
-    cases: { cate: '全部', scene: '全部', q: '' }
+    cases: { cate: '全部', scene: '全部', q: '' },
+    credits: { pending: null }
   };
   let keepQ = false; // 案例弹窗「知识点跳转」：切到目标课程时保留搜索词
 
@@ -1631,6 +2101,7 @@ window.KC_CASES = [
       if (c) { routeView('course', c, seg[2] === 'cases' ? 'cases' : 'formula'); return; }
     }
     if (seg[0] === 'about') { routeView('about'); return; }
+    if (seg[0] === 'credits') { routeView('credits'); return; }
     // 无 hash / 未知路由一律回首页（四张封面）
     routeView('home');
   }
@@ -1651,11 +2122,11 @@ window.KC_CASES = [
     S.view = v;
     $$('.view').forEach((s) => s.classList.toggle('active', s.id === 'view-' + v));
     // 小程序外壳：标题 / 返回键 / 底部 Tab 高亮
-    $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'about' ? '我的' : '学习助手');
+    $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'about' ? '我的' : (v === 'credits' ? '第二课堂学分' : '学习助手'));
     $('#mp-back').classList.toggle('hidden', v === 'home');
-    const tabName = v === 'course' ? S.course.tab : (v === 'about' ? 'about' : 'home');
+    const tabName = v === 'course' ? S.course.tab : (v === 'about' ? 'about' : (v === 'credits' ? 'credits' : 'home'));
     $$('#mp-tabbar .mp-tab').forEach((a) => a.classList.toggle('active', a.getAttribute('data-tab') === tabName));
-    ({ home: renderHome, course: renderCourse, about: renderAbout })[v]();
+    ({ home: renderHome, course: renderCourse, about: renderAbout, credits: renderCredits })[v]();
     window.scrollTo({ top: 0 });
   }
 
@@ -1902,6 +2373,7 @@ window.KC_CASES = [
       const cid = S.course.id || (COURSES[0] && COURSES[0].id) || '';
       goHash(tb === 'home' ? '#/'
         : tb === 'about' ? '#/about'
+        : tb === 'credits' ? '#/credits'
         : tb === 'formula' ? '#/course/' + cid
         : '#/course/' + cid + '/cases');
       return;
@@ -1944,11 +2416,56 @@ window.KC_CASES = [
     const gf = t.closest('[data-goto-formula]');
     if (gf) { gotoFormula(gf.dataset.gotoFormula); return; }
 
+    // 学分页交互（v4.1）
+    if (creditOnClick(t)) return;
+
     // 弹窗关闭
     if (t.closest('#modal-close') || t.id === 'case-modal') closeModal();
   }
+
+  /* ---------- 学分页事件（v4.1） ---------- */
+  function creditOnClick(t) {
+    // 标记已修满 / 取消
+    const cd = t.closest('.cp-done');
+    if (cd) {
+      toggleCreditDone(cd.dataset.part || (cd.getAttribute && cd.getAttribute('data-part')) || '');
+      renderCredits();
+      return true;
+    }
+    // 添加文件（点击后触发隐藏 input）
+    const ca = t.closest('.cp-add');
+    if (ca) {
+      S.credits.pending = ca.dataset.part || (ca.getAttribute && ca.getAttribute('data-part')) || '';
+      const fi = $('#cred-file');
+      if (fi) { fi.value = ''; try { fi.click(); } catch (e) { /* 忽略 */ } }
+      return true;
+    }
+    // 删除文件
+    const df = t.closest('.cf-del');
+    if (df) {
+      creditStore.del(df.dataset.del || (df.getAttribute && df.getAttribute('data-del')) || '');
+      renderCredits();
+      return true;
+    }
+    // 下载文件
+    const dlc = t.closest('.cf-dl');
+    if (dlc) {
+      const fid = dlc.dataset.dl || (dlc.getAttribute && dlc.getAttribute('data-dl')) || '';
+      const rec = creditStore.list().find((r) => r.id === fid);
+      if (rec) downloadFile(rec);
+      return true;
+    }
+    // 导出 / 导入备份
+    if (t.closest('#cred-export')) { exportCreditBackup(); return true; }
+    if (t.closest('#cred-import-click')) {
+      const ii = $('#cred-import');
+      if (ii) { ii.value = ''; try { ii.click(); } catch (e) { /* 忽略 */ } }
+      return true;
+    }
+    return false;
+  }
   function renderCurrent() {
-    ({ home: renderHome, course: renderCourse })[S.view]();
+    ({ home: renderHome, course: renderCourse, credits: renderCredits })[S.view]();
   }
 
   /* ---------- 封面 3D 倾斜：整卡朝鼠标方向微微转动（纯 CSS 3D，事件委托） ---------- */
@@ -2003,9 +2520,35 @@ window.KC_CASES = [
     if (el.id === 'cof-search') { S.formula.q = el.value; renderCourse(); }
     else if (el.id === 'coc-search') { S.cases.q = el.value; renderCourse(); }
   });
+  // 学分页：选择文件 / 导入备份（change 委托）
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (!el || !el.id) return;
+    if (el.id === 'cred-file') { handleCreditFiles(el.files, S.credits.pending); }
+    else if (el.id === 'cred-import') { importCreditBackup(el.files && el.files[0]); }
+  });
+  // 学分页：把文件拖到类别卡片上归入该类别（事件委托，重绘后仍有效）
+  document.addEventListener('dragover', (e) => {
+    const card = e.target && e.target.closest ? e.target.closest('.credit-part') : null;
+    if (!card) return;
+    e.preventDefault();
+    card.classList.add('drop');
+  });
+  document.addEventListener('dragleave', (e) => {
+    const card = e.target && e.target.closest ? e.target.closest('.credit-part') : null;
+    if (card) card.classList.remove('drop');
+  });
+  document.addEventListener('drop', (e) => {
+    const card = e.target && e.target.closest ? e.target.closest('.credit-part') : null;
+    if (!card || !e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+    e.preventDefault();
+    card.classList.remove('drop');
+    handleCreditFiles(e.dataTransfer.files, card.getAttribute('data-part') || '');
+  });
   document.addEventListener('click', onDocClick);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
   window.addEventListener('hashchange', () => route());
+  creditStore.init().then(() => { if (S.view === 'credits') renderCredits(); });
   route();
 })();
 </script>
