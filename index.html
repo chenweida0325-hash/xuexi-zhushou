@@ -551,39 +551,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   background: rgba(220, 38, 38, .12); border: 1px solid rgba(220, 38, 38, .35);
   padding: 8px 11px; border-radius: 10px;
 }
-.cred-ok {
-  width: 100%; margin-top: 6px; font-size: 12.5px; color: #4ade80;
-  background: rgba(22, 163, 74, .12); border: 1px solid rgba(74, 222, 128, .35);
-  padding: 8px 11px; border-radius: 10px;
-}
-
-/* ---------- 第二课堂学分 · 微信导入卡片（v4.2） ---------- */
-.cred-wx {
-  border: 1px solid rgba(96, 165, 250, .3);
-  background: linear-gradient(160deg, rgba(30, 58, 138, .16), rgba(15, 23, 42, .22) 60%);
-  margin-bottom: 14px; padding: 13px 15px;
-}
-.cred-wx-head { font-size: 15.5px; font-weight: 800; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.cred-wx-head small { font-size: 12px; color: var(--muted); font-weight: 400; }
-.cred-wx-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-.cred-wx-label { font-size: 13px; color: #cbd5e1; flex: none; }
-.cred-wx-select {
-  flex: 1 1 200px; max-width: 320px;
-  background: #0d1830; color: #e2e8f0; border: 1.5px solid var(--line);
-  border-radius: 9px; padding: 6px 10px; font-size: 13px; outline: none; cursor: pointer;
-}
-.cred-wx-select:focus { border-color: var(--link); }
-.cred-wx-tip { font-size: 12px; color: var(--muted); line-height: 1.5; flex: 1 1 220px; min-width: 0; }
-.cred-wx-tip b { color: #fbbf24; }
-.cred-wx-text {
-  width: 100%; box-sizing: border-box; margin-top: 10px;
-  background: #0d1830; color: #e2e8f0; border: 1.5px solid var(--line);
-  border-radius: 10px; padding: 9px 11px; font-size: 13px; line-height: 1.6;
-  resize: vertical; font-family: inherit; outline: none;
-}
-.cred-wx-text:focus { border-color: var(--link); }
-.cred-wx-row .btn { flex: none; }
-.cred-wx-hint { font-size: 11.5px; color: #64748b; flex: 1 1 200px; min-width: 0; }
 
 /* ---------- 小屏 ---------- */
 @media (max-width: 900px) {
@@ -675,7 +642,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     </div>
   </section>
 
-  <!-- ============ 第二课堂学分（v4.2：佐证文件按类别存进本机浏览器，只看得见自己的；支持微信聊天文字/图片粘贴导入） ============ -->
+  <!-- ============ 第二课堂学分（v4.1：佐证文件按类别存进本机浏览器，只看得见自己的） ============ -->
   <section id="view-credits" class="view">
     <div id="cred-list"><p class="loading">加载中…</p></div>
     <input type="file" id="cred-file" multiple hidden>
@@ -685,7 +652,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   <!-- ============ 我的/关于页（小程序外壳 4 Tab 之一） ============ -->
   <section id="view-about" class="view">
     <div class="about-card">
-      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.2</small></div>
+      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.1</small></div>
       <p class="ab-sub">四门主课 · 公式速记 + 考试风习题（学术科技创新实践——科技创新成果分享会作品）</p>
       <div id="ab-stats" class="ab-stats"></div>
       <div class="ab-list">
@@ -704,7 +671,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
           <li>习题卡点「查看答案与解析」看详解；「涉及公式」一键跳回公式速记并高亮。</li>
           <li>收藏后用「⭐ 只看收藏」集中复习。</li>
           <li>底部「学分」Tab：把第二课堂佐证文件按学分类别归档（存在本机浏览器，各自设备各存各看；可导出/导入备份迁移）。</li>
-          <li>学分页「📱 微信导入」：微信里复制聊天文字/图片 → 点「粘贴导入」回本页粘贴即可存为凭证；手机端把文字长按粘贴到输入框点「保存文字」（微信备份文件加密无法直接读取，需用复制粘贴代替）。</li>
         </ul>
       </div>
       <div class="ab-list">
@@ -715,13 +681,13 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
         <h4>📱 离线兜底</h4>
         <p>单文件零依赖：电脑双击「学习助手.html」即可打开；发到手机可用浏览器离线查看。</p>
       </div>
-      <p class="ab-foot">学习助手 v4.2 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
+      <p class="ab-foot">学习助手 v4.1 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
     </div>
   </section>
 </main>
 
 <footer class="site-foot">
-  <p>学习助手 v4.2（2026-11-16）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 5 Tab（首页/公式/习题/学分/我的）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 「第二课堂学分」栏目：把佐证文件按 7 个学分类别存档（2.5 学分进度跟踪，本机浏览器本地保存，只看得见自己的，可导出/导入备份；支持把微信复制的聊天文字/图片粘贴导入存为凭证）· 全站深色机械风 · 首页 2×2 白色 3D 封面点击直达该课 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
+  <p>学习助手 v4.1（2026-11-16）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 5 Tab（首页/公式/习题/学分/我的）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 「第二课堂学分」栏目：把佐证文件按 7 个学分类别存档（2.5 学分进度跟踪，本机浏览器本地保存，只看得见自己的，可导出/导入备份）· 全站深色机械风 · 首页 2×2 白色 3D 封面点击直达该课 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
 </footer>
 
 <!-- 小程序外壳：底部 Tab 栏 -->
@@ -1662,7 +1628,7 @@ window.KC_CASES = [
   }
 ];
 ;
-/* ============ 学习助手 · 第二课堂学分数据（v4.2） ============
+/* ============ 学习助手 · 第二课堂学分数据（v4.1） ============
    规则来源：用户提供的《办法》截图（2026-11-16）
    结构：parts 为学分类别卡片；type: required=必修 / elect2=四选二
    说明：总分 2.5 = 必修 1.5（3×0.5）+ 四选二 1（任意 2 类各 0.5）
@@ -1684,7 +1650,7 @@ window.KC_CREDITS = {
   ]
 };
 ;
-/* ============ 学习助手 · 主应用逻辑（v4.2：小程序外壳 5 Tab——首页/公式/习题/学分/我的；第二课堂学分栏目 + 微信导入） ============ */
+/* ============ 学习助手 · 主应用逻辑（v4.1：小程序外壳 5 Tab——首页/公式/习题/学分/我的；新增第二课堂学分栏目） ============ */
 (function () {
   'use strict';
 
@@ -1730,7 +1696,7 @@ window.KC_CREDITS = {
     saveFav();
   }
 
-  /* ---------- 第二课堂学分（v4.2） ----------
+  /* ---------- 第二课堂学分（v4.1） ----------
      存储设计：内存镜像是唯一事实源（同步读写，界面与校验无异步负担），
      IndexedDB 后台持久化；不可用（file://、隐私模式、测试环境）自动降级为仅本次会话内存。
      window.creditStore 暴露给校验脚本/调试。文件只存在本机浏览器，互不可见。 */
@@ -1747,8 +1713,6 @@ window.KC_CREDITS = {
 
   let creditWarnMsg = '';
   function setCreditWarn(m) { creditWarnMsg = m; }
-  let creditOkMsg = ''; // 一次性成功提示（renderCredits 读取后清空）
-  function setCreditOk(m) { creditOkMsg = m; }
 
   const creditStore = (function () {
     const DB_NAME = 'kc-credits', STORE_NAME = 'files';
@@ -1933,35 +1897,6 @@ window.KC_CREDITS = {
     if (skipped) setCreditWarn(skipped + ' 个文件超过 20MB 已跳过，请压缩后再添加');
     renderCredits();
   }
-  /* ---------- 微信导入（v4.2）：微信复制的聊天文字/图片 → 存为该类别凭证 ----------
-     无法直接读取微信聊天记录（备份加密且静态页无权限），用「复制 → 粘贴」替代；
-     内容只存本机浏览器 IndexedDB，与普通佐证文件一样可下载/删除/随备份迁移。 */
-  function creditSavePasteText(text, partId) {
-    text = String(text == null ? '' : text).trim();
-    if (!text) { setCreditWarn('没有文字内容可保存，请先在微信复制消息再粘贴'); return false; }
-    if (!partId) { setCreditWarn('请先选择要保存到的学分类别'); return false; }
-    const d = new Date();
-    const p = (x) => (x < 10 ? '0' + x : '' + x);
-    const name = '聊天记录 ' + d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + '.txt';
-    let blob;
-    try { blob = new Blob([text], { type: 'text/plain;charset=utf-8' }); }
-    catch (e) { blob = { size: text.length }; } // 极端环境（如无 Blob 的旧 WebView）兜底
-    creditStore.put({ id: creditUid(), partId: partId, name: name, type: 'text/plain', size: blob.size || text.length, time: Date.now(), data: blob });
-    return name;
-  }
-  function creditSavePasteFile(file, partId) {
-    if (!file) { setCreditWarn('剪贴板里没有图片'); return false; }
-    if (!partId) { setCreditWarn('请先选择要保存到的学分类别'); return false; }
-    if (file.size > 20 * 1024 * 1024) { setCreditWarn('图片超过 20MB 已跳过，请压缩后再粘贴'); return false; }
-    const d = new Date();
-    const p = (x) => (x < 10 ? '0' + x : '' + x);
-    const base = file.name || '微信图片 ' + d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
-    const name = /\.\w+$/.test(base) ? base : base + '.png';
-    creditStore.put({ id: creditUid(), partId: partId, name: name, type: file.type || 'image/png', size: file.size, time: Date.now(), data: file });
-    return name;
-  }
-  // 暴露给校验脚本/调试（与 creditStore 一致）
-  window.creditPaste = { saveText: creditSavePasteText, saveFile: creditSavePasteFile };
   function exportCreditBackup() {
     const recs = creditStore.list();
     if (!recs.length) { setCreditWarn('当前还没有文件，暂无可导出的备份'); renderCredits(); return; }
@@ -2028,7 +1963,7 @@ window.KC_CREDITS = {
     r.readAsText(file);
   }
 
-  /* ---------- 学分页渲染（v4.2） ---------- */
+  /* ---------- 学分页渲染（v4.1） ---------- */
   function creditParts() { return (CREDITS && CREDITS.parts) || []; }
   function creditProgress() {
     const parts = creditParts();
@@ -2067,32 +2002,6 @@ window.KC_CREDITS = {
         </div>
       </div>`;
   }
-  /* ---------- 微信导入卡片（v4.2） ---------- */
-  function credWxHTML() {
-    const parts = creditParts();
-    const cur = S.credits.wxPart || (parts[0] && parts[0].id) || '';
-    const opts = parts.map((p) =>
-      `<option value="${esc(p.id)}"${p.id === cur ? ' selected' : ''}>${p.emoji} ${esc(p.name)}</option>`).join('');
-    return `
-      <div class="cred-wx card" id="cred-wx">
-        <div class="cred-wx-head">📱 微信导入<small>微信复制的聊天文字 / 图片 → 存为佐证凭证</small></div>
-        <div class="cred-wx-row">
-          <span class="cred-wx-label">保存到</span>
-          <select id="cred-wx-part" class="cred-wx-select">${opts}</select>
-        </div>
-        <div class="cred-wx-row">
-          <button id="cred-wx-paste" class="btn">📋 粘贴导入</button>
-          <span class="cred-wx-tip">${S.credits.waitingPaste
-            ? '<b>正在等待粘贴</b>：去微信复制内容，回到本页按 Ctrl+V（手机长按选「粘贴」）'
-            : '在微信复制聊天文字/图片后，点「粘贴导入」再回本页粘贴；图片直接粘贴仅桌面端支持'}</span>
-        </div>
-        <textarea id="cred-wx-text" class="cred-wx-text" rows="3" placeholder="手机端兜底：长按粘贴聊天文字到这里，再点下方「保存文字」"></textarea>
-        <div class="cred-wx-row">
-          <button id="cred-wx-save" class="btn small">💾 保存文字</button>
-          <span class="cred-wx-hint">粘贴内容只保存在本机浏览器；「聊天记录.txt」和原图一样是普通凭证文件，可下载 / 删除。</span>
-        </div>
-      </div>`;
-  }
   function renderCredits() {
     const C = CREDITS || { title: '第二课堂学分', total: 2.5, targetNote: '' };
     const parts = creditParts();
@@ -2102,7 +2011,6 @@ window.KC_CREDITS = {
     const remain = Math.max(0, Math.round((total - pg.got) * 100) / 100);
     const required = parts.filter((p) => p.type === 'required');
     const elect = parts.filter((p) => p.type === 'elect2');
-    const ok = creditOkMsg; creditOkMsg = ''; // 一次性成功提示
     const blocks = [];
     if (required.length) blocks.push(`
       <div class="cred-block">
@@ -2134,14 +2042,12 @@ window.KC_CREDITS = {
           <span class="chip">四选二已勾 ${pg.doneElect}/4（勾满任意 2 类＝1 学分）</span>
         </div>
       </div>
-      ${credWxHTML()}
       ${blocks.join('')}
       <div class="cred-tools">
         <button id="cred-export" class="btn">📤 导出备份</button>
         <button id="cred-import-click" class="btn">📥 导入备份（覆盖）</button>
         <p class="cred-hint">💾 文件只保存在本机浏览器，他人访问看不到你的文件；换设备请「导出备份 → 新设备导入」。</p>
         ${warns.length ? `<p class="cred-warn">⚠️ ${warns.map(esc).join('；')}</p>` : ''}
-        ${ok ? `<p class="cred-ok">✔ ${esc(ok)}</p>` : ''}
       </div>`;
   }
 
@@ -2151,18 +2057,7 @@ window.KC_CREDITS = {
     course: { id: null, tab: 'formula' },
     formula: { cat: 'all', q: '', favOnly: false },
     cases: { cate: '全部', scene: '全部', q: '' },
-    credits: {
-      pending: null,
-      // 微信导入默认保存类别（记录用户上次选择）
-      wxPart: (function () {
-        try {
-          const v = localStorage.getItem('kc-credit-wx-part');
-          const ps = (window.KC_CREDITS && window.KC_CREDITS.parts) || [];
-          return v && ps.some((x) => x.id === v) ? v : (ps[0] ? ps[0].id : '');
-        } catch (e) { return ''; }
-      })(),
-      waitingPaste: false // 点过「粘贴导入」后为 true，下一次粘贴才生效
-    }
+    credits: { pending: null }
   };
   let keepQ = false; // 案例弹窗「知识点跳转」：切到目标课程时保留搜索词
 
@@ -2521,14 +2416,14 @@ window.KC_CREDITS = {
     const gf = t.closest('[data-goto-formula]');
     if (gf) { gotoFormula(gf.dataset.gotoFormula); return; }
 
-    // 学分页交互（v4.2）
+    // 学分页交互（v4.1）
     if (creditOnClick(t)) return;
 
     // 弹窗关闭
     if (t.closest('#modal-close') || t.id === 'case-modal') closeModal();
   }
 
-  /* ---------- 学分页事件（v4.2） ---------- */
+  /* ---------- 学分页事件（v4.1） ---------- */
   function creditOnClick(t) {
     // 标记已修满 / 取消
     const cd = t.closest('.cp-done');
@@ -2565,21 +2460,6 @@ window.KC_CREDITS = {
     if (t.closest('#cred-import-click')) {
       const ii = $('#cred-import');
       if (ii) { ii.value = ''; try { ii.click(); } catch (e) { /* 忽略 */ } }
-      return true;
-    }
-    // 微信导入（v4.2）：进入等待粘贴状态
-    if (t.closest('#cred-wx-paste')) {
-      S.credits.waitingPaste = true;
-      setCreditOk('正在等待粘贴：去微信复制文字/图片，回到本页按 Ctrl+V 粘贴（手机长按选「粘贴」）');
-      renderCredits();
-      return true;
-    }
-    // 微信导入：保存文本框里已粘贴的聊天文字
-    if (t.closest('#cred-wx-save')) {
-      const ta = $('#cred-wx-text');
-      const nm = creditSavePasteText(ta ? ta.value : '', S.credits.wxPart);
-      if (nm) setCreditOk('已保存聊天记录：' + nm);
-      renderCredits();
       return true;
     }
     return false;
@@ -2646,10 +2526,6 @@ window.KC_CREDITS = {
     if (!el || !el.id) return;
     if (el.id === 'cred-file') { handleCreditFiles(el.files, S.credits.pending); }
     else if (el.id === 'cred-import') { importCreditBackup(el.files && el.files[0]); }
-    else if (el.id === 'cred-wx-part') {
-      S.credits.wxPart = el.value;
-      try { localStorage.setItem('kc-credit-wx-part', el.value); } catch (e) { /* 忽略 */ }
-    }
   });
   // 学分页：把文件拖到类别卡片上归入该类别（事件委托，重绘后仍有效）
   document.addEventListener('dragover', (e) => {
@@ -2668,32 +2544,6 @@ window.KC_CREDITS = {
     e.preventDefault();
     card.classList.remove('drop');
     handleCreditFiles(e.dataTransfer.files, card.getAttribute('data-part') || '');
-  });
-  // 微信导入（v4.2）：桌面端 Ctrl+V 粘贴（仅学分页 + 点过「粘贴导入」后生效；手机无 paste 事件走 textarea 兜底）
-  document.addEventListener('paste', (e) => {
-    if (S.view !== 'credits' || !S.credits.waitingPaste) return;
-    const cd = e.clipboardData;
-    if (!cd) return;
-    S.credits.waitingPaste = false;
-    const items = cd.items ? Array.prototype.slice.call(cd.items) : (cd.files ? Array.prototype.slice.call(cd.files) : []);
-    let done = false;
-    for (let i = 0; i < items.length; i++) {
-      const it = items[i];
-      const f = it && it.kind === 'file' && typeof it.getAsFile === 'function' ? it.getAsFile() : null;
-      if (!f) continue;
-      const nm = creditSavePasteFile(f, S.credits.wxPart);
-      if (nm) { setCreditOk('已保存图片凭证：' + nm); done = true; }
-      break;
-    }
-    if (!done) {
-      const text = typeof cd.getData === 'function' ? cd.getData('text/plain') : '';
-      if (text && text.trim()) {
-        const nm = creditSavePasteText(text, S.credits.wxPart);
-        if (nm) { setCreditOk('已保存聊天记录：' + nm); done = true; }
-      }
-    }
-    if (!done) setCreditWarn('剪贴板里没有可导入的内容，请先在微信复制文字或图片');
-    renderCredits();
   });
   document.addEventListener('click', onDocClick);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
