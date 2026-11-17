@@ -271,6 +271,17 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .flash-actions .btn { min-width: 96px; font-size: 13.5px; padding: 8px 14px; }
 .flash-done { color: var(--muted); font-size: 14px; padding: 30px 0; }
 
+/* v4.7 讲练翻卡：一个公式配一道例题 */
+.pair-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pair-links .cc-fmlink { padding: 5px 12px; font-size: 12px; }
+.flash-back .pair-case { width: 100%; text-align: left; border-top: 1px dashed rgba(96, 165, 250, .25); padding-top: 8px; }
+.flash-card .flash-face.flash-back { overflow-y: auto; justify-content: flex-start; }
+.pair-body { font-size: 12.5px; color: var(--ink); line-height: 1.7; margin-top: 2px; }
+.pair-ans { font-size: 12.5px; color: var(--ok); line-height: 1.6; margin-top: 6px; white-space: pre-wrap; }
+.pair-step { font-size: 12px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
+.pair-pit { font-size: 12px; color: #fbbf24; line-height: 1.6; margin-top: 6px; }
+.pair-more { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
 .home-grid {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;
   width: 100%; align-items: stretch;
@@ -635,6 +646,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
         <input id="cof-search" class="search" type="search" placeholder="🔍 搜本课公式/知识点，如：欧拉、虚短、节流、自锁…">
         <button id="cof-favtoggle" class="btn small">⭐ 只看收藏</button>
         <button id="cof-flash" class="btn small" title="翻卡记忆：逐张背公式">🃏 翻卡</button>
+        <button id="cof-pair" class="btn small" title="讲练翻卡：一个公式配一道例题">📝 讲练</button>
         <button id="cof-print" class="btn small" title="打印 / 导出本课公式为 PDF">🖨️ 打印</button>
       </div>
       <div id="cof-cats" class="chips"></div>
@@ -2028,7 +2040,8 @@ window.KC_CREDITS = {
     cases: { cate: '全部', scene: '全部', q: '' },
     credits: { pending: null },
     search: { q: '' }, // v4.6 全站搜索
-    flash: { active: false, list: [], idx: 0, known: 0 } // v4.6 翻卡记忆
+    flash: { active: false, list: [], idx: 0, known: 0 }, // v4.6 翻卡记忆
+    pair: { active: false, list: [], idx: 0, known: 0 } // v4.7 讲练翻卡：一公式配一例题
   };
   let keepQ = false; // 案例弹窗「知识点跳转」：切到目标课程时保留搜索词
 
@@ -2054,6 +2067,12 @@ window.KC_CREDITS = {
     const c = courseById(courseId);
     const cat = c && (c.categories || []).find((x) => x.id === catId);
     return cat ? cat.name : '';
+  }
+  // v4.7 讲练配对：一个公式 → 引用它的本课习题列表
+  function casesForFormula(fid) {
+    const f = formulaById(fid);
+    if (!f) return [];
+    return casesOf(f.course.id).filter((x) => (x.formulas || []).indexOf(fid) >= 0);
   }
   function stars(n) { n = Math.max(1, Math.min(3, n || 1)); return '★'.repeat(n) + '☆'.repeat(3 - n); }
 
@@ -2214,6 +2233,8 @@ window.KC_CREDITS = {
   function renderFormulaPane(c) {
     // v4.6 翻卡记忆模式：替代公式列表
     if (S.flash.active) { renderFlashPane(c); return; }
+    // v4.7 讲练翻卡模式：一公式配一例题
+    if (S.pair.active) { renderPairPane(c); return; }
     // 搜索框是静态 DOM：只同步值，不重建（保住输入焦点）
     $('#cof-search').value = S.formula.q;
     $('#cof-favtoggle').classList.toggle('on', S.formula.favOnly);
@@ -2280,6 +2301,7 @@ window.KC_CREDITS = {
   }
   function formulaCardHTML(f) {
     const isFav = fav.formulas.has(f.id);
+    const pairCases = casesForFormula(f.id); // v4.7 讲练配对
     return `
       <article class="card formula-card" data-id="${esc(f.id)}">
         <div class="fc-head">
@@ -2292,6 +2314,10 @@ window.KC_CREDITS = {
         ${f.params ? `<div class="params">变量：${esc(f.params)}</div>` : ''}
         ${f.tip ? `<div class="tip">💡 ${esc(f.tip)}</div>` : ''}
         ${f.mnemonic ? `<div class="mnemonic">🗝️ ${esc(f.mnemonic)}</div>` : ''}
+        ${pairCases.length ? `
+        <div class="pair-links">
+          ${pairCases.map((x) => `<button class="cc-fmlink" data-open-pair="${esc(x.id)}">📖 配套例题：${esc(x.title)}</button>`).join('')}
+        </div>` : ''}
       </article>`;
   }
   // v3.12 习题卡：题干 + 题型 + 难度 + 「涉及公式」按钮（点击直达公式速记并高亮）
@@ -2380,6 +2406,78 @@ window.KC_CREDITS = {
     renderFormulaPane(c);
   }
 
+  /* ---------- 讲练翻卡（v4.7）：一个公式配一道配套例题 ---------- */
+  function startPair(c) {
+    // 只收录本课「有配套例题」的公式
+    const all = allFormulas().filter((f) => f.course.id === c.id && casesForFormula(f.id).length);
+    if (!all.length) return;
+    // 洗牌（Fisher–Yates）
+    const list = all.slice();
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = list[i]; list[i] = list[j]; list[j] = t;
+    }
+    S.pair = { active: true, list: list, idx: 0, known: 0 };
+    $('#cof-pair').classList.add('on');
+    renderFormulaPane(c);
+  }
+  function exitPair(c) {
+    S.pair = { active: false, list: [], idx: 0, known: 0 };
+    const b = $('#cof-pair');
+    if (b) b.classList.remove('on');
+    if (c) renderFormulaPane(c);
+  }
+  function renderPairPane(c) {
+    const { list, idx } = S.pair;
+    if (idx >= list.length) {
+      $('#cof-list').innerHTML = `
+        <div class="flash-wrap">
+          <div class="flash-done">🎉 讲练完成！本课 <b style="color:var(--ok)">${S.pair.known}/${list.length}</b> 个公式配上了例题</div>
+          <div class="flash-actions">
+            <button class="btn" data-cmd="pair-again">🔄 再来一轮</button>
+            <button class="btn" data-cmd="pair-exit">✕ 退出</button>
+          </div>
+        </div>`;
+      return;
+    }
+    const f = list[idx];
+    const pairCases = casesForFormula(f.id);
+    // 倒退内联展示：正面=公式，背面=配套例题
+    $('#cof-list').innerHTML = `
+      <div class="flash-wrap">
+        <div class="flash-progress">第 ${idx + 1} / ${list.length} 张 · 已记住 ${S.pair.known}${pairCases.length > 1 ? ` · 本公式配 ${pairCases.length} 道例题` : ''}</div>
+        <div class="flash-card" data-cmd="pair-flip">
+          <div class="flash-face flash-front">
+            <div class="flash-q">${f.cat.emoji} ${esc(f.cat.name)}<b>${esc(f.title)}</b></div>
+            <pre class="fml">${esc(f.formula)}</pre>
+            ${f.tip ? `<div class="flash-tip">💡 ${esc(f.tip)}</div>` : ''}
+            <div class="flash-hint">👆 点击翻面，看它被哪道例题用</div>
+          </div>
+          <div class="flash-face flash-back">
+            <div class="flash-q">📖 配套例题 · <b>${pairCases.map((x, i) => (pairCases.length > 1 ? `${i + 1}. ` : '') + esc(x.title)).join('<br>')}</b></div>
+            ${pairCases.slice(0, 2).map((x) => `
+              <div class="pair-case">
+                <div class="pair-body">📝 ${esc(x.body)}</div>
+                ${x.answer ? `<div class="pair-ans">✅ ${esc(x.answer)}</div>` : ''}
+                ${x.step ? `<div class="pair-step">🧭 ${esc(x.step)}</div>` : ''}
+                ${x.pitfall ? `<div class="pair-pit">⚠️ ${esc(x.pitfall)}</div>` : ''}
+              </div>`).join('')}
+            ${pairCases.length > 2 ? `<div class="pair-more">… 共 ${pairCases.length} 道配套题</div>` : ''}
+          </div>
+        </div>
+        <div class="flash-actions">
+          <button class="btn" data-cmd="pair-known">✓ 记住了</button>
+          <button class="btn" data-cmd="pair-retry">✗ 再背一次</button>
+          <button class="btn" data-cmd="pair-exit">✕ 退出</button>
+        </div>
+      </div>`;
+  }
+  function pairStep(c, known) {
+    if (known) S.pair.known += 1;
+    S.pair.idx += 1;
+    renderFormulaPane(c);
+  }
+
   /* ---------- 打印 / 导出（v4.6）：本课公式或习题 → 新窗口打印，可另存 PDF ---------- */
   function printCourse(c, tab) {
     const w = window.open('', '_blank');
@@ -2453,6 +2551,7 @@ window.KC_CREDITS = {
     if (!f) return;
     closeModal();
     S.flash = { active: false, list: [], idx: 0, known: 0 }; // 退出翻卡，避免残留
+    S.pair = { active: false, list: [], idx: 0, known: 0 }; // v4.7 同样退出讲练
     keepQ = false;
     S.formula.q = '';
     S.formula.favOnly = false;
@@ -2535,6 +2634,22 @@ window.KC_CREDITS = {
     if (t.closest('[data-cmd="flash-retry"]')) { flashStep(courseById(S.course.id), false); return; }
     if (t.closest('[data-cmd="flash-again"]')) { startFlash(courseById(S.course.id)); return; }
     if (t.closest('[data-cmd="flash-exit"]')) { exitFlash(courseById(S.course.id)); return; }
+
+    // v4.7 讲练翻卡：进入/退出 / 翻面 / 记住了 / 再背一次 / 再来一轮
+    if (t.closest('#cof-pair')) {
+      const c = courseById(S.course.id);
+      if (c) { if (S.pair.active) exitPair(c); else startPair(c); }
+      return;
+    }
+    const pflip = t.closest('[data-cmd="pair-flip"]');
+    if (pflip) { pflip.classList.toggle('flipped'); return; }
+    if (t.closest('[data-cmd="pair-known"]')) { pairStep(courseById(S.course.id), true); return; }
+    if (t.closest('[data-cmd="pair-retry"]')) { pairStep(courseById(S.course.id), false); return; }
+    if (t.closest('[data-cmd="pair-again"]')) { startPair(courseById(S.course.id)); return; }
+    if (t.closest('[data-cmd="pair-exit"]')) { exitPair(courseById(S.course.id)); return; }
+    // 公式卡「配套例题」入口 → 打开习题弹窗
+    const pok = t.closest('[data-open-pair]');
+    if (pok) { openExercise(pok.getAttribute('data-open-pair')); return; }
 
     // v4.6 打印 / 导出本课公式或习题
     if (t.closest('#cof-print')) { const c = courseById(S.course.id); if (c) printCourse(c, 'formula'); return; }
