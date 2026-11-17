@@ -1,0 +1,14 @@
+{
+  "name": "学习助手",
+  "short_name": "学习助手",
+  "description": "四门主课公式速记 + 考试风习题 + 第二课堂学分",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

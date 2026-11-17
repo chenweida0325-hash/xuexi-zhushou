@@ -13,6 +13,14 @@
 <meta property="og:url" content="https://chenweida0325-hash.github.io/xuexi-zhushou/">
 <meta property="og:image" content="https://chenweida0325-hash.github.io/xuexi-zhushou/cover.png">
 <link rel="icon" href="https://chenweida0325-hash.github.io/xuexi-zhushou/cover.png">
+<!-- PWA（v4.5）：可添加到主屏幕、离线可用 -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b1220">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="学习助手">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 /* ============ 学习助手 · 基础样式（v3.11：全站深色——课程页与首页同款黑色机械风，首页白卡 3D 封面保留） ============ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -194,6 +202,12 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   color: #e2e8f0;
 }
 .hh-title .hh-logo { margin-right: 4px; }
+.home-qr {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin: -4px 0 20px;
+}
+.home-qr img { width: 64px; height: 64px; border-radius: 12px; background: #fff; padding: 6px; box-shadow: 0 8px 22px rgba(2, 6, 16, .45); }
+.home-qr span { font-size: 12.5px; color: var(--muted); letter-spacing: .5px; }
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {
   .hh-title {
     background: linear-gradient(92deg, #60a5fa 10%, #2dd4bf 52%, #fbbf24 94%);
@@ -544,6 +558,10 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <div class="home-bg" aria-hidden="true"><!-- v4.2：已精简，仅保留蓝图网格与暗角背景纹理，水印线稿全部移除 --></div>
     <div class="home-hero">
       <h1 class="hh-title"><span class="hh-logo">📚</span> 学习助手</h1>
+    </div>
+    <div class="home-qr" aria-label="手机扫码在线打开">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAHgAQMAAABHGizWAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACXklEQVR4nO3cvZHDIBCGYTwKFKoEl6LSpNJcypWgUMGNOa2WhUX3M3PjBDPvF8mGh8xr/uwQXskSfbbjnfF8+jyebvJgHef4Ee5V5ycYDG4Nr9Z8tG1hinvi0aiM/0h4y50HMBjcIl7OftZmxeB2tB6xYR55dG0Gg8F949KWElzAYPBbYS0G2nYTGs+pw/yPSgIGg98V14ViDyHVkae+vSRuo2vAYHCD2MeW/ZdisORlvw8YDO4J/5yhLPvtJO7xS1cwGNwMLsXAPutaDNIJne3qSzGQLtNRL8ajy3B2AYPB/eDCP47nKZakmYF1kUpio2uxeYLB4Pbwer6SFt3G09ZcDMqy/3vAYHA/WDO7WrKnZUIsy/5SSeqZARgMbgjL+zFN5C17GVNerudMv0QP8QIYDO4SayZ3guew5l6NXQ74wGBwQ3h1pWC7zvSNz9W+QCkGYDC4D2yxNq0kg+3q17fxbBURvq0xwGBwE3g5i4G03c/PeXUBR7fx6uP60RUDMBjcC17Sqr5UkjGViowlMrqO7UcHg8GN4hLZsk+xj7xEcLl+WxcDMBjcA/argO384nfrehvmEXzsgA8MBjeGl9R2/ZlcnhnU1cL+IucJBoM7wtdMri3t6vt1hL+9CwaDG8NL9Ck/kv/0Z3QxYf0VvcRfwAGDwX3gNVcRmxnopn2+mmuxSrJnAAaDm8NLartfdumCURl/zoPsaXQwGNw3jrHaAQwh5H0BzZg7gMHg5vEfZ3QlvxUDMBj8vthyxemP6WX06/WeAQwGt4h9fpgZSNZ0G0+5v4ADBoN7wa/kC3xIiAm+/kDMAAAAAElFTkSuQmCC" alt="学习助手二维码">
+      <span>📱 手机扫码打开</span>
     </div>
     <div id="home-list" class="home-grid"><p class="loading">加载中…</p></div>
   </section>
@@ -2416,6 +2434,12 @@ window.KC_CREDITS = {
   window.addEventListener('hashchange', () => route());
   creditStore.init().then(() => { if (S.view === 'credits') renderCredits(); });
   route();
+
+  // PWA（v4.5）：注册 Service Worker——可添加到主屏幕、断网也能打开
+  // file:// 离线单文件或隐私模式无法注册，静默跳过不打扰
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    navigator.serviceWorker.register('./sw.js').catch(() => { /* 离线/受限环境忽略 */ });
+  }
 })();
 </script>
 </body>
