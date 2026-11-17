@@ -222,6 +222,55 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   box-shadow: 0 0 12px rgba(56, 189, 248, .55);
 }
 
+/* ---------- 首页全局搜索框（v4.6） ---------- */
+.home-search {
+  position: relative; z-index: 1; max-width: 460px; margin: -2px auto 16px;
+}
+.home-search .search {
+  width: 100%; background: rgba(13, 24, 48, .85); border-color: rgba(148, 163, 184, .28);
+  padding: 10px 18px; font-size: 14.5px;
+}
+
+/* ---------- 全站搜索结果（v4.6） ---------- */
+.gs-group { margin-top: 20px; }
+.gs-group:first-child { margin-top: 4px; }
+.gs-head { font-size: 14.5px; font-weight: 700; color: var(--link); margin-bottom: 10px; }
+.gs-note { font-size: 12.5px; color: var(--muted); }
+.gs-item {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 15px; margin-bottom: 10px; transition: border-color .15s, transform .12s;
+}
+.gs-item:hover { border-color: var(--link); transform: translateY(-1px); }
+.gs-item b { font-size: 14.5px; }
+.gs-item .gs-meta { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+.gs-item .gs-preview { font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.6; }
+
+/* ---------- 翻卡记忆（v4.6） ---------- */
+.flash-wrap { max-width: 520px; margin: 6px auto 0; text-align: center; }
+.flash-progress { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+.flash-card {
+  position: relative; height: 250px; cursor: pointer; perspective: 1000px; margin-bottom: 14px;
+}
+.flash-face {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px;
+  box-shadow: var(--shadow);
+}
+.flash-front { transform: rotateY(0deg); }
+.flash-back { transform: rotateY(180deg); background: #0d1830; border-color: rgba(96, 165, 250, .4); }
+.flash-card.flipped .flash-front { transform: rotateY(-180deg); }
+.flash-card.flipped .flash-back { transform: rotateY(0deg); }
+.flash-q { font-size: 15px; color: var(--muted); }
+.flash-q b { display: block; font-size: 21px; color: var(--ink); margin-top: 6px; }
+.flash-hint { font-size: 12.5px; color: rgba(148, 163, 184, .45); }
+.flash-back .fml { width: 100%; text-align: left; margin: 0; }
+.flash-back .flash-tip { font-size: 12.5px; color: #fbbf24; margin-top: 2px; }
+.flash-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.flash-actions .btn { min-width: 96px; font-size: 13.5px; padding: 8px 14px; }
+.flash-done { color: var(--muted); font-size: 14px; padding: 30px 0; }
+
 .home-grid {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;
   width: 100%; align-items: stretch;
@@ -559,11 +608,22 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <div class="home-hero">
       <h1 class="hh-title"><span class="hh-logo">📚</span> 学习助手</h1>
     </div>
+    <div class="home-search" role="search">
+      <input id="global-q" class="search" type="search" placeholder="🔍 全站搜公式 / 习题，如：螺栓、虚短、节流、定位误差…">
+    </div>
     <div class="home-qr" aria-label="手机扫码在线打开">
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAHgAQMAAABHGizWAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACXklEQVR4nO3cvZHDIBCGYTwKFKoEl6LSpNJcypWgUMGNOa2WhUX3M3PjBDPvF8mGh8xr/uwQXskSfbbjnfF8+jyebvJgHef4Ee5V5ycYDG4Nr9Z8tG1hinvi0aiM/0h4y50HMBjcIl7OftZmxeB2tB6xYR55dG0Gg8F949KWElzAYPBbYS0G2nYTGs+pw/yPSgIGg98V14ViDyHVkae+vSRuo2vAYHCD2MeW/ZdisORlvw8YDO4J/5yhLPvtJO7xS1cwGNwMLsXAPutaDNIJne3qSzGQLtNRL8ajy3B2AYPB/eDCP47nKZakmYF1kUpio2uxeYLB4Pbwer6SFt3G09ZcDMqy/3vAYHA/WDO7WrKnZUIsy/5SSeqZARgMbgjL+zFN5C17GVNerudMv0QP8QIYDO4SayZ3guew5l6NXQ74wGBwQ3h1pWC7zvSNz9W+QCkGYDC4D2yxNq0kg+3q17fxbBURvq0xwGBwE3g5i4G03c/PeXUBR7fx6uP60RUDMBjcC17Sqr5UkjGViowlMrqO7UcHg8GN4hLZsk+xj7xEcLl+WxcDMBjcA/argO384nfrehvmEXzsgA8MBjeGl9R2/ZlcnhnU1cL+IucJBoM7wtdMri3t6vt1hL+9CwaDG8NL9Ck/kv/0Z3QxYf0VvcRfwAGDwX3gNVcRmxnopn2+mmuxSrJnAAaDm8NLartfdumCURl/zoPsaXQwGNw3jrHaAQwh5H0BzZg7gMHg5vEfZ3QlvxUDMBj8vthyxemP6WX06/WeAQwGt4h9fpgZSNZ0G0+5v4ADBoN7wa/kC3xIiAm+/kDMAAAAAElFTkSuQmCC" alt="学习助手二维码">
       <span>📱 手机扫码打开</span>
     </div>
     <div id="home-list" class="home-grid"><p class="loading">加载中…</p></div>
+  </section>
+
+  <!-- ============ 全站搜索结果（v4.6：跨课程搜公式 / 习题） ============ -->
+  <section id="view-search" class="view">
+    <div class="home-search">
+      <input id="gs-q" class="search" type="search" placeholder="🔍 再搜一次，跨四门课搜公式 / 习题…">
+    </div>
+    <div id="gs-list"><p class="loading">加载中…</p></div>
   </section>
 
   <!-- ============ 课程页 ============ -->
@@ -574,6 +634,8 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
       <div class="toolbar">
         <input id="cof-search" class="search" type="search" placeholder="🔍 搜本课公式/知识点，如：欧拉、虚短、节流、自锁…">
         <button id="cof-favtoggle" class="btn small">⭐ 只看收藏</button>
+        <button id="cof-flash" class="btn small" title="翻卡记忆：逐张背公式">🃏 翻卡</button>
+        <button id="cof-print" class="btn small" title="打印 / 导出本课公式为 PDF">🖨️ 打印</button>
       </div>
       <div id="cof-cats" class="chips"></div>
       <div id="cof-list"><p class="loading">加载中…</p></div>
@@ -581,6 +643,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <div id="co-cases-pane" class="hidden">
       <div class="toolbar">
         <input id="coc-search" class="search" type="search" placeholder="🔍 搜本课习题/考点，如：螺栓、差动、定位误差…">
+        <button id="coc-print" class="btn small" title="打印 / 导出本课习题为 PDF">🖨️ 打印</button>
       </div>
       <div id="coc-cates" class="chips"></div>
       <div id="coc-scenes" class="chips small-chips"></div>
@@ -1963,7 +2026,9 @@ window.KC_CREDITS = {
     course: { id: null, tab: 'formula' },
     formula: { cat: 'all', q: '', favOnly: false },
     cases: { cate: '全部', scene: '全部', q: '' },
-    credits: { pending: null }
+    credits: { pending: null },
+    search: { q: '' }, // v4.6 全站搜索
+    flash: { active: false, list: [], idx: 0, known: 0 } // v4.6 翻卡记忆
   };
   let keepQ = false; // 案例弹窗「知识点跳转」：切到目标课程时保留搜索词
 
@@ -2007,6 +2072,13 @@ window.KC_CREDITS = {
       if (c) { routeView('course', c, seg[2] === 'cases' ? 'cases' : 'formula'); return; }
     }
     if (seg[0] === 'credits') { routeView('credits'); return; }
+    // v4.6 全站搜索：/#/search?q=xxx（带查询串时 seg[0] 为 search?q=xxx）
+    if (seg[0] && (seg[0] === 'search' || seg[0].indexOf('search?') === 0)) {
+      const m = h.match(/[?&]q=([^&]*)/);
+      S.search.q = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
+      routeView('search');
+      return;
+    }
     // 无 hash / 未知路由一律回首页（四张封面）
     routeView('home');
   }
@@ -2027,11 +2099,13 @@ window.KC_CREDITS = {
     S.view = v;
     $$('.view').forEach((s) => s.classList.toggle('active', s.id === 'view-' + v));
     // 小程序外壳：标题 / 返回键 / 底部 Tab 高亮
-    $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'credits' ? '第二课堂学分' : '学习助手');
+    $('#mp-title').textContent = v === 'course' && course ? course.name
+      : v === 'credits' ? '第二课堂学分'
+      : v === 'search' ? '全站搜索' : '学习助手';
     $('#mp-back').classList.toggle('hidden', v === 'home');
     const tabName = v === 'course' ? 'course' : (v === 'credits' ? 'credits' : 'home');
     $$('#mp-tabbar .mp-tab').forEach((a) => a.classList.toggle('active', a.getAttribute('data-tab') === tabName));
-    ({ home: renderHome, course: renderCourse, credits: renderCredits })[v]();
+    ({ home: renderHome, course: renderCourse, credits: renderCredits, search: renderSearch })[v]();
     window.scrollTo({ top: 0 });
   }
 
@@ -2052,6 +2126,50 @@ window.KC_CREDITS = {
         <span class="cc-plates" aria-hidden="true"></span>
       </div>`;
     }).join('');
+    // v4.6 全站搜索：回填首页搜索框
+    const gq = $('#global-q');
+    if (gq && gq.value !== S.search.q) gq.value = S.search.q;
+  }
+
+  /* ---------- 全站搜索（v4.6：跨 4 门课搜公式 / 习题） ---------- */
+  function renderSearch() {
+    const q = (S.search.q || '').trim().toLowerCase();
+    const wrap = $('#gs-list');
+    if (!q) {
+      wrap.innerHTML = '<p class="gs-note">在顶部输入关键词，跨四门课搜索公式与习题（如：螺栓、虚短、节流、定位误差）。</p>';
+      $('#global-q').value = '';
+      return;
+    }
+    $('#global-q').value = S.search.q;
+    const hits = (list, hay) => list.filter((x) => hay(x).indexOf(q) >= 0);
+    const fHits = hits(allFormulas(), formulaHaystack);
+    const cHits = hits(CASES, (x) => [
+      x.title, x.body, x.answer, x.type, catNameOf(x.course, x.cat), courseById(x.course) && courseById(x.course).name
+    ].join(' ').toLowerCase());
+
+    const fBlock = fHits.length ? `
+      <div class="gs-group">
+        <div class="gs-head">🧮 公式（${fHits.length}）</div>
+        ${fHits.map((f) => `
+          <a class="gs-item" href="#/course/${esc(f.course.id)}" data-cmd="flash-link" data-goto-formula="${esc(f.id)}">
+            <b>${esc(f.title)}</b>
+            <div class="gs-meta">${f.course.emoji} ${esc(f.course.name)} · ${f.cat.emoji} ${esc(f.cat.name)}</div>
+            <div class="gs-preview">${esc((f.formula || '').slice(0, 80))}</div>
+          </a>`).join('')}
+      </div>` : '';
+    const cBlock = cHits.length ? `
+      <div class="gs-group">
+        <div class="gs-head">✏️ 习题（${cHits.length}）</div>
+        ${cHits.map((x) => `
+          <a class="gs-item" href="#/course/${esc(x.course)}/cases" data-cmd="gs-ex" data-open="${esc(x.id)}">
+            <b>✏️ ${esc(x.title)}</b>
+            <div class="gs-meta">${esc(catNameOf(x.course, x.cat) || '')} · ${esc(x.type)} · 难度 ${stars(x.diff)}</div>
+            <div class="gs-preview">${esc((x.body || '').slice(0, 80))}</div>
+          </a>`).join('')}
+      </div>` : '';
+    wrap.innerHTML = (fBlock || cBlock)
+      ? fBlock + cBlock
+      : `<p class="gs-note">没有找到与「${esc(S.search.q)}」相关的内容，换个关键词试试。</p>`;
   }
 
   /* ---------- 课程页：公式速记 + 习题案例 ---------- */
@@ -2094,6 +2212,8 @@ window.KC_CREDITS = {
   }
 
   function renderFormulaPane(c) {
+    // v4.6 翻卡记忆模式：替代公式列表
+    if (S.flash.active) { renderFlashPane(c); return; }
     // 搜索框是静态 DOM：只同步值，不重建（保住输入焦点）
     $('#cof-search').value = S.formula.q;
     $('#cof-favtoggle').classList.toggle('on', S.formula.favOnly);
@@ -2199,6 +2319,110 @@ window.KC_CREDITS = {
       </article>`;
   }
 
+  /* ---------- 翻卡记忆（v4.6）：本课公式逐张背 ---------- */
+  function startFlash(c) {
+    const all = allFormulas().filter((f) => f.course.id === c.id);
+    if (!all.length) return;
+    // 洗牌（Fisher–Yates）
+    const list = all.slice();
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = list[i]; list[i] = list[j]; list[j] = t;
+    }
+    S.flash = { active: true, list: list, idx: 0, known: 0 };
+    $('#cof-flash').classList.add('on');
+    renderFormulaPane(c);
+  }
+  function exitFlash(c) {
+    S.flash = { active: false, list: [], idx: 0, known: 0 };
+    const b = $('#cof-flash');
+    if (b) b.classList.remove('on');
+    if (c) renderFormulaPane(c);
+  }
+  function renderFlashPane(c) {
+    const { list, idx } = S.flash;
+    if (idx >= list.length) {
+      $('#cof-list').innerHTML = `
+        <div class="flash-wrap">
+          <div class="flash-done">🎉 本轮完成！记住了 <b style="color:var(--ok)">${S.flash.known}/${list.length}</b> 条</div>
+          <div class="flash-actions">
+            <button class="btn" data-cmd="flash-again">🔄 再来一轮</button>
+            <button class="btn" data-cmd="flash-exit">✕ 退出</button>
+          </div>
+        </div>`;
+      return;
+    }
+    const f = list[idx];
+    $('#cof-list').innerHTML = `
+      <div class="flash-wrap">
+        <div class="flash-progress">第 ${idx + 1} / ${list.length} 张 · 已记住 ${S.flash.known}</div>
+        <div class="flash-card" data-cmd="flash-flip">
+          <div class="flash-face flash-front">
+            <div class="flash-q">${f.cat.emoji} ${esc(f.cat.name)}<b>${esc(f.title)}</b></div>
+            <div class="flash-hint">点击翻开公式</div>
+          </div>
+          <div class="flash-face flash-back">
+            <pre class="fml">${esc(f.formula)}</pre>
+            ${f.params ? `<div class="params">变量：${esc(f.params)}</div>` : ''}
+            ${f.tip ? `<div class="flash-tip">💡 ${esc(f.tip)}</div>` : ''}
+          </div>
+        </div>
+        <div class="flash-actions">
+          <button class="btn" data-cmd="flash-known">✓ 记住了</button>
+          <button class="btn" data-cmd="flash-retry">✗ 再背一次</button>
+          <button class="btn" data-cmd="flash-exit">✕ 退出</button>
+        </div>
+      </div>`;
+  }
+  function flashStep(c, known) {
+    if (known) S.flash.known += 1;
+    S.flash.idx += 1;
+    renderFormulaPane(c);
+  }
+
+  /* ---------- 打印 / 导出（v4.6）：本课公式或习题 → 新窗口打印，可另存 PDF ---------- */
+  function printCourse(c, tab) {
+    const w = window.open('', '_blank');
+    if (!w) return;
+    const head = `<meta charset="utf-8"><title>${esc(c.name)} · ${tab === 'cases' ? '习题' : '公式速记'}</title>
+      <style>
+        body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; padding: 28px; color: #1e293b; }
+        h1 { font-size: 20px; margin: 0 0 4px; } h1 small { color:#64748b; font-size: 13px; font-weight:400; }
+        .item { border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin: 12px 0; page-break-inside: avoid; }
+        .item h3 { margin: 0 0 6px; font-size: 15px; }
+        .fml { font-family: "Cambria Math","Times New Roman",serif; font-size: 14px; background: #f1f5f9; border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; }
+        .meta { font-size: 12px; color: #64748b; margin-top: 6px; }
+        .note { font-size: 12.5px; color: #b45309; margin-top: 4px; }
+        pre { white-space: pre-wrap; word-break: break-word; }
+      </style>`;
+    let body = '';
+    if (tab === 'cases') {
+      const list = casesOf(c.id);
+      body = list.map((x) => `
+        <div class="item">
+          <h3>✏️ ${esc(x.title)}</h3>
+          <div class="meta">${esc(catNameOf(c.id, x.cat))} · ${esc(x.type)} · 难度 ${stars(x.diff)}</div>
+          <div class="meta">📝 ${esc(x.body)}</div>
+          ${(x.answer ? `<div class="note">✅ ${esc(x.answer)}</div>` : '')}
+        </div>`).join('') || '<p>本课暂无习题</p>';
+    } else {
+      const all = allFormulas().filter((f) => f.course.id === c.id);
+      body = all.map((f) => `
+        <div class="item">
+          <h3>${f.cat.emoji} ${esc(f.title)}</h3>
+          <pre class="fml">${esc(f.formula)}</pre>
+          ${f.params ? `<div class="meta">变量：${esc(f.params)}</div>` : ''}
+          ${f.tip ? `<div class="note">💡 ${esc(f.tip)}</div>` : ''}
+          ${f.mnemonic ? `<div class="note">🗝️ ${esc(f.mnemonic)}</div>` : ''}
+        </div>`).join('') || '<p>本课暂无公式</p>';
+    }
+    w.document.write('<!DOCTYPE html><html lang="zh-CN"><head>' + head + '</head><body>' +
+      `<h1>${esc(c.name)} <small>${tab === 'cases' ? '习题（' + casesOf(c.id).length + ' 道）' : '公式速记（' + formulaCount(c) + ' 条）'} · 学习助手</small></h1>` +
+      body + '</body></html>');
+    w.document.close();
+    setTimeout(() => { try { w.focus(); w.print(); } catch (e) { /* 忽略 */ } }, 300);
+  }
+
   /* ---------- 习题答案弹窗 ---------- */
   function openExercise(id) {
     const x = CASES.find((v) => v.id === id);
@@ -2228,6 +2452,7 @@ window.KC_CREDITS = {
     const f = formulaById(fid);
     if (!f) return;
     closeModal();
+    S.flash = { active: false, list: [], idx: 0, known: 0 }; // 退出翻卡，避免残留
     keepQ = false;
     S.formula.q = '';
     S.formula.favOnly = false;
@@ -2270,6 +2495,18 @@ window.KC_CREDITS = {
     const link = t.closest('a[href^="#/"]');
     if (link) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
+      // v4.6 搜索结果：公式 → 跳课程并高亮定位；习题 → 跳课程习题页并打开弹窗
+      const gf = link.getAttribute('data-goto-formula');
+      if (gf) { gotoFormula(gf); return; }
+      const gsx = link.getAttribute('data-open');
+      if (gsx) {
+        S.cases.cate = '全部'; S.cases.scene = '全部'; S.cases.q = '';
+        const href = link.getAttribute('href') || '';
+        goHash(href);
+        renderCurrent();
+        setTimeout(() => openExercise(gsx), 80);
+        return;
+      }
       goHash(link.getAttribute('href') || '#/');
       return;
     }
@@ -2285,6 +2522,23 @@ window.KC_CREDITS = {
     // 「只看收藏」
     const ft = t.closest('#cof-favtoggle');
     if (ft) { S.formula.favOnly = !S.formula.favOnly; renderCourse(); return; }
+
+    // v4.6 翻卡记忆：翻卡 / 记住了 / 再背一次 / 再来一轮 / 退出
+    if (t.closest('#cof-flash')) {
+      const c = courseById(S.course.id);
+      if (c) { if (S.flash.active) exitFlash(c); else startFlash(c); }
+      return;
+    }
+    const flip = t.closest('[data-cmd="flash-flip"]');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+    if (t.closest('[data-cmd="flash-known"]')) { flashStep(courseById(S.course.id), true); return; }
+    if (t.closest('[data-cmd="flash-retry"]')) { flashStep(courseById(S.course.id), false); return; }
+    if (t.closest('[data-cmd="flash-again"]')) { startFlash(courseById(S.course.id)); return; }
+    if (t.closest('[data-cmd="flash-exit"]')) { exitFlash(courseById(S.course.id)); return; }
+
+    // v4.6 打印 / 导出本课公式或习题
+    if (t.closest('#cof-print')) { const c = courseById(S.course.id); if (c) printCourse(c, 'formula'); return; }
+    if (t.closest('#coc-print')) { const c = courseById(S.course.id); if (c) printCourse(c, 'cases'); return; }
 
     // 课程页案例分类 / 场景
     const ca = t.closest('#coc-cates .chip');
@@ -2349,7 +2603,7 @@ window.KC_CREDITS = {
     return false;
   }
   function renderCurrent() {
-    ({ home: renderHome, course: renderCourse, credits: renderCredits })[S.view]();
+    ({ home: renderHome, course: renderCourse, credits: renderCredits, search: renderSearch })[S.view]();
   }
 
   /* ---------- 封面 3D 倾斜：整卡朝鼠标方向微微转动（纯 CSS 3D，事件委托） ---------- */
@@ -2430,7 +2684,19 @@ window.KC_CREDITS = {
     handleCreditFiles(e.dataTransfer.files, card.getAttribute('data-part') || '');
   });
   document.addEventListener('click', onDocClick);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+    // v4.6 全局搜索框（首页/搜索结果页顶部）：回车进入全站搜索
+    if (e.key === 'Enter' && e.target && e.target.id === 'global-q') {
+      const q = (e.target.value || '').trim();
+      if (q) goHash('#/search?q=' + encodeURIComponent(q));
+      else goHash('#/');
+    }
+  });
+  // v4.6 首页搜索框输入实时同步到状态（搜索页顶部输入回车即搜索）
+  document.addEventListener('input', (e) => {
+    if (e.target && e.target.id === 'global-q') S.search.q = e.target.value;
+  });
   window.addEventListener('hashchange', () => route());
   creditStore.init().then(() => { if (S.view === 'credits') renderCredits(); });
   route();
