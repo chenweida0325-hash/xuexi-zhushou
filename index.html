@@ -318,19 +318,19 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .ctab:hover { border-color: var(--link); color: var(--link); }
 .ctab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
 
-/* ---------- 课程页 · 公式分组 ---------- */
-.cat-block { margin-top: 18px; }
-.cat-block:first-child { margin-top: 6px; }
-.cat-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14.5px; font-weight: 700; margin-bottom: 4px; }
+/* ---------- 课程页 · 公式分组（v4.4：分组间距放宽） ---------- */
+.cat-block { margin-top: 26px; }
+.cat-block:first-child { margin-top: 8px; }
+.cat-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 15.5px; font-weight: 700; margin-bottom: 8px; }
 .cat-head .chip { font-size: 11px; padding: 2px 8px; cursor: default; font-weight: 400; }
-.cat-intro { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+.cat-intro { font-size: 12.5px; color: var(--muted); line-height: 1.75; margin-bottom: 12px; }
 
-/* ---------- 卡片 ---------- */
-.cards-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+/* ---------- 卡片（v4.4 留白呼吸感：间距/行高加大、次要信息灰色弱化） ---------- */
+.cards-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  box-shadow: var(--shadow); padding: 14px 15px;
-  display: flex; flex-direction: column; gap: 8px;
+  box-shadow: var(--shadow); padding: 20px 22px;
+  display: flex; flex-direction: column; gap: 10px;
 }
 .chip.course-chip { font-size: 12px; padding: 3px 10px; background: var(--primary-soft); border-color: transparent; color: #93c5fd; cursor: default; }
 .favbtn {
@@ -340,14 +340,14 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .favbtn:hover { transform: scale(1.2); }
 .favbtn.on { color: var(--accent); }
 
-/* ---------- 习题卡（v3.12 考试风习题） ---------- */
+/* ---------- 习题卡（v3.12 考试风习题；v4.4：题干行距放宽、卡片留白加大） ---------- */
 .case-card .cc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.cc-name { font-size: 15px; font-weight: 700; }
+.cc-name { font-size: 15.5px; font-weight: 700; line-height: 1.5; }
 .cc-badge { font-size: 11px; background: rgba(245, 158, 11, .16); color: #fcd34d; border-radius: 6px; padding: 2px 8px; white-space: nowrap; }
 .case-card .cc-sub { font-size: 12px; color: var(--muted); }
 .cc-diff { color: #fbbf24; letter-spacing: 1px; }
 .case-card .highlight {
-  font-size: 13px; color: #cbd5e1; line-height: 1.6;
+  font-size: 13.5px; color: #e2e8f0; line-height: 1.8;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .cc-fmlinks { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 11.5px; color: var(--muted); }
@@ -358,10 +358,10 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 }
 .cc-fmlink:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
 .cc-meta { font-size: 11.5px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
-.cc-open { margin-top: 2px; text-align: right; }
+.cc-open { margin-top: 4px; text-align: right; }
 .cc-open button {
   border: 1.5px solid rgba(96, 165, 250, .6); color: #93c5fd; background: rgba(96, 165, 250, .1);
-  font-size: 12.5px; border-radius: 999px; padding: 4px 14px; cursor: pointer; transition: all .15s;
+  font-size: 12.5px; border-radius: 999px; padding: 6px 16px; cursor: pointer; transition: all .15s;
 }
 .cc-open button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
 
@@ -393,25 +393,25 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .modal .m-formula { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; margin: 8px 0; }
 .modal .m-formula .fml { width: 100%; box-sizing: border-box; margin: 0; }
 
-/* ---------- 公式卡 ---------- */
+/* ---------- 公式卡（v4.4：标题做主角、公式块强化、次要信息灰色弱化） ---------- */
 .formula-card { scroll-margin-top: 92px; } /* 公式联动定位：避开固定顶栏 */
-.formula-card h3 { font-size: 15px; }
+.formula-card h3 { font-size: 16px; line-height: 1.5; margin-top: 2px; }
 .fc-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .fc-head .favbtn { margin-left: auto; }
-.chip.cat-chip { font-size: 11.5px; padding: 3px 9px; background: #0d1830; border-color: var(--line); color: var(--muted); cursor: pointer; }
+.chip.cat-chip { font-size: 11px; padding: 3px 9px; background: #0d1830; border-color: var(--line); color: var(--muted); cursor: pointer; }
 .chip.cat-chip:hover { border-color: var(--link); color: var(--link); }
 .fml {
   font-family: "Cambria Math", "Times New Roman", Georgia, "Microsoft YaHei", serif;
-  font-size: 14px; line-height: 1.75; background: #0b1526; color: #e2e8f0;
-  border: 1px solid rgba(148, 163, 184, .18); /* 与深色卡片区分边界 */
-  border-radius: 10px; padding: 11px 13px; margin: 2px 0 4px; overflow-x: auto;
-  white-space: pre-wrap; word-break: break-word; letter-spacing: .2px;
+  font-size: 15.5px; line-height: 1.9; background: #0b1526; color: #f1f5f9;
+  border: 1px solid rgba(148, 163, 184, .22); /* 与深色卡片区分边界 */
+  border-radius: 12px; padding: 14px 16px; margin: 4px 0 6px; overflow-x: auto;
+  white-space: pre-wrap; word-break: break-word; letter-spacing: .3px;
 }
-.formula-card .params { font-size: 12px; color: var(--muted); }
-.formula-card .tip { font-size: 12.5px; color: #fbbf24; background: rgba(245, 158, 11, .12); padding: 6px 10px; border-radius: 8px; }
+.formula-card .params { font-size: 12px; color: #7c8ba1; line-height: 1.8; }
+.formula-card .tip { font-size: 12px; color: #fbbf24; background: rgba(245, 158, 11, .12); padding: 9px 12px; line-height: 1.8; border-radius: 10px; }
 .formula-card .mnemonic {
-  font-size: 13px; font-weight: 600; color: #6ee7b7; background: rgba(16, 185, 129, .1);
-  border: 1px dashed rgba(52, 211, 153, .45); padding: 6px 10px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 600; color: #6ee7b7; background: rgba(16, 185, 129, .1);
+  border: 1px dashed rgba(52, 211, 153, .45); padding: 9px 12px; line-height: 1.8; border-radius: 10px;
 }
 
 /* 公式联动高亮：脉冲光圈 2 次后自动消退 */
