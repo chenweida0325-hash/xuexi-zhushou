@@ -314,16 +314,11 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 }
 .cc-name .cc-go { font-size: 13px; font-weight: 600; font-style: normal; color: var(--muted); white-space: nowrap; transition: transform .2s, color .2s; }
 .cover-card:hover .cc-name .cc-go { transform: translateX(4px); color: var(--cc, var(--primary)); }
-.cc-desc { font-size: 13px; color: var(--muted); }
-.cc-meta {
-  font-size: 12.5px; color: var(--muted); margin-top: auto;
-  border-top: 1px dashed var(--line); padding-top: 10px;
-}
+/* v4.2：cc-desc（课程简介）与首页卡片计数行 cc-meta 已移除 */
 /* 全站暗色后回钉首页封面为白卡（深底白卡保持既有对比，
    也保证 3D 厚度层 z-index:-1 排序与 plate3D 断言稳定） */
 .cover-card { background: #ffffff; border-color: #e2e8f0; color: #1e293b; }
-.cover-card .cc-desc, .cover-card .cc-meta, .cover-card .cc-name .cc-go { color: #64748b; }
-.cover-card .cc-meta { border-top-color: #e2e8f0; }
+.cover-card .cc-name .cc-go { color: #64748b; }
 
 /* ---------- 课程页：课程头 + 双标签 ---------- */
 .co-head {
