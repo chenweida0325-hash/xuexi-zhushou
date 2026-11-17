@@ -205,21 +205,8 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   content: ''; position: absolute; inset: 0;
   background: radial-gradient(130% 95% at 50% 35%, transparent 52%, rgba(2, 6, 16, .5) 100%);
 }
-.home-bg i { position: absolute; display: block; user-select: none; pointer-events: none; }
-.home-bg i svg { display: block; width: 100%; height: auto; overflow: visible; }
-/* 黑色机械风水印：按课程色淡着，大齿轮/小齿轮/轴承自转（啮合方向相反），其余轻微浮动 */
-.bg-gear    { width: 330px; top: 3%;    left: 2%;    color: #7dd3fc; opacity: .16; animation: bgspin 70s linear infinite; }
-.bg-cog2    { width: 110px; top: 16%;   left: 15%;   color: #38bdf8; opacity: .2;  animation: bgspin 40s linear reverse infinite; }
-.bg-bolt    { width: 170px; top: 40%;   right: 5.5%; color: #fcd34d; opacity: .16; animation: bgfloat 9s ease-in-out infinite; }
-.bg-drop    { width: 200px; bottom: 10%; left: 7%;   color: #5eead4; opacity: .18; animation: bgfloat 11s ease-in-out -3s infinite; }
-.bg-factory { width: 270px; bottom: 4%;  right: 4%;  color: #cbd5e1; opacity: .14; animation: bgfloat 10s ease-in-out -5s infinite; }
-.bg-caliper { width: 280px; top: 12%;   right: 4%;  color: #fbbf24; opacity: .15; animation: bgfloat 12s ease-in-out -2s infinite; }
-.bg-bearing { width: 150px; top: 56%;   right: 15%;  color: #94a3b8; opacity: .22; animation: bgspin 60s linear infinite; }
-.bg-piston  { width: 200px; left: 2.5%; bottom: 31%; color: #fda4af; opacity: .15; animation: bgfloat 11s ease-in-out -1s infinite; }
-@keyframes bgspin  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes bgfloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+/* v4.2：背景水印线稿已移除，仅保留蓝图网格（::before）与暗角（::after） */
 @media (prefers-reduced-motion: reduce) {
-  .home-bg i { animation: none; }
   .c3d, .cover-card, .cover-card .cc-shine, .cover-card img.cc-cover,
   .cc-plates, .cc-plates::before, .cc-plates::after { transition: none; }
 }
@@ -562,16 +549,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 }
 
 /* ---------- 小屏 ---------- */
-@media (max-width: 900px) {
-  .bg-gear    { width: 220px; }
-  .bg-cog2    { width: 80px; }
-  .bg-bolt    { width: 130px; }
-  .bg-drop    { width: 150px; }
-  .bg-factory { width: 200px; }
-  .bg-caliper { width: 200px; }
-  .bg-bearing { width: 110px; }
-  .bg-piston  { width: 150px; }
-}
 @media (max-width: 560px) {
   main { padding: 10px 10px 96px; }
   .mp-title { font-size: 15px; }
@@ -586,14 +563,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   .home-hero { margin-bottom: 18px; }
   .hh-title { font-size: 26px; }
   .hh-sub { font-size: 12px; letter-spacing: 2px; }
-  .bg-gear    { width: 170px; }
-  .bg-cog2    { width: 66px; }
-  .bg-bolt    { width: 100px; }
-  .bg-drop    { width: 120px; }
-  .bg-factory { width: 160px; }
-  .bg-caliper { width: 160px; }
-  .bg-bearing { width: 90px; }
-  .bg-piston  { width: 120px; }
 }
 </style>
 </head>
@@ -611,17 +580,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 <main>
   <!-- ============ 首页：只有四张课程封面 ============ -->
   <section id="view-home" class="view active">
-    <div class="home-bg" aria-hidden="true">
-      <!-- 黑色机械风线稿水印：齿轮啮合组 / 六角螺栓 / 游标卡尺 / 液压油滴 / 深沟球轴承 / 液压缸 / 工厂剪影 -->
-      <i class="bg-gear"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><circle cx="100" cy="100" r="50" stroke-width="13" stroke-dasharray="22 17.5"/><circle cx="100" cy="100" r="38" stroke-width="4"/><circle cx="100" cy="100" r="14" stroke-width="4"/><path stroke-width="3.5" d="M100 66 V46 M100 134 V154 M66 100 H46 M134 100 H154 M76 76 L62 62 M124 76 L138 62 M76 124 L62 138 M124 124 L138 138"/></g></svg></i>
-      <i class="bg-cog2"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><circle cx="100" cy="100" r="52" stroke-width="14" stroke-dasharray="20 16.3"/><circle cx="100" cy="100" r="36" stroke-width="4"/><circle cx="100" cy="100" r="12" stroke-width="4"/><path stroke-width="3" d="M100 62 V48 M100 138 V152 M62 100 H48 M138 100 H152"/></g></svg></i>
-      <i class="bg-bolt"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><path stroke-width="6" d="M100 8 L121 19 L121 41 L100 52 L79 41 L79 19 Z"/><path stroke-width="6" d="M92 52 h16 v118 h-16 z"/><path stroke-width="5" opacity=".8" d="M92 70 h16 M92 84 h16 M92 98 h16 M92 112 h16 M92 126 h16 M92 140 h16 M92 154 h16"/></g></svg></i>
-      <i class="bg-drop"><svg viewBox="0 0 200 200"><path d="M100 18 C 62 82 30 122 30 150 A 70 70 0 0 0 170 150 C 170 122 138 82 100 18 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><path d="M100 74 C 75 112 54 138 54 154" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" opacity=".65"/></svg></i>
-      <i class="bg-factory"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><path stroke-width="6" d="M36 196 V132 L52 124 V150 H84 V104 L100 96 V150 H128 V118 L144 110 V150 H164 V196 Z"/><line x1="36" y1="196" x2="164" y2="196" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><rect x="42" y="56" width="14" height="34" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="52" cy="44" r="8" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="66" cy="30" r="6" fill="none" stroke="currentColor" stroke-width="5" opacity=".6"/><rect x="72" y="164" width="16" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="5"/><rect x="126" y="164" width="16" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="5"/></g></svg></i>
-      <i class="bg-caliper"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="6"><path d="M16 60 h168 M16 74 h168"/><path d="M16 60 v96 h40 v-82"/><path d="M56 60 v96 h144 v-96"/><path opacity=".75" d="M56 108 h144 M56 122 h144 M56 136 h144"/><path opacity=".6" d="M112 60 v96 M132 60 v96 M152 60 v96"/><circle cx="188" cy="44" r="6"/></g></svg></i>
-      <i class="bg-bearing"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round"><circle cx="100" cy="100" r="78" stroke-width="9"/><circle cx="100" cy="100" r="52" stroke-width="4" opacity=".7"/><circle cx="100" cy="100" r="26" stroke-width="7"/><circle cx="100" cy="38" r="11" stroke-width="4"/><circle cx="162" cy="100" r="11" stroke-width="4"/><circle cx="100" cy="162" r="11" stroke-width="4"/><circle cx="38" cy="100" r="11" stroke-width="4"/><circle cx="154" cy="69" r="11" stroke-width="4"/><circle cx="46" cy="131" r="11" stroke-width="4"/></g></svg></i>
-      <i class="bg-piston"><svg viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="6"><rect x="26" y="74" width="148" height="52" rx="6"/><rect x="26" y="62" width="22" height="76" rx="5"/><path d="M48 100 h28 M48 112 h28" opacity=".75"/><path d="M76 86 h26 M76 114 h26" opacity=".7"/><rect x="128" y="90" width="46" height="20" rx="3"/><path stroke-width="5" d="M26 92 v-18 M44 74 v-12"/><path stroke-width="5" d="M26 108 v18 M44 128 v8"/></g></svg></i>
-    </div>
+    <div class="home-bg" aria-hidden="true"><!-- v4.2：已精简，仅保留蓝图网格与暗角背景纹理，水印线稿全部移除 --></div>
     <div class="home-hero">
       <h1 class="hh-title"><span class="hh-logo">📚</span> 学习助手</h1>
       <p class="hh-sub">机械设计 · 电子技术 · 液压气动 · 装备设计</p>
@@ -661,7 +620,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   <!-- ============ 我的/关于页（小程序外壳 4 Tab 之一） ============ -->
   <section id="view-about" class="view">
     <div class="about-card">
-      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.1</small></div>
+      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.2</small></div>
       <p class="ab-sub">四门主课 · 公式速记 + 考试风习题（学术科技创新实践——科技创新成果分享会作品）</p>
       <div id="ab-stats" class="ab-stats"></div>
       <div class="ab-list">
@@ -690,20 +649,18 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
         <h4>📱 离线兜底</h4>
         <p>单文件零依赖：电脑双击「学习助手.html」即可打开；发到手机可用浏览器离线查看。</p>
       </div>
-      <p class="ab-foot">学习助手 v4.1 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
+      <p class="ab-foot">学习助手 v4.2 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
     </div>
   </section>
 </main>
 
 <footer class="site-foot">
-  <p>学习助手 v4.1（2026-11-16）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 5 Tab（首页/公式/习题/学分/我的）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 「第二课堂学分」栏目：把佐证文件按 7 个学分类别存档（2.5 学分进度跟踪，本机浏览器本地保存，只看得见自己的，可导出/导入备份）· 全站深色机械风 · 首页 2×2 白色 3D 封面点击直达该课 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
+  <p>学习助手 v4.2（2026-11-17）· 已上线 GitHub Pages 公网版：<a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>（手机/电脑/微信通用，更新后几分钟生效）· 小程序风格外壳：顶部导航条 + 底部 3 Tab（首页/学分/我的；公式与习题在课程页内）· 4 门课 179 条公式速记 + 30 道考试风习题（计算/分析/简答），题题搭配 1~3 条公式「涉及公式」一键跳回公式速记高亮定位 · 「第二课堂学分」栏目：把佐证文件按 7 个学分类别存档（2.5 学分进度跟踪，本机浏览器本地保存，只看得见自己的，可导出/导入备份）· 首页四张课程封面一览直达（v4.2 精简：去掉背景水印与卡片冗余信息）· 全站深色机械风 · 纯前端静态站，零依赖，单文件「学习助手.html」双击即可离线使用 · 科创成果分享会作品</p>
 </footer>
 
-<!-- 小程序外壳：底部 Tab 栏 -->
+<!-- 小程序外壳：底部 Tab 栏（v4.2 精简为 3 个：首页/学分/我的；公式与习题在课程页内） -->
 <nav class="mp-tabbar" id="mp-tabbar">
   <a class="mp-tab active" data-tab="home" href="#/"><span class="ico">🏠</span>首页</a>
-  <a class="mp-tab" data-tab="formula"><span class="ico">🧮</span>公式</a>
-  <a class="mp-tab" data-tab="cases"><span class="ico">✏️</span>习题</a>
   <a class="mp-tab" data-tab="credits"><span class="ico">🎖️</span>学分</a>
   <a class="mp-tab" data-tab="about" href="#/about"><span class="ico">ℹ️</span>我的</a>
 </nav>
@@ -1659,7 +1616,7 @@ window.KC_CREDITS = {
   ]
 };
 ;
-/* ============ 学习助手 · 主应用逻辑（v4.1：小程序外壳 5 Tab——首页/公式/习题/学分/我的；新增第二课堂学分栏目） ============ */
+/* ============ 学习助手 · 主应用逻辑（v4.2：小程序外壳 3 Tab——首页/学分/我的；主页精简：无背景水印、卡片仅封面+课名） ============ */
 (function () {
   'use strict';
 
@@ -2133,7 +2090,7 @@ window.KC_CREDITS = {
     // 小程序外壳：标题 / 返回键 / 底部 Tab 高亮
     $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'about' ? '我的' : (v === 'credits' ? '第二课堂学分' : '学习助手'));
     $('#mp-back').classList.toggle('hidden', v === 'home');
-    const tabName = v === 'course' ? S.course.tab : (v === 'about' ? 'about' : (v === 'credits' ? 'credits' : 'home'));
+    const tabName = v === 'course' ? 'course' : (v === 'about' ? 'about' : (v === 'credits' ? 'credits' : 'home'));
     $$('#mp-tabbar .mp-tab').forEach((a) => a.classList.toggle('active', a.getAttribute('data-tab') === tabName));
     ({ home: renderHome, course: renderCourse, about: renderAbout, credits: renderCredits })[v]();
     window.scrollTo({ top: 0 });
@@ -2142,8 +2099,6 @@ window.KC_CREDITS = {
   /* ---------- 首页：只有四张封面 ---------- */
   function renderHome() {
     $('#home-list').innerHTML = COURSES.map((c) => {
-      const fc = formulaCount(c);
-      const cc = casesOf(c.id).length;
       const t = CC3D[c.id] || { plate: c.color, deep: c.color };
       return `
       <div class="c3d">
@@ -2151,8 +2106,6 @@ window.KC_CREDITS = {
           ${c.cover ? `<img class="cc-cover" src="${esc(c.cover)}" alt="${esc(c.name)} 封面" loading="lazy">` : ''}
           <span class="cc-body">
             <b class="cc-name">${c.emoji} ${esc(c.name)} <span class="cc-go">进入 ▸</span></b>
-            ${c.desc ? `<span class="cc-desc">${esc(c.desc)}</span>` : ''}
-            <span class="cc-meta">🧮 ${fc} 条公式 · ✏️ ${cc} 道习题</span>
           </span>
           <span class="cc-shine" aria-hidden="true"></span>
         </a>
