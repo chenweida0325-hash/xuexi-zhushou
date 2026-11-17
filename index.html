@@ -98,36 +98,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 }
 .site-foot { padding-bottom: 96px; }
 
-/* ---------- 我的/关于页（v3.15） ---------- */
-#view-about { max-width: 640px; margin: 0 auto; }
-.about-card {
-  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
-  padding: 22px 20px 18px; box-shadow: var(--shadow);
-}
-.ab-head { font-size: 22px; font-weight: 800; display: flex; align-items: baseline; gap: 8px; }
-.ab-head .ab-emoji { font-size: 20px; }
-.ab-head small { font-size: 12px; color: var(--muted); font-weight: 400; }
-.ab-sub { font-size: 12.5px; color: var(--muted); margin: 4px 0 14px; }
-.ab-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 16px; }
-.ab-stat {
-  background: #0d1830; border: 1px solid var(--line); border-radius: 12px;
-  padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 2px;
-}
-.ab-stat b { font-size: 18px; font-weight: 800; }
-.ab-stat i { font-style: normal; font-size: 11px; color: var(--muted); }
-.ab-list { margin: 14px 0 0; }
-.ab-list h4 { font-size: 13.5px; color: var(--link); margin-bottom: 5px; }
-.ab-list p, .ab-list li { font-size: 13px; color: #cbd5e1; }
-.ab-list a.ab-link { color: var(--link); text-decoration: underline; word-break: break-all; }
-.ab-list ul { padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
-.ab-per { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 4px; }
-.ab-per-item {
-  background: #0d1830; border: 1px solid var(--line); border-radius: 10px;
-  padding: 8px 10px; font-size: 13px; display: flex; flex-direction: column; gap: 2px;
-}
-.ab-per-item i { font-style: normal; font-size: 11.5px; color: var(--muted); }
-.ab-foot { margin-top: 16px; font-size: 11.5px; color: #7c8ba1; text-align: center; border-top: 1px dashed var(--line); padding-top: 12px; }
-
 /* ---------- 课程页背景：与首页同一蓝图网格（更淡），内容层盖在网格之上 ---------- */
 #view-course { position: relative; }
 #view-course::before {
@@ -548,8 +518,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   main { padding: 10px 10px 96px; }
   .mp-title { font-size: 15px; }
   .mp-capsule i { width: 22px; height: 13px; }
-  .ab-stats { grid-template-columns: repeat(2, 1fr); }
-  .ab-per { grid-template-columns: 1fr; }
   .tb-in { padding: 6px 10px; }
   .brand-name { font-size: 15px; }
   .cards-wrap { grid-template-columns: 1fr; }
@@ -611,52 +579,15 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <input type="file" id="cred-file" multiple hidden>
     <input type="file" id="cred-import" accept=".json,application/json" hidden>
   </section>
-
-  <!-- ============ 我的/关于页（小程序外壳 4 Tab 之一） ============ -->
-  <section id="view-about" class="view">
-    <div class="about-card">
-      <div class="ab-head"><span class="ab-emoji">📚</span>学习助手<small>v4.2</small></div>
-      <p class="ab-sub">四门主课 · 公式速记 + 考试风习题（学术科技创新实践——科技创新成果分享会作品）</p>
-      <div id="ab-stats" class="ab-stats"></div>
-      <div class="ab-list">
-        <h4>📁 课程内容</h4>
-        <div id="ab-per" class="ab-per"></div>
-      </div>
-      <div class="ab-list">
-        <h4>⭐ 我的收藏</h4>
-        <p id="ab-fav"></p>
-      </div>
-      <div class="ab-list">
-        <h4>💡 使用提示</h4>
-        <ul>
-          <li>首页点封面进入课程，切换「公式速记 / 习题练习」标签。</li>
-          <li>公式卡带分类与记忆口诀，可在搜索框按知识点快速定位。</li>
-          <li>习题卡点「查看答案与解析」看详解；「涉及公式」一键跳回公式速记并高亮。</li>
-          <li>收藏后用「⭐ 只看收藏」集中复习。</li>
-          <li>底部「学分」Tab：把第二课堂佐证文件按学分类别归档（存在本机浏览器，各自设备各存各看；可导出/导入备份迁移）。</li>
-        </ul>
-      </div>
-      <div class="ab-list">
-        <h4>🌐 在线访问（手机 / 电脑通用）</h4>
-        <p><a class="ab-link" href="https://chenweida0325-hash.github.io/xuexi-zhushou/" target="_blank" rel="noopener">https://chenweida0325-hash.github.io/xuexi-zhushou/</a>：已发布到 GitHub Pages，手机电脑随时打开；每次更新后几分钟内线上即可见。</p>
-      </div>
-      <div class="ab-list">
-        <h4>📱 离线兜底</h4>
-        <p>单文件零依赖：电脑双击「学习助手.html」即可打开；发到手机可用浏览器离线查看。</p>
-      </div>
-      <p class="ab-foot">学习助手 v4.2 · 机械制造设计及其自动化 · 2026 学术科技创新实践分享会</p>
-    </div>
-  </section>
 </main>
 
-<!-- v4.2.1：页脚长说明文字已移除（在线访问/离线说明在「我的」页内），保留空容器维持底部节奏 -->
+<!-- v4.2.1：页脚长说明文字已移除，保留空容器维持底部节奏（v4.3：随「我的」页一并移除在线/离线说明） -->
 <footer class="site-foot"></footer>
 
-<!-- 小程序外壳：底部 Tab 栏（v4.2 精简为 3 个：首页/学分/我的；公式与习题在课程页内） -->
+<!-- 小程序外壳：底部 Tab 栏（v4.3 精简为 2 个：首页/学分；公式与习题在课程页内） -->
 <nav class="mp-tabbar" id="mp-tabbar">
   <a class="mp-tab active" data-tab="home" href="#/"><span class="ico">🏠</span>首页</a>
   <a class="mp-tab" data-tab="credits"><span class="ico">🎖️</span>学分</a>
-  <a class="mp-tab" data-tab="about" href="#/about"><span class="ico">ℹ️</span>我的</a>
 </nav>
 
 <!-- 习题答案弹窗 -->
@@ -1610,7 +1541,7 @@ window.KC_CREDITS = {
   ]
 };
 ;
-/* ============ 学习助手 · 主应用逻辑（v4.2：小程序外壳 3 Tab——首页/学分/我的；主页精简：无背景水印、卡片仅封面+课名） ============ */
+/* ============ 学习助手 · 主应用逻辑（v4.3：小程序外壳 2 Tab——首页/学分；我的页已移除） ============ */
 (function () {
   'use strict';
 
@@ -2060,7 +1991,6 @@ window.KC_CREDITS = {
       const c = courseById(seg[1]);
       if (c) { routeView('course', c, seg[2] === 'cases' ? 'cases' : 'formula'); return; }
     }
-    if (seg[0] === 'about') { routeView('about'); return; }
     if (seg[0] === 'credits') { routeView('credits'); return; }
     // 无 hash / 未知路由一律回首页（四张封面）
     routeView('home');
@@ -2082,11 +2012,11 @@ window.KC_CREDITS = {
     S.view = v;
     $$('.view').forEach((s) => s.classList.toggle('active', s.id === 'view-' + v));
     // 小程序外壳：标题 / 返回键 / 底部 Tab 高亮
-    $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'about' ? '我的' : (v === 'credits' ? '第二课堂学分' : '学习助手'));
+    $('#mp-title').textContent = v === 'course' && course ? course.name : (v === 'credits' ? '第二课堂学分' : '学习助手');
     $('#mp-back').classList.toggle('hidden', v === 'home');
-    const tabName = v === 'course' ? 'course' : (v === 'about' ? 'about' : (v === 'credits' ? 'credits' : 'home'));
+    const tabName = v === 'course' ? 'course' : (v === 'credits' ? 'credits' : 'home');
     $$('#mp-tabbar .mp-tab').forEach((a) => a.classList.toggle('active', a.getAttribute('data-tab') === tabName));
-    ({ home: renderHome, course: renderCourse, about: renderAbout, credits: renderCredits })[v]();
+    ({ home: renderHome, course: renderCourse, credits: renderCredits })[v]();
     window.scrollTo({ top: 0 });
   }
 
@@ -2300,22 +2230,6 @@ window.KC_CREDITS = {
     }, 80);
   }
 
-  /* ---------- 我的/关于页（统计 + 收藏 + 使用提示，v3.15） ---------- */
-  function renderAbout() {
-    const ncat = COURSES.reduce((n, c) => n + (c.categories || []).length, 0);
-    const nf = COURSES.reduce((n, c) => n + formulaCount(c), 0);
-    $('#ab-stats').innerHTML = [
-      ['📚', COURSES.length + ' 门课程'],
-      ['🗂', ncat + ' 个分类'],
-      ['🧮', nf + ' 条公式'],
-      ['✏️', CASES.length + ' 道习题']
-    ].map((x) => '<span class="ab-stat"><b>' + x[0] + '</b><i>' + x[1] + '</i></span>').join('');
-    $('#ab-per').innerHTML = COURSES.map((c) =>
-      '<span class="ab-per-item">' + c.emoji + ' ' + esc(c.name) +
-      '<i>' + formulaCount(c) + ' 公式 · ' + casesOf(c.id) + ' 习题</i></span>').join('');
-    $('#ab-fav').textContent = '已收藏 ⭐ ' + fav.formulas.size + ' 条公式 · ' + fav.cases.size + ' 道习题';
-  }
-
   /* ---------- 事件 ---------- */
   // 站内跳转统一入口：显式设 hash（失败也不影响）+ 直接渲染，
   // 不依赖浏览器默认 hash 导航或 hashchange 事件——在任何预览沙盒里都点得动
@@ -2328,7 +2242,6 @@ window.KC_CREDITS = {
       const tb = tab.getAttribute('data-tab');
       const cid = S.course.id || (COURSES[0] && COURSES[0].id) || '';
       goHash(tb === 'home' ? '#/'
-        : tb === 'about' ? '#/about'
         : tb === 'credits' ? '#/credits'
         : tb === 'formula' ? '#/course/' + cid
         : '#/course/' + cid + '/cases');
