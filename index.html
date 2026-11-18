@@ -195,8 +195,21 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .dir-meta { font-size: 11.5px; color: var(--muted); flex: 0 0 auto; }
 .dir-caret { font-size: 12px; color: var(--muted); flex: 0 0 auto; transition: transform .15s, color .15s; }
 .dir-row.open .dir-caret { transform: rotate(180deg); color: var(--link); }
+/* v5.3 目录行收藏星（不影响展开） */
+.dir-star {
+  flex: 0 0 auto; font-size: 14px; line-height: 1; color: rgba(148, 163, 184, .55);
+  padding: 2px 2px 2px 6px; cursor: pointer; transition: color .15s, transform .12s;
+}
+.dir-star:hover { color: #fbbf24; transform: scale(1.15); }
+.dir-star.on { color: #fbbf24; }
 .dir-body { margin: 0 0 4px; }
 .dir-body .cat-intro { margin-top: 0; }
+
+/* ---------- v5.3 滚动收起课程头 ---------- */
+#course-head.compact .co-banner { display: none; }
+#course-head.compact .co-sub { display: none; }
+#course-head.compact .co-head-in { padding: 8px 16px 9px; }
+#course-head.compact .co-title { font-size: 15px; }
 
 .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 14px; }
 .chips .chip {
@@ -2199,11 +2212,11 @@ window.KC_SCHEDULE = {
   function loadFav() {
     try {
       const d = JSON.parse(localStorage.getItem(FAV_KEY) || '{}');
-      return { formulas: new Set(d.formulas || []), cases: new Set(d.cases || []) };
-    } catch (e) { return { formulas: new Set(), cases: new Set() }; }
+      return { formulas: new Set(d.formulas || []), cases: new Set(d.cases || []), cats: new Set(d.cats || []) };
+    } catch (e) { return { formulas: new Set(), cases: new Set(), cats: new Set() }; }
   }
   function saveFav() {
-    try { localStorage.setItem(FAV_KEY, JSON.stringify({ formulas: [...fav.formulas], cases: [...fav.cases] })); }
+    try { localStorage.setItem(FAV_KEY, JSON.stringify({ formulas: [...fav.formulas], cases: [...fav.cases], cats: [...fav.cats] })); }
     catch (e) { /* 个别环境 file:// 下 localStorage 不可用，忽略 */ }
   }
   function toggleFav(type, id) {
@@ -2575,7 +2588,7 @@ window.KC_SCHEDULE = {
     view: 'home',
     course: { id: null, tab: 'formula' },
     formula: { cat: 'all', q: '', favOnly: false, openCat: null, openAll: false },
-    cases: { cate: '全部', scene: '全部', q: '' },
+    cases: { cate: '全部', scene: '全部', q: '', openCat: null, openAll: false },
     credits: { pending: null },
     search: { q: '' }, // v4.6 全站搜索
     flash: { active: false, list: [], idx: 0, known: 0 }, // v4.6 翻卡记忆
@@ -2928,6 +2941,9 @@ window.KC_SCHEDULE = {
 
     renderFormulaPane(c);
     renderCasesPane(c);
+    // v5.3 按当前滚动位置同步课程头展开/收起状态（切课/返回时不残留）
+    headCompact = null;
+    syncCourseHeadCompact();
   }
 
   function renderFormulaPane(c) {
@@ -2961,7 +2977,10 @@ window.KC_SCHEDULE = {
 
     if (dirMode) {
       // 目录：可展开单个分类（手风琴）；「全部展开」切回原来的分组全览
-      const blocks = c.categories.map((cat) => {
+      // v5.3 收藏的分类置顶（★），并给每行一个收藏星星（不影响公式收藏）
+      const ordered = c.categories.slice().sort((a, b) =>
+        (fav.cats.has(b.id) ? 1 : 0) - (fav.cats.has(a.id) ? 1 : 0));
+      const blocks = ordered.map((cat) => {
         const fs = list.filter((f) => f.cat.id === cat.id);
         if (S.formula.openAll) {
           return `
@@ -2981,14 +3000,16 @@ window.KC_SCHEDULE = {
           <span class="dir-emoji">${cat.emoji}</span>
           <span class="dir-name">${esc(cat.name)}</span>
           <span class="dir-meta">${cat.chapter ? esc(cat.chapter) + ' · ' : ''}${fs.length} 条</span>
+          <span class="dir-star ${fav.cats.has(cat.id) ? 'on' : ''}" data-dircat="${esc(cat.id)}" title="收藏该分类">${fav.cats.has(cat.id) ? '★' : '☆'}</span>
           <span class="dir-caret">▾</span>
         </div>
         ${open ? `<div class="dir-body">${cat.intro ? `<p class="cat-intro">${esc(cat.intro)}</p>` : ''}${fs.length ? cardsHTML(fs) : '<p class="loading">该分类暂无公式</p>'}</div>` : ''}`;
       }).join('');
+      const favN = c.categories.filter((cat) => fav.cats.has(cat.id)).length;
       $('#cof-list').innerHTML = `
       <div class="cat-dir">
         <div class="dir-bar">
-          <span>📖 ${c.categories.length} 个分类 · 共 ${formulaCount(c)} 条公式</span>
+          <span>📖 ${c.categories.length} 个分类 · 共 ${formulaCount(c)} 条公式${favN ? ' · ★ ' + favN : ''}</span>
           <span class="chip" data-dirall="1">${S.formula.openAll ? '收起全部' : '全部展开'}</span>
         </div>
         ${blocks}
@@ -3001,14 +3022,25 @@ window.KC_SCHEDULE = {
   function renderCasesPane(c) {
     $('#coc-search').value = S.cases.q;
     const list0 = casesOf(c.id);
-    // 第一行 chips = 知识点分类（本课分类顺序去重），第二行 = 题型
-    const catIds = ['全部'].concat(Array.from(new Set(list0.map((x) => x.cat).filter((v) => v))));
-    const cates = catIds.map((id) => (id === '全部' ? '全部' : catNameOf(c.id, id) || id));
+    const noFilter = S.cases.cate === '全部' && S.cases.scene === '全部' && !S.cases.q;
+
+    // 第二行 chips = 题型（始终显示）
     const types = ['全部'].concat(Array.from(new Set(list0.map((x) => x.type).filter((v) => v))));
-    $('#coc-cates').innerHTML = catIds.map((id, i) =>
-      `<span class="chip ${S.cases.cate === id ? 'on' : ''}" data-casecate="${esc(id)}">${esc(cates[i])}</span>`).join('');
     $('#coc-scenes').innerHTML = types.map((t) =>
       `<span class="chip ${S.cases.scene === t ? 'on' : ''}" data-casescene="${esc(t)}">${esc(t)}</span>`).join('');
+
+    // v5.3 分类 chips：目录态隐藏（目录本身就是导航）；筛选态给「返回目录 + 当前分类」
+    const catesEl = $('#coc-cates');
+    if (noFilter) {
+      catesEl.innerHTML = '';
+      catesEl.style.display = 'none';
+    } else {
+      catesEl.style.display = '';
+      const actName = S.cases.cate === '全部' ? '' : (catNameOf(c.id, S.cases.cate) || S.cases.cate);
+      catesEl.innerHTML = '<span class="chip" data-casecate="全部">📚 全部 / 返回目录</span>' +
+        (actName ? `<span class="chip on">${esc(actName)}</span>` : '');
+    }
+
     let list = list0.slice();
     if (S.cases.cate !== '全部') list = list.filter((x) => x.cat === S.cases.cate);
     if (S.cases.scene !== '全部') list = list.filter((x) => x.type === S.cases.scene);
@@ -3017,6 +3049,47 @@ window.KC_SCHEDULE = {
       list = list.filter((x) =>
         (x.title + x.body + x.answer + x.step + (x.pitfall || '') + x.type + catNameOf(c.id, x.cat)).toLowerCase().indexOf(q) >= 0);
     }
+
+    if (noFilter && list0.length) {
+      // v5.3 习题页折叠目录：按知识点分类分组，点一行原地展开该分类习题
+      const cats = c.categories.filter((cat) => list0.some((x) => x.cat === cat.id));
+      const ordered = cats.slice().sort((a, b) => (fav.cats.has(b.id) ? 1 : 0) - (fav.cats.has(a.id) ? 1 : 0));
+      const blocks = ordered.map((cat) => {
+        const cs = list0.filter((x) => x.cat === cat.id);
+        if (S.cases.openAll) {
+          return `
+        <div class="cat-block">
+          <div class="cat-head">
+            ${cat.emoji} ${esc(cat.name)}
+            ${cat.chapter ? `<span class="chip">📖 ${esc(cat.chapter)}</span>` : ''}
+            <span class="chip">${cs.length} 道</span>
+          </div>
+          ${cs.map(exerciseCardHTML).join('')}
+        </div>`;
+        }
+        const open = S.cases.openCat === cat.id;
+        return `
+        <div class="dir-row ${open ? 'open' : ''}" data-caseopencat="${esc(cat.id)}">
+          <span class="dir-emoji">${cat.emoji}</span>
+          <span class="dir-name">${esc(cat.name)}</span>
+          <span class="dir-meta">${cat.chapter ? esc(cat.chapter) + ' · ' : ''}${cs.length} 道</span>
+          <span class="dir-star ${fav.cats.has(cat.id) ? 'on' : ''}" data-dircat="${esc(cat.id)}" title="收藏该分类">${fav.cats.has(cat.id) ? '★' : '☆'}</span>
+          <span class="dir-caret">▾</span>
+        </div>
+        ${open ? `<div class="dir-body">${cs.map(exerciseCardHTML).join('')}</div>` : ''}`;
+      }).join('');
+      const favN = ordered.filter((cat) => fav.cats.has(cat.id)).length;
+      $('#coc-list').innerHTML = `
+      <div class="cat-dir">
+        <div class="dir-bar">
+          <span>📖 ${ordered.length} 个分类 · 共 ${list0.length} 道习题${favN ? ' · ★ ' + favN : ''}</span>
+          <span class="chip" data-casedirall="1">${S.cases.openAll ? '收起全部' : '全部展开'}</span>
+        </div>
+        ${blocks}
+      </div>`;
+      return;
+    }
+
     $('#coc-list').innerHTML = list.length
       ? list.map(exerciseCardHTML).join('')
       : `<p class="loading">${list0.length ? '没有找到匹配的习题，换个关键词试试' : '本课暂无配套习题，可先看「公式速记」，或到其他课程逛逛'}</p>`;
@@ -3390,6 +3463,16 @@ window.KC_SCHEDULE = {
     const fb = t.closest('.favbtn');
     if (fb) { toggleFav(fb.dataset.type, fb.dataset.id); renderCurrent(); return; }
 
+    // v5.3 目录行收藏分类（★）：只切收藏，不展开
+    const dircat = t.closest('[data-dircat]');
+    if (dircat) {
+      const id = dircat.dataset.dircat;
+      if (fav.cats.has(id)) fav.cats.delete(id); else fav.cats.add(id);
+      saveFav();
+      renderCourse();
+      return;
+    }
+
     // v5.2 折叠目录：点目录行展开/收起该分类（手风琴，一次只开一个）
     const dirRow = t.closest('[data-opencat]');
     if (dirRow) {
@@ -3470,6 +3553,21 @@ window.KC_SCHEDULE = {
     if (t.closest('#sc-next')) { stepSchedule(1); return; }
     if (t.closest('#sc-today-btn')) { goThisWeekSchedule(); return; }
     if (t.closest('#sc-print')) { printSchedule(); return; }
+
+    // v5.3 习题页折叠目录：展开/收起某分类 + 全部展开
+    const caseRow = t.closest('[data-caseopencat]');
+    if (caseRow) {
+      const id = caseRow.dataset.caseopencat;
+      S.cases.openCat = (S.cases.openCat === id) ? null : id;
+      renderCourse();
+      return;
+    }
+    if (t.closest('[data-casedirall]')) {
+      S.cases.openAll = !S.cases.openAll;
+      S.cases.openCat = null;
+      renderCourse();
+      return;
+    }
 
     // 课程页案例分类 / 场景
     const ca = t.closest('#coc-cates .chip');
@@ -3629,6 +3727,19 @@ window.KC_SCHEDULE = {
     if (e.target && e.target.id === 'global-q') S.search.q = e.target.value;
   });
   window.addEventListener('hashchange', () => route());
+
+  // v5.3 滚动时收起课程头（封面横幅与副标题让位给目录/公式）
+  let headCompact = null;
+  function syncCourseHeadCompact() {
+    const head = $('#course-head');
+    if (!head) return;
+    const compact = (window.scrollY || window.pageYOffset || 0) > 56;
+    if (compact === headCompact && head.classList.contains('compact') === compact) return;
+    headCompact = compact;
+    head.classList.toggle('compact', compact);
+  }
+  window.addEventListener('scroll', syncCourseHeadCompact, { passive: true });
+
   creditStore.init().then(() => { if (S.view === 'credits') renderCredits(); });
   route();
 
