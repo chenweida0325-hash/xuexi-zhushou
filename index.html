@@ -291,23 +291,24 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .sc-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
 .sc-nav .btn { padding: 6px 14px; font-size: 13px; }
 .sc-week { font-size: 13.5px; font-weight: 600; color: var(--ink); background: #0d1830; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; }
-.sc-grid-head { display: grid; grid-template-columns: 52px repeat(7, minmax(120px, 1fr)); gap: 0; overflow-x: auto; }
-.sc-head-line { display: grid; grid-template-columns: 52px repeat(7, minmax(118px, 1fr)); margin-top: 10px; border-bottom: 2px solid var(--line); }
-.sc-head-line span { font-size: 12.5px; color: var(--muted); padding: 8px 6px; text-align: center; border-right: 1px solid rgba(30, 41, 59, .35); }
-.sc-head-line span:last-child { border-right: none; }
-.sc-row { display: grid; grid-template-columns: 52px repeat(7, minmax(118px, 1fr)); overflow-x: auto; }
-.sc-row + .sc-row { border-top: 1px solid rgba(30, 41, 59, .4); }
-.sc-no { display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--muted); border-right: 1px solid var(--line); background: rgba(15, 23, 42, .6); }
-.sc-cell { min-height: 86px; padding: 6px; border-right: 1px solid rgba(30, 41, 59, .4); text-align: center; font-size: 12px; color: rgba(148, 163, 184, .5); display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
-.sc-cell:last-child { border-right: none; }
-.sc-cell.sc-today { background: rgba(96, 165, 250, .10); box-shadow: inset 0 0 0 1.5px rgba(96, 165, 250, .45); border-radius: 8px; }
-.sc-course { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--primary); border-radius: 8px; padding: 5px 7px; text-align: left; }
-.sc-course b { display: block; font-size: 12.5px; color: var(--ink); line-height: 1.35; }
-.sc-course i { display: block; font-style: normal; font-size: 11px; color: var(--muted); margin-top: 1px; }
-.sc-course em { display: block; font-style: normal; font-size: 10.5px; color: rgba(148, 163, 184, .7); margin-top: 1px; }
-.sc-course.sc-exp { border-left-color: #b45309; }
-.sc-course.sc-exp b { color: #fbbf24; }
-.sc-course.sc-now { border-color: var(--link); box-shadow: 0 0 0 2px rgba(96, 165, 250, .35); animation: fmlPulse .9s ease-out 2; }
+/* v4.9 课表：按天分组的彩色课程卡片流（深色主题，实验课简单行不排版） */
+.sc-day { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-top: 14px; }
+.sc-day.sc-today { border-color: rgba(96, 165, 250, .55); box-shadow: 0 0 0 1px rgba(96, 165, 250, .25), 0 8px 26px rgba(96, 165, 250, .10); }
+.sc-day-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.sc-day-name { font-size: 15.5px; font-weight: 700; color: var(--ink); }
+.sc-day-date { font-size: 12.5px; color: var(--muted); }
+.sc-day-badge { font-size: 11.5px; font-weight: 700; color: #08101f; background: linear-gradient(135deg, #60a5fa, #38bdf8); border-radius: 999px; padding: 2px 10px; }
+.sc-day-count { margin-left: auto; font-size: 12px; color: var(--muted); }
+.sc-card { display: flex; gap: 12px; align-items: stretch; margin-top: 8px; background: #0d1830; border: 1px solid rgba(30, 41, 59, .55); border-left: 4px solid var(--cc, #60a5fa); border-radius: 12px; padding: 10px 12px; }
+.sc-card:hover { border-color: rgba(96, 165, 250, .4); box-shadow: 0 4px 16px rgba(0, 0, 0, .35); }
+.sc-no-badge { flex: 0 0 auto; align-self: center; min-width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1.5px dashed var(--cc, #60a5fa); border-radius: 10px; color: var(--cc, #60a5fa); font-size: 13.5px; font-weight: 800; letter-spacing: .5px; }
+.sc-card-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.sc-card-name { font-size: 16px; font-weight: 700; color: var(--cc, #60a5fa); line-height: 1.3; }
+.sc-card-time { font-size: 12.5px; color: var(--ink); opacity: .88; }
+.sc-card-meta { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.sc-exp-row { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin-top: 8px; padding: 8px 12px; border-radius: 10px; background: rgba(148, 163, 184, .08); font-size: 12.5px; color: var(--muted); }
+.sc-exp-row b { color: #fbbf24; font-weight: 600; }
+.sc-empty { padding: 26px 8px; text-align: center; color: var(--muted); font-size: 14px; }
 .sc-fold { margin-top: 16px; }
 .sc-fold-box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; }
 .sc-fold-box summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink); padding: 4px 0; }
@@ -317,12 +318,12 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .sc-li span { color: var(--muted); }
 .sc-li i { font-style: normal; color: var(--muted); font-size: 12px; }
 @media (max-width: 640px) {
-  .sc-head-line, .sc-row { grid-template-columns: 40px repeat(7, minmax(118px, 1fr)); }
-  .sc-head-line { overflow-x: auto; }
-  .sc-no { font-size: 12px; }
-  .sc-cell { min-height: 76px; padding: 4px; }
-  .sc-course b { font-size: 11.5px; }
-  .sc-course i, .sc-course em { font-size: 10px; }
+  .sc-day { padding: 10px 12px; }
+  .sc-card { padding: 9px 11px; gap: 10px; }
+  .sc-no-badge { min-width: 36px; height: 36px; font-size: 12.5px; }
+  .sc-card-name { font-size: 15px; }
+  .sc-card-time, .sc-card-meta { font-size: 11.5px; }
+  .sc-exp-row { font-size: 12px; }
 }
 
 .home-grid {
@@ -2250,6 +2251,17 @@ window.KC_SCHEDULE = {
   }
   /* ---------- v4.8 课表辅助 ---------- */
   const SCHEDULE = window.KC_SCHEDULE || null;
+  // v4.9：每门课固定高饱和色（深色主题下的彩色课程卡片）
+  const COURSE_COLORS = {
+    '机械设计': '#60a5fa',
+    '电工电子学Ⅱ': '#a78bfa',
+    '液压与气压传动': '#2dd4bf',
+    '机械制造装备': '#fbbf24',
+    '就业指导': '#f472b6',
+    '机械创新设计': '#34d399',
+    '机械装备智能运维基础': '#fb923c'
+  };
+  function courseColor(name) { return COURSE_COLORS[name] || '#94a3b8'; }
   function scheduleWeekStart() { return SCHEDULE ? SCHEDULE.weekStart : '2026-09-07'; }
   // 当前周（1 起）：今天 - 第 1 周周一 的整天数 ÷ 7 + 1，越界钳制到 [1, weeks]
   function currentWeek() {
@@ -2425,7 +2437,7 @@ window.KC_SCHEDULE = {
       : `<p class="gs-note">没有找到与「${esc(S.search.q)}」相关的内容，换个关键词试试。</p>`;
   }
 
-  /* ---------- 课表（v4.8） ---------- */
+  /* ---------- 课表（v4.8/v4.9：按天分组的彩色课程卡片流） ---------- */
   function renderSchedule() {
     if (!SCHEDULE) { $('#sc-grid').innerHTML = '<p class="loading">暂无课表数据</p>'; return; }
     // 当前周：S.schedule.week=0 时跟随今天
@@ -2440,44 +2452,59 @@ window.KC_SCHEDULE = {
     $('#sc-sub').textContent = `${SCHEDULE.name || ''} · ${SCHEDULE.student || ''} · 共 ${weeks} 周`;
     $('#sc-week').textContent = `第 ${week} 周（${weekDateRange(week)}）`;
 
-    // 本课有课的课程（常规课 + 调课里本周也上的）
+    // 本课有课的课程（常规课 + 调课里本周也上的）+ 本周实验
     const active = (SCHEDULE.courses || []).filter((c) => weekActive(c.weeks, week));
     const exThisWeek = (SCHEDULE.experiments || []).filter((x) => x.week === week);
 
-    // 渲染网格：仅显示有课的时段行（1-11 节）
-    const activePeriods = [];
-    const collect = (item) => { for (let s = item.start; s <= item.end; s++) if (!activePeriods.includes(s)) activePeriods.push(s); };
-    active.forEach(collect);
-    exThisWeek.forEach(collect);
-    activePeriods.sort((a, b) => a - b);
-
-    const cell = (day) => {
-      const cls = 'sc-cell' + (day === today ? ' sc-today' : '');
-      const items = active.filter((c) => c.day === day);
-      const exs = exThisWeek.filter((x) => x.day === day);
-      if (!items.length && !exs.length) return `<div class="${cls}">—</div>`;
-      const cards = items.map((c) => `
-        <div class="sc-course ${weekActive(c.weeks, week) && (c.weeks || '').indexOf('(单)') >= 0 ? ' sc-o' : ''}">
-          <b>${esc(c.name)}</b>
-          <i>${esc((c.room || '').replace(/^[^\s]*\s/, ''))}</i>
-          ${c.teacher ? `<em>${esc(c.teacher)}</em>` : ''}
-        </div>`).join('') +
-        exs.map((x) => `
-        <div class="sc-course sc-exp">
-          <b>${esc(x.name)}</b>
-          <i>${esc((x.room || '').replace(/^[^\s]*\s/, ''))}</i>
-          <em>实验 · 第 ${x.week} 周</em>
-        </div>`).join('');
-      return `<div class="${cls}">${cards}</div>`;
+    // 组头日期（MM-DD）；节次→时刻（墨轩湖校区作息）
+    const dayDate = (day) => {
+      const base = new Date(scheduleWeekStart() + 'T00:00:00');
+      const d = new Date(base.getTime() + ((week - 1) * 7 + (day - 1)) * 86400000);
+      return String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    };
+    const periodTime = (start, end) => {
+      const tb = (SCHEDULE.times && SCHEDULE.times['墨轩湖校区']) || [];
+      const t1 = tb.find((t) => t.s === start);
+      const t2 = tb.find((t) => t.s === end);
+      if (t1 && t2) return t1.start + ' - ' + t2.end;
+      return '';
     };
 
-    $('#sc-grid').innerHTML = `
-      <div class="sc-head-line"><span>节次</span>${days.slice(1).map((d) => `<span>${d}</span>`).join('')}</div>
-      ${activePeriods.map((s) => `
-        <div class="sc-row">
-          <div class="sc-no">${s}</div>
-          ${days.slice(1).map((_, i) => cell(i + 1)).join('')}
-        </div>`).join('')}`;
+    // 每节课一张彩色圆角卡片（深色主题：课程色标题 + 色条 + 节次徽标）
+    const card = (c) => {
+      const tm = periodTime(c.start, c.end);
+      return `
+      <div class="sc-card" style="--cc:${esc(courseColor(c.name))}">
+        <div class="sc-no-badge">${c.start}-${c.end}</div>
+        <div class="sc-card-main">
+          <b class="sc-card-name">${esc(c.name)}</b>
+          <span class="sc-card-time">第${c.start}-${c.end}节${tm ? ' · ' + esc(tm) : ''}</span>
+          <small class="sc-card-meta">${esc((c.room || '').replace(/^[^\s]*\s/, ''))}${c.teacher ? ' · ' + esc(c.teacher) : ''}${c.weeks ? ' · ' + esc(String(c.weeks)) : ''}</small>
+        </div>
+      </div>`;
+    };
+    // 实验课不排版：当天分组内的简单一行（🧪 前缀、无彩色卡片）
+    const expRow = (x) => `
+      <div class="sc-exp-row">🧪 <b>${esc(x.name)}</b><span>第${x.start}-${x.end}节 · 第${x.week}周 · ${esc((x.room || '').replace(/^[^\s]*\s/, ''))}</span></div>`;
+
+    // 按天分组（只显示本周有课/有实验的星期），今天高亮
+    const groups = days.slice(1).map((name, i) => {
+      const day = i + 1;
+      const cs = active.filter((c) => c.day === day);
+      const exs = exThisWeek.filter((x) => x.day === day);
+      if (!cs.length && !exs.length) return '';
+      return `
+      <div class="sc-day${day === today ? ' sc-today' : ''}">
+        <div class="sc-day-head">
+          <span class="sc-day-name">${name}</span>
+          <span class="sc-day-date">${dayDate(day)}</span>
+          ${day === today ? '<span class="sc-day-badge">今天</span>' : ''}
+          <span class="sc-day-count">${cs.length} 节课${exs.length ? ' · ' + exs.length + ' 项实验' : ''}</span>
+        </div>${cs.map(card).join('')}${exs.map(expRow).join('')}
+      </div>`;
+    }).join('');
+
+    $('#sc-grid').innerHTML = groups || '<p class="sc-empty">本周没有课程安排 🎉</p>';
 
     // 实验课表 / 实践周 / 调课记录（折叠区）
     const fold = (id, title, inner) => {
