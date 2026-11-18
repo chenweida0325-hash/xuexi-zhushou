@@ -2,7 +2,7 @@
  * 策略：HTML 导航网络优先（失败回退缓存，保证线上更新即时生效），
  *       静态资源缓存优先；版本号升级自动换缓存。 */
 'use strict';
-const CACHE = 'xuexi-zhushou-v1';
+const CACHE = 'xuexi-zhushou-v2';
 const ASSETS = [
   './',
   './index.html',
