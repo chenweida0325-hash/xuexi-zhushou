@@ -176,6 +176,28 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .chips.chips-scroll::-webkit-scrollbar { display: none; }
 .chips.chips-scroll .chip { flex: 0 0 auto; white-space: nowrap; }
 
+/* ---------- v5.2 折叠目录（课程页公式分类导航） ---------- */
+.cat-dir { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
+.dir-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-size: 12px; color: var(--muted); padding: 0 2px 2px;
+}
+.dir-bar .chip { cursor: pointer; }
+.dir-row {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 11px 14px; border: 1px solid var(--line); border-radius: 12px;
+  background: #0d1830; cursor: pointer; transition: border-color .15s, background .15s;
+}
+.dir-row:hover { border-color: var(--link); }
+.dir-row.open { border-color: rgba(96, 165, 250, .55); background: rgba(96, 165, 250, .08); }
+.dir-emoji { font-size: 16px; flex: 0 0 auto; }
+.dir-name { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dir-meta { font-size: 11.5px; color: var(--muted); flex: 0 0 auto; }
+.dir-caret { font-size: 12px; color: var(--muted); flex: 0 0 auto; transition: transform .15s, color .15s; }
+.dir-row.open .dir-caret { transform: rotate(180deg); color: var(--link); }
+.dir-body { margin: 0 0 4px; }
+.dir-body .cat-intro { margin-top: 0; }
+
 .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 14px; }
 .chips .chip {
   border: 1.5px solid var(--line); background: #0d1830; color: #b6c2d4;
@@ -2552,7 +2574,7 @@ window.KC_SCHEDULE = {
   const S = {
     view: 'home',
     course: { id: null, tab: 'formula' },
-    formula: { cat: 'all', q: '', favOnly: false },
+    formula: { cat: 'all', q: '', favOnly: false, openCat: null, openAll: false },
     cases: { cate: '全部', scene: '全部', q: '' },
     credits: { pending: null },
     search: { q: '' }, // v4.6 全站搜索
@@ -2917,22 +2939,32 @@ window.KC_SCHEDULE = {
     $('#cof-search').value = S.formula.q;
     $('#cof-favtoggle').classList.toggle('on', S.formula.favOnly);
 
-    // 本课分类 chips（点任一分类只看该分类）
-    $('#cof-cats').innerHTML =
-      `<span class="chip ${S.formula.cat === 'all' ? 'on' : ''}" data-setcat="all">📚 全部分类（${formulaCount(c)}）</span>` +
-      c.categories.map((cat) =>
-        `<span class="chip ${S.formula.cat === cat.id ? 'on' : ''}" data-setcat="${esc(cat.id)}">${cat.emoji} ${esc(cat.name)}（${(cat.formulas || []).length}）</span>`).join('');
+    // v5.2 分类导航改为「折叠目录」：目录行 + 手风琴展开
+    //   目录模式下隐藏 chips（目录本身就是导航）；筛选到单一分类时给「返回目录」
+    const catsEl = $('#cof-cats');
+    const dirMode = !S.formula.q && !S.formula.favOnly && S.formula.cat === 'all';
+    if (dirMode) {
+      catsEl.innerHTML = '';
+      catsEl.style.display = 'none';
+    } else {
+      catsEl.style.display = '';
+      const actCat = c.categories.find((x) => x.id === S.formula.cat);
+      catsEl.innerHTML =
+        '<span class="chip" data-setcat="all">📚 全部 / 返回目录</span>' +
+        (actCat ? `<span class="chip on">${actCat.emoji} ${esc(actCat.name)}（${(actCat.formulas || []).length}）</span>` : '');
+    }
 
     let list = allFormulas().filter((f) => f.course.id === c.id);
     if (S.formula.cat !== 'all') list = list.filter((f) => f.cat.id === S.formula.cat);
     if (S.formula.q) { const q = S.formula.q.toLowerCase(); list = list.filter((f) => formulaHaystack(f).indexOf(q) >= 0); }
     if (S.formula.favOnly) list = list.filter((f) => fav.formulas.has(f.id));
 
-    if (!S.formula.q && !S.formula.favOnly && S.formula.cat === 'all') {
-      // 默认：按本课分类分组展示全部公式
-      $('#cof-list').innerHTML = c.categories.map((cat) => {
+    if (dirMode) {
+      // 目录：可展开单个分类（手风琴）；「全部展开」切回原来的分组全览
+      const blocks = c.categories.map((cat) => {
         const fs = list.filter((f) => f.cat.id === cat.id);
-        return `
+        if (S.formula.openAll) {
+          return `
         <div class="cat-block">
           <div class="cat-head">
             ${cat.emoji} ${esc(cat.name)}
@@ -2942,7 +2974,25 @@ window.KC_SCHEDULE = {
           ${cat.intro ? `<p class="cat-intro">${esc(cat.intro)}</p>` : ''}
           ${fs.length ? cardsHTML(fs) : '<p class="loading">该分类暂无公式</p>'}
         </div>`;
+        }
+        const open = S.formula.openCat === cat.id;
+        return `
+        <div class="dir-row ${open ? 'open' : ''}" data-opencat="${esc(cat.id)}">
+          <span class="dir-emoji">${cat.emoji}</span>
+          <span class="dir-name">${esc(cat.name)}</span>
+          <span class="dir-meta">${cat.chapter ? esc(cat.chapter) + ' · ' : ''}${fs.length} 条</span>
+          <span class="dir-caret">▾</span>
+        </div>
+        ${open ? `<div class="dir-body">${cat.intro ? `<p class="cat-intro">${esc(cat.intro)}</p>` : ''}${fs.length ? cardsHTML(fs) : '<p class="loading">该分类暂无公式</p>'}</div>` : ''}`;
       }).join('');
+      $('#cof-list').innerHTML = `
+      <div class="cat-dir">
+        <div class="dir-bar">
+          <span>📖 ${c.categories.length} 个分类 · 共 ${formulaCount(c)} 条公式</span>
+          <span class="chip" data-dirall="1">${S.formula.openAll ? '收起全部' : '全部展开'}</span>
+        </div>
+        ${blocks}
+      </div>`;
     } else {
       $('#cof-list').innerHTML = cardsHTML(list, '没有找到匹配的公式，换个词试试' + (S.formula.favOnly ? '（或取消「只看收藏」）' : ''));
     }
@@ -3340,9 +3390,30 @@ window.KC_SCHEDULE = {
     const fb = t.closest('.favbtn');
     if (fb) { toggleFav(fb.dataset.type, fb.dataset.id); renderCurrent(); return; }
 
+    // v5.2 折叠目录：点目录行展开/收起该分类（手风琴，一次只开一个）
+    const dirRow = t.closest('[data-opencat]');
+    if (dirRow) {
+      const id = dirRow.dataset.opencat;
+      S.formula.openCat = (S.formula.openCat === id) ? null : id;
+      renderCourse();
+      return;
+    }
+    if (t.closest('[data-dirall]')) {
+      S.formula.openAll = !S.formula.openAll;
+      S.formula.openCat = null;
+      renderCourse();
+      return;
+    }
+
     // 课程页公式分类（chips + 卡内分类标签）
     const st = t.closest('[data-setcat]');
-    if (st) { S.formula.cat = st.dataset.setcat; renderCourse(); return; }
+    if (st) {
+      const id = st.dataset.setcat;
+      S.formula.cat = id;
+      if (id !== 'all') S.formula.openCat = id; // 回目录时定位到刚看的分类
+      renderCourse();
+      return;
+    }
 
     // 「只看收藏」
     const ft = t.closest('#cof-favtoggle');
