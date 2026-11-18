@@ -282,6 +282,49 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .pair-pit { font-size: 12px; color: #fbbf24; line-height: 1.6; margin-top: 6px; }
 .pair-more { font-size: 12px; color: var(--muted); margin-top: 8px; }
 
+/* v4.8 课表：我的课表（2026-2027 第 1 学期） */
+.sc-head { padding: 4px 2px 14px; }
+.sc-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sc-emoji { font-size: 26px; }
+.sc-title { font-size: 24px; font-weight: 700; color: var(--ink); }
+.sc-sub { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.sc-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.sc-nav .btn { padding: 6px 14px; font-size: 13px; }
+.sc-week { font-size: 13.5px; font-weight: 600; color: var(--ink); background: #0d1830; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; }
+.sc-grid-head { display: grid; grid-template-columns: 52px repeat(7, minmax(120px, 1fr)); gap: 0; overflow-x: auto; }
+.sc-head-line { display: grid; grid-template-columns: 52px repeat(7, minmax(118px, 1fr)); margin-top: 10px; border-bottom: 2px solid var(--line); }
+.sc-head-line span { font-size: 12.5px; color: var(--muted); padding: 8px 6px; text-align: center; border-right: 1px solid rgba(30, 41, 59, .35); }
+.sc-head-line span:last-child { border-right: none; }
+.sc-row { display: grid; grid-template-columns: 52px repeat(7, minmax(118px, 1fr)); overflow-x: auto; }
+.sc-row + .sc-row { border-top: 1px solid rgba(30, 41, 59, .4); }
+.sc-no { display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--muted); border-right: 1px solid var(--line); background: rgba(15, 23, 42, .6); }
+.sc-cell { min-height: 86px; padding: 6px; border-right: 1px solid rgba(30, 41, 59, .4); text-align: center; font-size: 12px; color: rgba(148, 163, 184, .5); display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
+.sc-cell:last-child { border-right: none; }
+.sc-cell.sc-today { background: rgba(96, 165, 250, .10); box-shadow: inset 0 0 0 1.5px rgba(96, 165, 250, .45); border-radius: 8px; }
+.sc-course { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--primary); border-radius: 8px; padding: 5px 7px; text-align: left; }
+.sc-course b { display: block; font-size: 12.5px; color: var(--ink); line-height: 1.35; }
+.sc-course i { display: block; font-style: normal; font-size: 11px; color: var(--muted); margin-top: 1px; }
+.sc-course em { display: block; font-style: normal; font-size: 10.5px; color: rgba(148, 163, 184, .7); margin-top: 1px; }
+.sc-course.sc-exp { border-left-color: #b45309; }
+.sc-course.sc-exp b { color: #fbbf24; }
+.sc-course.sc-now { border-color: var(--link); box-shadow: 0 0 0 2px rgba(96, 165, 250, .35); animation: fmlPulse .9s ease-out 2; }
+.sc-fold { margin-top: 16px; }
+.sc-fold-box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; }
+.sc-fold-box summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink); padding: 4px 0; }
+.sc-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.sc-li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 13px; border-top: 1px dashed rgba(30, 41, 59, .5); padding-top: 8px; }
+.sc-li b { color: var(--ink); min-width: 160px; }
+.sc-li span { color: var(--muted); }
+.sc-li i { font-style: normal; color: var(--muted); font-size: 12px; }
+@media (max-width: 640px) {
+  .sc-head-line, .sc-row { grid-template-columns: 40px repeat(7, minmax(118px, 1fr)); }
+  .sc-head-line { overflow-x: auto; }
+  .sc-no { font-size: 12px; }
+  .sc-cell { min-height: 76px; padding: 4px; }
+  .sc-course b { font-size: 11.5px; }
+  .sc-course i, .sc-course em { font-size: 10px; }
+}
+
 .home-grid {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;
   width: 100%; align-items: stretch;
@@ -669,14 +712,38 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <input type="file" id="cred-file" multiple hidden>
     <input type="file" id="cred-import" accept=".json,application/json" hidden>
   </section>
+
+  <!-- ============ 课表（v4.8：2026-2027 第 1 学期，自动高亮今天与当前课） ============ -->
+  <section id="view-schedule" class="view">
+    <div class="sc-head">
+      <div class="sc-title-row">
+        <span class="sc-emoji">📅</span>
+        <span class="sc-title">我的课表</span>
+        <span class="chip on" id="sc-term"></span>
+      </div>
+      <p class="sc-sub" id="sc-sub"></p>
+      <div class="sc-nav">
+        <button class="btn small" id="sc-prev" title="上一周">◀ 上周</button>
+        <span class="sc-week" id="sc-week"></span>
+        <button class="btn small" id="sc-next" title="下一周">下周 ▶</button>
+        <button class="btn small" id="sc-today-btn" title="回到当前周">📍 本周</button>
+        <button class="btn small" id="sc-print" title="打印 / 导出整学期课表为 PDF">🖨️ 打印</button>
+      </div>
+    </div>
+    <div id="sc-grid"></div>
+    <div id="sc-experiments" class="sc-fold"></div>
+    <div id="sc-practices" class="sc-fold"></div>
+    <div id="sc-adjust" class="sc-fold"></div>
+  </section>
 </main>
 
 <!-- v4.2.1：页脚长说明文字已移除，保留空容器维持底部节奏（v4.3：随「我的」页一并移除在线/离线说明） -->
 <footer class="site-foot"></footer>
 
-<!-- 小程序外壳：底部 Tab 栏（v4.4.2 精简为 2 个：课程/学分；公式与习题在课程页内） -->
+<!-- 小程序外壳：底部 Tab 栏（v4.8：课程 / 课表 / 学分；公式与习题在课程页内） -->
 <nav class="mp-tabbar" id="mp-tabbar">
   <a class="mp-tab active" data-tab="home" href="#/"><span class="ico">🏠</span>课程</a>
+  <a class="mp-tab" data-tab="schedule"><span class="ico">📅</span>课表</a>
   <a class="mp-tab" data-tab="credits"><span class="ico">🎖️</span>学分</a>
 </nav>
 
@@ -687,6 +754,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <div id="modal-body"></div>
   </div>
 </div>
+
 
 
 
@@ -1631,6 +1699,111 @@ window.KC_CREDITS = {
   ]
 };
 ;
+/* ============ 学习助手 · 课表数据（v4.8） ============
+   来源：教务综合信息服务平台（个人课表查询，2026-11-18 抓取）+ 学校上课作息时间表
+   学生：陈炜达 · 机制(专升本)2026-5/6 · 学号 20260420400633
+   学期：2026-2027 第 1 学期（18 周，weekStart 为第 1 周周一）
+   说明：
+   - courses：每周常规理论课（含周次表达式，渲染时判断「本周是否有课」）
+   - adjust：特殊周调课/补课记录（保留教务系统【调】标记）
+   - experiments：实验课（来自实验课表，含固定周次与实验室地点）
+   - practices：实践周（课程设计/劳动教育等集中实践）
+   - times：两校区节次作息（墨轩湖为主，黄家湖实验课用）
+*/
+window.KC_SCHEDULE = {
+  "term": "2026-2027 学年第 1 学期",
+  "student": "机制(专升本)2026-5/6",
+  "name": "陈炜达",
+  "studentId": "20260420400633",
+  "weeks": 18,
+  "weekStart": "2026-09-07",
+  "hasAdjust": true,
+
+  /* 节次作息：墨轩湖校区（主）+ 黄家湖校区（双创中心等实验课） */
+  "times": {
+    "墨轩湖校区": [
+      { "s": 1,  "start": "08:50", "end": "09:30" },
+      { "s": 2,  "start": "09:35", "end": "10:15" },
+      { "s": 3,  "start": "10:35", "end": "11:15" },
+      { "s": 4,  "start": "11:20", "end": "12:00" },
+      { "s": 5,  "start": "14:00", "end": "14:40" },
+      { "s": 6,  "start": "14:45", "end": "15:25" },
+      { "s": 7,  "start": "15:40", "end": "16:20" },
+      { "s": 8,  "start": "16:25", "end": "17:05" },
+      { "s": 9,  "start": "18:30", "end": "19:10" },
+      { "s": 10, "start": "19:15", "end": "19:55" },
+      { "s": 11, "start": "20:00", "end": "20:40" }
+    ],
+    "黄家湖校区": [
+      { "s": 1,  "start": "08:00", "end": "08:45" },
+      { "s": 2,  "start": "08:55", "end": "09:40" },
+      { "s": 3,  "start": "10:10", "end": "10:55" },
+      { "s": 4,  "start": "11:05", "end": "11:50" },
+      { "s": 5,  "start": "14:00", "end": "14:45" },
+      { "s": 6,  "start": "14:55", "end": "15:40" },
+      { "s": 7,  "start": "15:50", "end": "16:35" },
+      { "s": 8,  "start": "16:45", "end": "17:30" },
+      { "s": 9,  "start": "18:30", "end": "19:15" },
+      { "s": 10, "start": "19:25", "end": "20:10" },
+      { "s": 11, "start": "20:20", "end": "21:05" }
+    ]
+  },
+
+  /* 每周常规理论课：day 1-7（周一~周日），start/end 节次，weeks 周次表达式 */
+  "courses": [
+    { "day": 2, "start": 1, "end": 2, "name": "电工电子学Ⅱ", "room": "墨轩湖校区 敏学楼D307", "teacher": "鄢化鹏", "weeks": "1-3周(单),7-15周(单)", "kind": "讲课" },
+    { "day": 3, "start": 1, "end": 2, "name": "机械设计", "room": "墨轩湖校区 敏学楼D206", "teacher": "曹刘洋", "weeks": "1-3周,6-9周,11-12周", "kind": "讲课" },
+    { "day": 1, "start": 3, "end": 4, "name": "液压与气压传动", "room": "墨轩湖校区 敏学楼D105", "teacher": "朱瑶瑶", "weeks": "1-3周,5-14周", "kind": "讲课" },
+    { "day": 2, "start": 3, "end": 4, "name": "机械设计", "room": "墨轩湖校区 敏学楼D205", "teacher": "曹刘洋", "weeks": "1-3周,6-13周", "kind": "讲课" },
+    { "day": 3, "start": 3, "end": 4, "name": "机械制造装备", "room": "墨轩湖校区 敏学楼D206", "teacher": "申颖", "weeks": "1-3周,6-9周,11-14周", "kind": "讲课" },
+    { "day": 4, "start": 3, "end": 4, "name": "机械制造装备", "room": "墨轩湖校区 博学楼A108", "teacher": "申颖", "weeks": "2-8周(双),12-14周(双)", "kind": "讲课" },
+    { "day": 5, "start": 3, "end": 4, "name": "电工电子学Ⅱ", "room": "墨轩湖校区 敏学楼D307", "teacher": "鄢化鹏", "weeks": "1-5周,7-9周(单),10-12周(双),13-15周(单),16周", "kind": "讲课" },
+    { "day": 2, "start": 5, "end": 6, "name": "就业指导", "room": "墨轩湖校区 敏学楼F109", "teacher": "黄景华", "weeks": "13-16周", "kind": "讲课" },
+    { "day": 5, "start": 5, "end": 6, "name": "机械创新设计", "room": "墨轩湖校区 敏学楼D108", "teacher": "槐创锋", "weeks": "1-8周", "kind": "讲课" },
+    { "day": 5, "start": 7, "end": 8, "name": "机械装备智能运维基础", "room": "墨轩湖校区 敏学楼D106", "teacher": "曾媛", "weeks": "1-9周,11-16周", "kind": "讲课" }
+  ],
+
+  /* 特殊周调课 / 补课记录（教务系统带【调】的条目 + 单周实验） */
+  "adjust": [
+    { "day": 6, "start": 1, "end": 2, "name": "机械设计", "room": "墨轩湖校区 敏学楼D206", "teacher": "曹刘洋", "weeks": "5周", "note": "调课" },
+    { "day": 7, "start": 1, "end": 2, "name": "电工电子学Ⅱ", "room": "墨轩湖校区 敏学楼D307", "teacher": "鄢化鹏", "weeks": "2周", "note": "调课" },
+    { "day": 7, "start": 1, "end": 2, "name": "液压与气压传动", "room": "墨轩湖校区 敏学楼D105", "teacher": "朱瑶瑶", "weeks": "6周", "note": "调课" },
+    { "day": 7, "start": 1, "end": 2, "name": "机械设计", "room": "墨轩湖校区 敏学楼D206", "teacher": "曹刘洋", "weeks": "7周", "note": "调课" },
+    { "day": 6, "start": 3, "end": 4, "name": "机械制造装备", "room": "墨轩湖校区 敏学楼D206", "teacher": "申颖", "weeks": "5周", "note": "调课" },
+    { "day": 7, "start": 3, "end": 4, "name": "机械设计", "room": "墨轩湖校区 敏学楼D205", "teacher": "曹刘洋", "weeks": "2周,6周", "note": "调课" },
+    { "day": 7, "start": 3, "end": 4, "name": "液压与气压传动", "room": "墨轩湖校区 敏学楼D105", "teacher": "朱瑶瑶", "weeks": "5周", "note": "调课" },
+    { "day": 7, "start": 3, "end": 4, "name": "机械制造装备", "room": "墨轩湖校区 敏学楼D206", "teacher": "申颖", "weeks": "7周", "note": "调课" },
+    { "day": 6, "start": 3, "end": 4, "name": "机械制造装备", "room": "墨轩湖校区 敏学楼D206", "teacher": "申颖", "weeks": "11周·博学楼B208", "note": "调课" },
+    { "day": 2, "start": 5, "end": 6, "name": "电工电子学Ⅱ", "room": "墨轩湖校区 敏学楼D307", "teacher": "鄢化鹏", "weeks": "10周", "note": "调课" },
+    { "day": 5, "start": 5, "end": 6, "name": "机械制造装备", "room": "墨轩湖校区 敏学楼D104", "teacher": "申颖", "weeks": "11周", "note": "调课" },
+    { "day": 1, "start": 7, "end": 8, "name": "机械设计", "room": "墨轩湖校区 敏学楼D206", "teacher": "曹刘洋", "weeks": "10周", "note": "调课" }
+  ],
+
+  /* 实验课（教务系统「实验课表」12 条） */
+  "experiments": [
+    { "day": 7, "start": 1, "end": 2, "week": 9,  "name": "机械设计 · 带传动实验", "room": "墨轩湖校区 7号系办大楼207（带传动实验室）", "teacher": "周启兴" },
+    { "day": 6, "start": 1, "end": 2, "week": 11, "name": "机械设计 · 滑动轴承实验", "room": "墨轩湖校区 7号系办大楼205（动平衡实验室）", "teacher": "周启兴" },
+    { "day": 1, "start": 5, "end": 6, "week": 12, "name": "机械设计 · 轴系组合实验", "room": "墨轩湖校区 7号系办大楼209（轴系结构实验室）", "teacher": "李敏" },
+    { "day": 3, "start": 9, "end": 10, "week": 7, "name": "液压与气压传动 · 液压泵特性实验", "room": "墨轩湖校区 7号系办大楼206（液压与气压传动实验室）", "teacher": "刘思捷" },
+    { "day": 5, "start": 9, "end": 10, "week": 15, "name": "液压与气压传动 · 气压控制回路实验", "room": "墨轩湖校区 7号系办大楼206（液压与气压传动实验室）", "teacher": "刘思捷" },
+    { "day": 1, "start": 9, "end": 10, "week": 13, "name": "液压与气压传动 · 节流调速回路性能实验", "room": "墨轩湖校区 7号系办大楼206（液压与气压传动实验室）", "teacher": "刘思捷" },
+    { "day": 1, "start": 7, "end": 8, "week": 15, "name": "电工电子学Ⅱ · 译码器及其应用", "room": "墨轩湖校区 6号系办大楼409（电子技术实验室3）", "teacher": "孙万平" },
+    { "day": 1, "start": 7, "end": 8, "week": 9,  "name": "电工电子学Ⅱ · 晶体管共射极单管放大器", "room": "墨轩湖校区 6号系办大楼409（电子技术实验室3）", "teacher": "孙万平" },
+    { "day": 1, "start": 7, "end": 8, "week": 11, "name": "电工电子学Ⅱ · TTL集成逻辑门的逻辑功能测试", "room": "墨轩湖校区 6号系办大楼409（电子技术实验室3）", "teacher": "孙万平" },
+    { "day": 1, "start": 5, "end": 6, "week": 10, "name": "机械制造装备 · 机床几何精度检验", "room": "黄家湖校区 双创中心B107（数智门业技术研发中心三）", "teacher": "黄逸兴" },
+    { "day": 1, "start": 5, "end": 6, "week": 8,  "name": "机械制造装备 · CA6140车床主轴箱结构剖析", "room": "黄家湖校区 双创中心B107（数智门业技术研发中心三）", "teacher": "黄逸兴" },
+    { "day": 1, "start": 7, "end": 8, "week": 13, "name": "机械制造装备 · 刀具几何角度测量", "room": "墨轩湖校区 7号系办大楼105（机械制造实验室）", "teacher": "黄逸兴" }
+  ],
+
+  /* 实践周（集中实践课程） */
+  "practices": [
+    { "name": "机械设计课程设计", "weeks": "14-15周", "teacher": "曹刘洋", "kind": "实践" },
+    { "name": "机械制造装备课程设计", "weeks": "15-16周", "teacher": "胡志辉", "kind": "实践" },
+    { "name": "电工电子学课程设计", "weeks": "第15周", "teacher": "范志刚", "kind": "实践" },
+    { "name": "劳动教育（实践）Ⅳ", "weeks": "第17周", "teacher": "吴慧芳", "kind": "实践" }
+  ]
+};
+;
 /* ============ 学习助手 · 主应用逻辑（v4.3：小程序外壳 2 Tab——首页/学分；我的页已移除） ============ */
 (function () {
   'use strict';
@@ -2041,7 +2214,8 @@ window.KC_CREDITS = {
     credits: { pending: null },
     search: { q: '' }, // v4.6 全站搜索
     flash: { active: false, list: [], idx: 0, known: 0 }, // v4.6 翻卡记忆
-    pair: { active: false, list: [], idx: 0, known: 0 } // v4.7 讲练翻卡：一公式配一例题
+    pair: { active: false, list: [], idx: 0, known: 0 }, // v4.7 讲练翻卡：一公式配一例题
+    schedule: { week: 0 } // v4.8 课表：0=跟随当前周
   };
   let keepQ = false; // 案例弹窗「知识点跳转」：切到目标课程时保留搜索词
 
@@ -2074,6 +2248,63 @@ window.KC_CREDITS = {
     if (!f) return [];
     return casesOf(f.course.id).filter((x) => (x.formulas || []).indexOf(fid) >= 0);
   }
+  /* ---------- v4.8 课表辅助 ---------- */
+  const SCHEDULE = window.KC_SCHEDULE || null;
+  function scheduleWeekStart() { return SCHEDULE ? SCHEDULE.weekStart : '2026-09-07'; }
+  // 当前周（1 起）：今天 - 第 1 周周一 的整天数 ÷ 7 + 1，越界钳制到 [1, weeks]
+  function currentWeek() {
+    const ws = scheduleWeekStart();
+    const base = new Date(ws + 'T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.floor((today - base) / 86400000);
+    const w = Math.floor(diff / 7) + 1;
+    const weeks = (SCHEDULE && SCHEDULE.weeks) || 18;
+    return Math.max(1, Math.min(weeks, w));
+  }
+  // 第 week 周的周一~周日（格式 MM-DD）区间文案
+  function weekDateRange(week) {
+    const ws = scheduleWeekStart();
+    const base = new Date(ws + 'T00:00:00');
+    const mon = new Date(base.getTime() + (week - 1) * 7 * 86400000);
+    const sun = new Date(mon.getTime() + 6 * 86400000);
+    const fmt = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    return fmt(mon) + ' ~ ' + fmt(sun);
+  }
+  // 今天星期几（1-7，周一=1）：getDay() 0=周日 → 周日归 7
+  function todayDay() { const d = new Date().getDay(); return d === 0 ? 7 : d; }
+  // 当前时间在第几节（跨节次 1-11），不在上课时间返回 0；按校区作息判断
+  function currentPeriodIndex(campus) {
+    const times = (SCHEDULE && SCHEDULE.times) || {};
+    const tb = times[campus || '墨轩湖校区'] || (times['墨轩湖校区'] || []);
+    const now = new Date();
+    const hm = now.getHours() * 60 + now.getMinutes();
+    let cur = 0;
+    tb.forEach((t) => {
+      const [sh, sm] = String(t.start).split(':').map(Number);
+      const [eh, em] = String(t.end).split(':').map(Number);
+      const s0 = sh * 60 + sm, e0 = eh * 60 + em;
+      if (hm >= s0 && hm <= e0) cur = t.s;
+    });
+    return cur;
+  }
+  // 解析周次表达式，判断第 week 周是否有课
+  // 支持：1-3周(单),7-15周(单) / 1-3周,6-9周,11-12周 / 第5周 / 2周,6-14周(双) / 13-16周
+  function weekActive(expr, week) {
+    if (!expr) return false;
+    const parts = String(expr).split(',');
+    return parts.some((p) => {
+      const m = p.match(/(\d+)(?:\s*-\s*(\d+))?\s*周?\s*(?:[（(]([单双])[)）])?/);
+      if (!m) return false;
+      const a = parseInt(m[1], 10);
+      const b = m[2] ? parseInt(m[2], 10) : a;
+      if (week < a || week > b) return false;
+      const parity = m[3];
+      if (parity === '单') return week % 2 === 1;
+      if (parity === '双') return week % 2 === 0;
+      return true;
+    });
+  }
   function stars(n) { n = Math.max(1, Math.min(3, n || 1)); return '★'.repeat(n) + '☆'.repeat(3 - n); }
 
   /* ---------- 路由 ---------- */
@@ -2091,6 +2322,8 @@ window.KC_CREDITS = {
       if (c) { routeView('course', c, seg[2] === 'cases' ? 'cases' : 'formula'); return; }
     }
     if (seg[0] === 'credits') { routeView('credits'); return; }
+    // v4.8 课表
+    if (seg[0] === 'schedule') { routeView('schedule'); return; }
     // v4.6 全站搜索：/#/search?q=xxx（带查询串时 seg[0] 为 search?q=xxx）
     if (seg[0] && (seg[0] === 'search' || seg[0].indexOf('search?') === 0)) {
       const m = h.match(/[?&]q=([^&]*)/);
@@ -2120,11 +2353,12 @@ window.KC_CREDITS = {
     // 小程序外壳：标题 / 返回键 / 底部 Tab 高亮
     $('#mp-title').textContent = v === 'course' && course ? course.name
       : v === 'credits' ? '第二课堂学分'
-      : v === 'search' ? '全站搜索' : '学习助手';
+      : v === 'search' ? '全站搜索'
+      : v === 'schedule' ? '我的课表' : '学习助手';
     $('#mp-back').classList.toggle('hidden', v === 'home');
-    const tabName = v === 'course' ? 'course' : (v === 'credits' ? 'credits' : 'home');
+    const tabName = v === 'course' ? 'course' : (v === 'credits' ? 'credits' : (v === 'schedule' ? 'schedule' : 'home'));
     $$('#mp-tabbar .mp-tab').forEach((a) => a.classList.toggle('active', a.getAttribute('data-tab') === tabName));
-    ({ home: renderHome, course: renderCourse, credits: renderCredits, search: renderSearch })[v]();
+    ({ home: renderHome, course: renderCourse, credits: renderCredits, search: renderSearch, schedule: renderSchedule })[v]();
     window.scrollTo({ top: 0 });
   }
 
@@ -2189,6 +2423,87 @@ window.KC_CREDITS = {
     wrap.innerHTML = (fBlock || cBlock)
       ? fBlock + cBlock
       : `<p class="gs-note">没有找到与「${esc(S.search.q)}」相关的内容，换个关键词试试。</p>`;
+  }
+
+  /* ---------- 课表（v4.8） ---------- */
+  function renderSchedule() {
+    if (!SCHEDULE) { $('#sc-grid').innerHTML = '<p class="loading">暂无课表数据</p>'; return; }
+    // 当前周：S.schedule.week=0 时跟随今天
+    if (!S.schedule.week) S.schedule.week = currentWeek();
+    const week = S.schedule.week;
+    const weeks = SCHEDULE.weeks || 18;
+    const days = ['', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+    const today = todayDay();
+
+    // 头部：学期 / 姓名班级 / 周次导航
+    $('#sc-term').textContent = SCHEDULE.term || '';
+    $('#sc-sub').textContent = `${SCHEDULE.name || ''} · ${SCHEDULE.student || ''} · 共 ${weeks} 周`;
+    $('#sc-week').textContent = `第 ${week} 周（${weekDateRange(week)}）`;
+
+    // 本课有课的课程（常规课 + 调课里本周也上的）
+    const active = (SCHEDULE.courses || []).filter((c) => weekActive(c.weeks, week));
+    const exThisWeek = (SCHEDULE.experiments || []).filter((x) => x.week === week);
+
+    // 渲染网格：仅显示有课的时段行（1-11 节）
+    const activePeriods = [];
+    const collect = (item) => { for (let s = item.start; s <= item.end; s++) if (!activePeriods.includes(s)) activePeriods.push(s); };
+    active.forEach(collect);
+    exThisWeek.forEach(collect);
+    activePeriods.sort((a, b) => a - b);
+
+    const cell = (day) => {
+      const cls = 'sc-cell' + (day === today ? ' sc-today' : '');
+      const items = active.filter((c) => c.day === day);
+      const exs = exThisWeek.filter((x) => x.day === day);
+      if (!items.length && !exs.length) return `<div class="${cls}">—</div>`;
+      const cards = items.map((c) => `
+        <div class="sc-course ${weekActive(c.weeks, week) && (c.weeks || '').indexOf('(单)') >= 0 ? ' sc-o' : ''}">
+          <b>${esc(c.name)}</b>
+          <i>${esc((c.room || '').replace(/^[^\s]*\s/, ''))}</i>
+          ${c.teacher ? `<em>${esc(c.teacher)}</em>` : ''}
+        </div>`).join('') +
+        exs.map((x) => `
+        <div class="sc-course sc-exp">
+          <b>${esc(x.name)}</b>
+          <i>${esc((x.room || '').replace(/^[^\s]*\s/, ''))}</i>
+          <em>实验 · 第 ${x.week} 周</em>
+        </div>`).join('');
+      return `<div class="${cls}">${cards}</div>`;
+    };
+
+    $('#sc-grid').innerHTML = `
+      <div class="sc-head-line"><span>节次</span>${days.slice(1).map((d) => `<span>${d}</span>`).join('')}</div>
+      ${activePeriods.map((s) => `
+        <div class="sc-row">
+          <div class="sc-no">${s}</div>
+          ${days.slice(1).map((_, i) => cell(i + 1)).join('')}
+        </div>`).join('')}`;
+
+    // 实验课表 / 实践周 / 调课记录（折叠区）
+    const fold = (id, title, inner) => {
+      const el = document.querySelector(id);
+      if (el) el.innerHTML = `<details class="sc-fold-box"><summary>${title}</summary>${inner}</details>`;
+    };
+    fold('#sc-experiments', `🧪 实验课表（本周 ${exThisWeek.length} 项，点开看全学期 ${SCHEDULE.experiments.length} 项）`,
+      `<div class="sc-list">${(SCHEDULE.experiments || []).map((x) => `
+        <div class="sc-li"><b>${esc(x.name)}</b><span>${days[x.day]} · 第${x.start}-${x.end}节 · 第${x.week}周</span><i>${esc(x.room)}</i></div>`).join('')}</div>`);
+    fold('#sc-practices', '🛠️ 实践周（课程设计 / 集中实践）',
+      `<div class="sc-list">${(SCHEDULE.practices || []).map((x) => `
+        <div class="sc-li"><b>${esc(x.name)}</b><span>${esc(x.weeks)}</span><i>${esc(x.teacher || '')}${x.kind ? ' · ' + esc(x.kind) : ''}</i></div>`).join('')}</div>`);
+    fold('#sc-adjust', SCHEDULE.hasAdjust ? '📌 全学期调课记录' : '📌 调课记录',
+      `<div class="sc-list">${(SCHEDULE.adjust || []).map((x) => `
+        <div class="sc-li"><b>${esc(x.name)}</b><span>${days[x.day]} · 第${x.start}-${x.end}节 · ${esc(x.weeks)}${x.note ? '（' + esc(x.note) + '）' : ''}</span><i>${esc(x.room)}</i></div>`).join('') || '<div class="sc-li">暂无</div>'}</div>`);
+  }
+
+  function stepSchedule(delta) {
+    const weeks = (SCHEDULE && SCHEDULE.weeks) || 18;
+    const cur = (S.schedule.week || currentWeek()) + delta;
+    S.schedule.week = Math.max(1, Math.min(weeks, cur));
+    renderSchedule();
+  }
+  function goThisWeekSchedule() {
+    S.schedule.week = currentWeek();
+    renderSchedule();
   }
 
   /* ---------- 课程页：公式速记 + 习题案例 ---------- */
@@ -2520,6 +2835,53 @@ window.KC_CREDITS = {
     w.document.close();
     setTimeout(() => { try { w.focus(); w.print(); } catch (e) { /* 忽略 */ } }, 300);
   }
+  // v4.8 课表打印：整学期常规课 + 实验 + 实践 → 新窗口，可另存 PDF
+  function printSchedule() {
+    if (!SCHEDULE) return;
+    const w = window.open('', '_blank');
+    if (!w) return;
+    const days = ['', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+    const head = `<meta charset="utf-8"><title>课表 · 学习助手</title>
+      <style>
+        body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; padding: 24px; color: #1e293b; }
+        h1 { font-size: 20px; margin: 0 0 4px; } h1 small { color:#64748b; font-size: 13px; font-weight:400; }
+        h2 { font-size: 15px; margin: 18px 0 8px; color:#1d4ed8; }
+        table { border-collapse: collapse; width: 100%; font-size: 12px; }
+        th, td { border: 1px solid #e2e8f0; padding: 6px; vertical-align: top; text-align: center; }
+        th { background: #f1f5f9; }
+        .course { display: block; } .course b { font-size: 12.5px; }
+        .course i, .course em { display: block; font-style: normal; font-size: 11px; color: #64748b; }
+        .exp b { color:#b45309; }
+      </style>`;
+    const grid = [];
+    const periods = [];
+    const pushP = (it) => { for (let s = it.start; s <= it.end; s++) if (!periods.includes(s)) periods.push(s); };
+    (SCHEDULE.courses || []).forEach(pushP);
+    (SCHEDULE.experiments || []).forEach(pushP);
+    periods.sort((a, b) => a - b);
+    grid.push('<table><tr><th>节次</th>' + days.slice(1).map((d) => `<th>${d}</th>`).join('') + '</tr>');
+    periods.forEach((s) => {
+      const exs = (SCHEDULE.experiments || []).filter((x) => x.start <= s && s <= x.end);
+      grid.push('<tr><td>' + s + '</td>' + days.slice(1).map((_, i) => {
+        const day = i + 1;
+        const cs = (SCHEDULE.courses || []).filter((c) => c.day === day && c.start <= s && s <= c.end);
+        const ex = exs.filter((x) => x.day === day);
+        const cards = cs.map((c) => `<span class="course"><b>${esc(c.name)}</b><i>${esc((c.room || '').replace(/^[^\s]*\s/, ''))}</i><em>${esc(c.weeks)}</em></span>`).join('') +
+          ex.map((x) => `<span class="course exp"><b>🧪 ${esc(x.name)}</b><i>${esc((x.room || '').replace(/^[^\s]*\s/, ''))}</i><em>第${x.week}周实验</em></span>`).join('');
+        return `<td>${cards}</td>`;
+      }).join('') + '</tr>');
+    });
+    grid.push('</table>');
+    const exp = `<h2>🧪 实验课表（${SCHEDULE.experiments.length} 项）</h2><table><tr><th>课程</th><th>时间</th><th>地点</th><th>教师</th></tr>` +
+      (SCHEDULE.experiments || []).map((x) => `<tr><td>${esc(x.name)}</td><td>${days[x.day]} 第${x.start}-${x.end}节 · 第${x.week}周</td><td>${esc(x.room)}</td><td>${esc(x.teacher || '')}</td></tr>`).join('') + '</table>';
+    const prac = `<h2>🛠️ 实践周</h2><table><tr><th>名称</th><th>周次</th><th>教师</th></tr>` +
+      (SCHEDULE.practices || []).map((x) => `<tr><td>${esc(x.name)}</td><td>${esc(x.weeks)}</td><td>${esc(x.teacher || '')}</td></tr>`).join('') + '</table>';
+    w.document.write('<!DOCTYPE html><html lang="zh-CN"><head>' + head + '</head><body>' +
+      `<h1>${esc(SCHEDULE.term || '课表')} <small>${esc((SCHEDULE.name || '') + ' · ' + (SCHEDULE.student || ''))} · 学习助手</small></h1>` +
+      grid.join('') + exp + prac + '</body></html>');
+    w.document.close();
+    setTimeout(() => { try { w.focus(); w.print(); } catch (e) { /* 忽略 */ } }, 300);
+  }
 
   /* ---------- 习题答案弹窗 ---------- */
   function openExercise(id) {
@@ -2581,6 +2943,7 @@ window.KC_CREDITS = {
       const tb = tab.getAttribute('data-tab');
       const cid = S.course.id || (COURSES[0] && COURSES[0].id) || '';
       goHash(tb === 'home' ? '#/'
+        : tb === 'schedule' ? '#/schedule'
         : tb === 'credits' ? '#/credits'
         : tb === 'formula' ? '#/course/' + cid
         : '#/course/' + cid + '/cases');
@@ -2655,6 +3018,12 @@ window.KC_CREDITS = {
     if (t.closest('#cof-print')) { const c = courseById(S.course.id); if (c) printCourse(c, 'formula'); return; }
     if (t.closest('#coc-print')) { const c = courseById(S.course.id); if (c) printCourse(c, 'cases'); return; }
 
+    // v4.8 课表：切周 / 回本周 / 打印
+    if (t.closest('#sc-prev')) { stepSchedule(-1); return; }
+    if (t.closest('#sc-next')) { stepSchedule(1); return; }
+    if (t.closest('#sc-today-btn')) { goThisWeekSchedule(); return; }
+    if (t.closest('#sc-print')) { printSchedule(); return; }
+
     // 课程页案例分类 / 场景
     const ca = t.closest('#coc-cates .chip');
     if (ca) { S.cases.cate = ca.dataset.casecate; renderCourse(); return; }
@@ -2718,7 +3087,7 @@ window.KC_CREDITS = {
     return false;
   }
   function renderCurrent() {
-    ({ home: renderHome, course: renderCourse, credits: renderCredits, search: renderSearch })[S.view]();
+    ({ home: renderHome, course: renderCourse, credits: renderCredits, search: renderSearch, schedule: renderSchedule })[S.view]();
   }
 
   /* ---------- 封面 3D 倾斜：整卡朝鼠标方向微微转动（纯 CSS 3D，事件委托） ---------- */
