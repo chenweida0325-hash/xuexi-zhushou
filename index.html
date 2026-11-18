@@ -139,6 +139,43 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .btn.small { padding: 6px 12px; }
 .btn.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 
+/* v5.1 工具栏瘦身：搜索占满首行，右侧只留「⭐ 收藏」与「⋯」两个图标位 */
+.toolbar { align-items: center; }
+.toolbar .search { flex: 1 1 auto; }
+.icon-btn {
+  flex: 0 0 auto; width: 38px; height: 34px; padding: 0; font-size: 16px; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--line); background: #0d1830; color: var(--ink);
+  border-radius: 999px; cursor: pointer; transition: all .15s;
+}
+.icon-btn:hover { border-color: var(--link); color: var(--link); }
+.more-menu { position: relative; flex: 0 0 auto; }
+.more-pop {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 40;
+  min-width: 172px; padding: 6px; display: flex; flex-direction: column; gap: 2px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .5);
+}
+.more-pop.hidden { display: none; }
+.more-pop button {
+  border: 0; background: none; color: var(--ink); text-align: left;
+  padding: 9px 12px; border-radius: 8px; font-size: 13px; cursor: pointer;
+}
+.more-pop button:hover { background: rgba(96, 165, 250, .14); color: var(--link); }
+
+/* v5.1 分类 chips：单行横向滑动，不再折成 7 行把公式挤出首屏
+   （用 .chips.chips-scroll 提高优先级，压过后面的 .chips{flex-wrap:wrap}） */
+.chips.chips-scroll {
+  flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+  /* 右侧渐隐，暗示「还能往右滑」 */
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 26px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 26px), transparent 100%);
+}
+.chips.chips-scroll::-webkit-scrollbar { display: none; }
+.chips.chips-scroll .chip { flex: 0 0 auto; white-space: nowrap; }
+
 .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 14px; }
 .chips .chip {
   border: 1.5px solid var(--line); background: #0d1830; color: #b6c2d4;
@@ -412,18 +449,21 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
   box-shadow: var(--shadow); overflow: hidden; margin: 6px 0 12px;
   border-top: 4px solid var(--cc, var(--primary));
 }
-.co-banner { display: block; width: 100%; height: 148px; object-fit: cover; object-position: center; border-bottom: 1px solid var(--line); }
+.co-banner { display: block; width: 100%; height: 108px; object-fit: cover; object-position: center; border-bottom: 1px solid var(--line); }
 .co-head-in { padding: 12px 16px 14px; }
-.co-crumb { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; display: block; }
-.co-crumb a { color: var(--link); text-decoration: none; }
-.co-crumb a:hover { text-decoration: underline; }
-.co-title-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+/* v5.1：面包屑并进标题行，返回做成圆形小按钮；计数 chip 移除（数量由双标签承担） */
+.co-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.co-back {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 999px; font-size: 14px;
+  border: 1.5px solid var(--line); color: var(--link); text-decoration: none;
+  background: #0d1830; flex: 0 0 auto; transition: all .15s;
+}
+.co-back:hover { border-color: var(--link); background: rgba(96, 165, 250, .14); text-decoration: none; }
 .co-emoji { font-size: 20px; }
 /* 暗色下课程标题用每课浅色变体（app.js 注入 --cc-plate）保证对比 */
 .co-title { font-size: 18px; font-weight: 800; color: var(--cc-plate, var(--cc)); }
 .co-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.co-counts { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
-.co-counts .chip { cursor: default; }
 
 .ctabs { display: flex; gap: 6px; margin: 0 0 4px; }
 .ctab {
@@ -686,13 +726,18 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
     <div id="course-tabs"></div>
     <div id="co-formula-pane">
       <div class="toolbar">
-        <input id="cof-search" class="search" type="search" placeholder="🔍 搜本课公式/知识点，如：欧拉、虚短、节流、自锁…">
-        <button id="cof-favtoggle" class="btn small">⭐ 只看收藏</button>
-        <button id="cof-flash" class="btn small" title="翻卡记忆：逐张背公式">🃏 翻卡</button>
-        <button id="cof-pair" class="btn small" title="讲练翻卡：一个公式配一道例题">📝 讲练</button>
-        <button id="cof-print" class="btn small" title="打印 / 导出本课公式为 PDF">🖨️ 打印</button>
+        <input id="cof-search" class="search" type="search" placeholder="🔍 搜公式 / 知识点">
+        <button id="cof-favtoggle" class="btn small" title="只看收藏的公式">⭐ 收藏</button>
+        <div class="more-menu">
+          <button id="cof-more" class="icon-btn" title="更多：翻卡 / 讲练 / 打印" aria-label="更多操作">⋯</button>
+          <div id="cof-more-pop" class="more-pop hidden">
+            <button id="cof-flash" title="翻卡记忆：逐张背公式">🃏 翻卡记忆</button>
+            <button id="cof-pair" title="讲练翻卡：一个公式配一道例题">📝 讲练翻卡</button>
+            <button id="cof-print" title="打印 / 导出本课公式为 PDF">🖨️ 打印 / 导出 PDF</button>
+          </div>
+        </div>
       </div>
-      <div id="cof-cats" class="chips"></div>
+      <div id="cof-cats" class="chips chips-scroll"></div>
       <div id="cof-list"><p class="loading">加载中…</p></div>
     </div>
     <div id="co-cases-pane" class="hidden">
@@ -700,7 +745,7 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
         <input id="coc-search" class="search" type="search" placeholder="🔍 搜本课习题/考点，如：螺栓、差动、定位误差…">
         <button id="coc-print" class="btn small" title="打印 / 导出本课习题为 PDF">🖨️ 打印</button>
       </div>
-      <div id="coc-cates" class="chips"></div>
+      <div id="coc-cates" class="chips chips-scroll"></div>
       <div id="coc-scenes" class="chips small-chips"></div>
       <div id="coc-list"><p class="loading">加载中…</p></div>
     </div>
@@ -2842,16 +2887,11 @@ window.KC_SCHEDULE = {
       <div class="co-head" style="--cc:${esc(c.color)};--cc-plate:${esc(t.plate)};--cc-deep:${esc(t.deep)}">
         ${c.cover ? `<img class="co-banner" src="${esc(c.cover)}" alt="${esc(c.name)} 封面" loading="lazy">` : ''}
         <div class="co-head-in">
-          <span class="co-crumb"><a href="#/">← 返回首页</a> · ${esc(c.name)}</span>
           <div class="co-title-row">
             <span class="co-emoji">${c.emoji}</span>
             <span class="co-title">${esc(c.name)}</span>
           </div>
           <div class="co-sub">${esc(c.book)}${c.desc ? ' · ' + esc(c.desc) : ''}</div>
-          <div class="co-counts">
-            <span class="chip on">🧮 公式速记 ${nf} 条</span>
-            <span class="chip on">✏️ 习题练习 ${nc} 道</span>
-          </div>
         </div>
       </div>`;
 
@@ -3307,6 +3347,19 @@ window.KC_SCHEDULE = {
     // 「只看收藏」
     const ft = t.closest('#cof-favtoggle');
     if (ft) { S.formula.favOnly = !S.formula.favOnly; renderCourse(); return; }
+
+    // v5.1 工具栏瘦身：「⋯」更多操作浮层（翻卡 / 讲练 / 打印）
+    if (t.closest('#cof-more')) {
+      const pop = $('#cof-more-pop');
+      if (pop) pop.classList.toggle('hidden');
+      return;
+    }
+    const morePop = $('#cof-more-pop');
+    if (morePop) {
+      // 点了菜单项 → 先收起浮层，再交给下面的翻卡/讲练/打印分支处理
+      // 点了其它任何地方 → 收起浮层
+      if (t.closest('#cof-more-pop button') || !t.closest('.more-menu')) morePop.classList.add('hidden');
+    }
 
     // v4.6 翻卡记忆：翻卡 / 记住了 / 再背一次 / 再来一轮 / 退出
     if (t.closest('#cof-flash')) {
