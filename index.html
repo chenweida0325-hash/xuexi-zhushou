@@ -287,7 +287,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
 .sc-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .sc-emoji { font-size: 26px; }
 .sc-title { font-size: 24px; font-weight: 700; color: var(--ink); }
-.sc-sub { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
 .sc-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
 .sc-nav .btn { padding: 6px 14px; font-size: 13px; }
 .sc-week { font-size: 13.5px; font-weight: 600; color: var(--ink); background: #0d1830; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; }
@@ -722,7 +721,6 @@ main { max-width: 1040px; margin: 0 auto; padding: 16px 14px 96px; }
         <span class="sc-title">我的课表</span>
         <span class="chip on" id="sc-term"></span>
       </div>
-      <p class="sc-sub" id="sc-sub"></p>
       <div class="sc-nav">
         <button class="btn small" id="sc-prev" title="上一周">◀ 上周</button>
         <span class="sc-week" id="sc-week"></span>
@@ -2447,9 +2445,8 @@ window.KC_SCHEDULE = {
     const days = ['', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
     const today = todayDay();
 
-    // 头部：学期 / 姓名班级 / 周次导航
+    // 头部：学期 / 周次导航（姓名班级行按用户要求已移除，v4.9.1）
     $('#sc-term').textContent = SCHEDULE.term || '';
-    $('#sc-sub').textContent = `${SCHEDULE.name || ''} · ${SCHEDULE.student || ''} · 共 ${weeks} 周`;
     $('#sc-week').textContent = `第 ${week} 周（${weekDateRange(week)}）`;
 
     // 本课有课的课程（常规课 + 调课里本周也上的）+ 本周实验
