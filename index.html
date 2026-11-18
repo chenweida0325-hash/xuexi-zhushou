@@ -3301,9 +3301,8 @@ window.KC_SCHEDULE = {
 
     renderFormulaPane(c);
     renderCasesPane(c);
-    // v5.3 按当前滚动位置同步课程头展开/收起状态（切课/返回时不残留）
-    headCompact = null;
-    syncCourseHeadCompact();
+    // v5.3/v5.6 切课或返回时重置课程头为展开态（按当前滚动位置重新判断，不残留）
+    syncCourseHeadCompact(true);
   }
 
   function renderFormulaPane(c) {
@@ -4089,16 +4088,44 @@ window.KC_SCHEDULE = {
   window.addEventListener('hashchange', () => route());
 
   // v5.3 滚动时收起课程头（封面横幅与副标题让位给目录/公式）
-  let headCompact = null;
-  function syncCourseHeadCompact() {
+  /* v5.6 滚动收起课程头（修复手机端"抽搐"）
+     旧实现：跨过 56px 就收起 → 上方内容少掉约 135px → 整页上跳 → 滚动位置又落回阈值内
+               → 展开 → 再收起，来回翻转，手指滑动时就一直抖。
+     新规则：① 必须已完全滚过整个课程头（y > 展开高度 + 8）才收起；
+             ② 收起瞬间用 scrollBy 补偿掉减少的高度，视觉位置不跳；
+             ③ 只有回到最顶部（y <= 0）才展开，彻底消除阈值附近的反复触发。 */
+  let headCompact = false;
+  let headExpandedH = 0;
+
+  function headApply(compact) {
     const head = $('#course-head');
     if (!head) return;
-    const compact = (window.scrollY || window.pageYOffset || 0) > 56;
-    if (compact === headCompact && head.classList.contains('compact') === compact) return;
-    headCompact = compact;
+    const before = head.offsetHeight || 0;
     head.classList.toggle('compact', compact);
+    const after = head.offsetHeight || 0;
+    headCompact = compact;
+    if (!compact) { headExpandedH = after; return; }
+    const d = before - after; // 收起后减少的高度
+    // 补偿掉减少的高度，视觉位置不跳；补偿引发的 scroll 事件不会再触发任何切换
+    //（此时 y 仍远大于 0，两个分支都不成立），因此不需要额外的防抖。
+    if (d > 0 && typeof window.scrollBy === 'function') window.scrollBy(0, -d);
   }
-  window.addEventListener('scroll', syncCourseHeadCompact, { passive: true });
+
+  function syncCourseHeadCompact(reset) {
+    const head = $('#course-head');
+    if (!head) return;
+    if (reset) {
+      head.classList.remove('compact');
+      headCompact = false;
+      headExpandedH = head.offsetHeight || 0;
+    }
+    if (!headExpandedH) headExpandedH = head.offsetHeight || 0;
+    const y = window.scrollY || window.pageYOffset || 0;
+    if (!headCompact && y > headExpandedH + 8) headApply(true);
+    else if (headCompact && y <= 0) headApply(false);
+  }
+
+  window.addEventListener('scroll', () => syncCourseHeadCompact(false), { passive: true });
 
   creditStore.init().then(() => { if (S.view === 'credits') renderCredits(); });
   route();
